@@ -1,5 +1,6 @@
 import React from 'react';
 import { SITE_CONFIG } from '../data/siteConfig';
+import logoImg from '../assets/logo.png';
 import { 
   MessageSquare, 
   ArrowRight, 
@@ -134,27 +135,32 @@ export default function Hero({ onOpenQuote }) {
                   <div className="absolute inset-0 bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:16px_16px] opacity-40" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
-                  {/* High tech neon visual inside screen */}
+                  {/* High tech neon visual inside screen with official logo */}
                   <div className="relative z-10 flex flex-col items-center text-center space-y-4">
-                    <div className="w-16 h-16 rounded-2xl border-2 border-amber-400 bg-amber-400/10 flex items-center justify-center text-amber-400 shadow-[0_0_30px_rgba(251,191,36,0.5)] animate-pulse">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-9 h-9">
-                        <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
-                        <line x1="12" y1="2" x2="12" y2="12" />
-                      </svg>
+                    <div className="relative w-24 h-24 rounded-full p-[3px] bg-gradient-to-tr from-amber-400 via-orange-500 to-pink-500 shadow-[0_0_35px_rgba(245,158,11,0.5)]">
+                      <div className="w-full h-full rounded-full overflow-hidden bg-black flex items-center justify-center">
+                        <img
+                          src={logoImg}
+                          alt="Resolve Notebook Logo Oficial"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                     </div>
 
                     <div>
-                      <h3 className="text-2xl font-black text-white tracking-widest uppercase">
+                      <h3 className="text-xl sm:text-2xl font-black text-white tracking-widest uppercase">
                         resolve <span className="text-amber-400">NOTEBOOK</span>
                       </h3>
-                      <p className="text-[10px] tracking-[0.3em] font-semibold text-amber-400/80 uppercase mt-0.5">
-                        Assistência Técnica
-                      </p>
+                      <div className="mt-1">
+                        <span className="inline-block bg-amber-400 text-black font-extrabold text-[9px] px-2.5 py-0.5 rounded tracking-widest uppercase">
+                          Assistência Técnica
+                        </span>
+                      </div>
                     </div>
 
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-medium">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                      <span>Laboratório Avançado Aberto</span>
+                      <span>Laboratório Aberto • Santa Ifigênia</span>
                     </div>
                   </div>
 

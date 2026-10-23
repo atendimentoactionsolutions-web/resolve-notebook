@@ -1,47 +1,43 @@
 import React from 'react';
+import logoImg from '../assets/logo.png';
 
-export default function Logo({ size = 'default', showSubtext = true, className = '' }) {
+export default function Logo({ size = 'default', showText = true, className = '' }) {
   const isLarge = size === 'lg';
   const isSmall = size === 'sm';
 
+  const imgSizeClass = isLarge ? 'w-14 h-14' : isSmall ? 'w-9 h-9' : 'w-11 h-11';
+
   return (
-    <div className={`flex items-center gap-2.5 tracking-tight select-none ${className}`}>
-      {/* Icon: Power inside gold square */}
-      <div
-        className={`flex items-center justify-center rounded-lg border-2 border-amber-400 bg-amber-400/10 text-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.3)] transition-transform group-hover:scale-105 ${
-          isLarge ? 'w-11 h-11' : isSmall ? 'w-8 h-8 border-[1.5px]' : 'w-9 h-9'
-        }`}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className={isLarge ? 'w-6 h-6' : isSmall ? 'w-4 h-4' : 'w-5 h-5'}
-        >
-          <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
-          <line x1="12" y1="2" x2="12" y2="12" />
-        </svg>
+    <div className={`flex items-center gap-3 select-none ${className}`}>
+      {/* Official circular logo with gradient ring */}
+      <div className={`relative ${imgSizeClass} rounded-full p-[2px] bg-gradient-to-tr from-amber-400 via-orange-500 to-pink-500 shadow-[0_0_18px_rgba(245,158,11,0.35)] shrink-0 group-hover:shadow-[0_0_24px_rgba(236,72,153,0.5)] transition-all duration-300`}>
+        <div className="w-full h-full rounded-full overflow-hidden bg-black flex items-center justify-center">
+          <img
+            src={logoImg}
+            alt="Resolve Notebook"
+            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
       </div>
 
-      {/* Brand text */}
-      <div className="flex flex-col leading-none">
-        <div className="flex items-baseline gap-1">
-          <span className={`font-black tracking-wider text-white ${isLarge ? 'text-2xl' : isSmall ? 'text-lg' : 'text-xl'}`}>
-            resolve
-          </span>
-          <span className={`font-extrabold tracking-wider text-amber-400 ${isLarge ? 'text-2xl' : isSmall ? 'text-lg' : 'text-xl'}`}>
-            NOTEBOOK
-          </span>
+      {/* Brand title lockup */}
+      {showText && (
+        <div className="flex flex-col leading-none">
+          <div className="flex items-baseline gap-1">
+            <span className={`font-black tracking-tight text-white ${isLarge ? 'text-2xl' : isSmall ? 'text-lg' : 'text-xl'}`}>
+              resolve
+            </span>
+            <span className={`font-black tracking-tight text-amber-400 ${isLarge ? 'text-2xl' : isSmall ? 'text-lg' : 'text-xl'}`}>
+              NOTEBOOK
+            </span>
+          </div>
+          <div className="mt-1 flex items-center">
+            <span className="inline-block bg-gradient-to-r from-amber-400 to-amber-500 text-black font-extrabold text-[8px] sm:text-[9px] px-2 py-0.5 rounded tracking-widest uppercase shadow-sm">
+              Assistência Técnica
+            </span>
+          </div>
         </div>
-        {showSubtext && (
-          <span className="mt-0.5 text-[8.5px] font-bold tracking-[0.25em] text-amber-400/90 uppercase">
-            Assistência Técnica
-          </span>
-        )}
-      </div>
+      )}
     </div>
   );
 }

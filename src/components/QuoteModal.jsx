@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SITE_CONFIG, SERVICES } from '../data/siteConfig';
+import logoImg from '../assets/logo.png';
 import { X, Send, CheckCircle2, Laptop } from 'lucide-react';
 
 export default function QuoteModal({ isOpen, onClose, initialService }) {
@@ -52,16 +53,21 @@ export default function QuoteModal({ isOpen, onClose, initialService }) {
         </button>
 
         {/* Modal Header */}
-        <div className="mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400 text-xs font-semibold uppercase tracking-wider mb-2">
-            <Laptop className="w-3.5 h-3.5" /> Orçamento Rápido
+        <div className="mb-6 flex items-start gap-4">
+          <div className="relative w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-amber-400 via-orange-500 to-pink-500 shrink-0 shadow-md">
+            <img src={logoImg} alt="Resolve Notebook" className="w-full h-full rounded-full object-cover" />
           </div>
-          <h3 className="text-2xl font-extrabold text-white">
-            Solicitar Orçamento Grátis
-          </h3>
-          <p className="text-sm text-gray-400 mt-1">
-            Preencha os dados abaixo para receber uma estimativa rápida no WhatsApp.
-          </p>
+          <div>
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400 text-[11px] font-semibold uppercase tracking-wider mb-1">
+              <Laptop className="w-3 h-3" /> Orçamento Rápido
+            </div>
+            <h3 className="text-xl sm:text-2xl font-extrabold text-white">
+              Solicitar Orçamento Grátis
+            </h3>
+            <p className="text-xs text-gray-400 mt-0.5">
+              Receba estimativa rápida e tire dúvidas no WhatsApp da loja.
+            </p>
+          </div>
         </div>
 
         {/* Form */}

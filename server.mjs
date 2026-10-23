@@ -167,7 +167,7 @@ app.delete('/api/products/:id', authMiddleware, (req, res) => {
 // Serve frontend dist if available
 if (fs.existsSync(DIST_DIR)) {
   app.use(express.static(DIST_DIR));
-  app.get('*', (req, res) => {
+  app.use((req, res) => {
     res.sendFile(path.join(DIST_DIR, 'index.html'));
   });
 }

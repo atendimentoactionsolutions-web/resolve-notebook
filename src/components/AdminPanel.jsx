@@ -19,6 +19,7 @@ import {
 
 export default function AdminPanel({ isOpen, onClose, onRefreshCatalog }) {
   const [token, setToken] = useState(localStorage.getItem('resolve_admin_token') || '');
+  const [usernameInput, setUsernameInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [loginError, setLoginError] = useState('');
   const [products, setProducts] = useState([]);
@@ -57,14 +58,17 @@ export default function AdminPanel({ isOpen, onClose, onRefreshCatalog }) {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: passwordInput })
+        body: JSON.stringify({ 
+          username: usernameInput, 
+          password: passwordInput 
+        })
       });
       const data = await res.json();
       if (res.ok && data.token) {
         setToken(data.token);
         localStorage.setItem('resolve_admin_token', data.token);
       } else {
-        setLoginError(data.error || 'Senha incorreta.');
+        setLoginError(data.error || 'Usuário ou senha incorretos.');
       }
     } catch (err) {
       setLoginError('Erro ao conectar ao servidor.');
@@ -289,13 +293,31 @@ export default function AdminPanel({ isOpen, onClose, onRefreshCatalog }) {
 
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
+                <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-1 text-left">
+                  Usuário:
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Digite o usuário (ex: resolve)"
+                  value={usernameInput}
+                  onChange={(e) => setUsernameInput(e.target.value)}
+                  className="w-full bg-[#181a24] border border-zinc-700 focus:border-amber-400 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none transition"
+                  autoFocus
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-1 text-left">
+                  Senha:
+                </label>
                 <input
                   type="password"
-                  placeholder="Digite a senha de administrador..."
+                  required
+                  placeholder="Digite a senha (ex: resolve)"
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
-                  className="w-full bg-[#181a24] border border-zinc-700 focus:border-amber-400 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-500 focus:outline-none transition text-center"
-                  autoFocus
+                  className="w-full bg-[#181a24] border border-zinc-700 focus:border-amber-400 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none transition"
                 />
               </div>
 
@@ -312,9 +334,9 @@ export default function AdminPanel({ isOpen, onClose, onRefreshCatalog }) {
                 Entrar no Painel
               </button>
 
-              <p className="text-[11px] text-zinc-500">
-                Senha padrão: <code className="text-amber-400/80">resolve2026</code>
-              </p>
+              <div className="p-2.5 rounded-xl bg-zinc-900/60 border border-zinc-800 text-[11px] text-zinc-400">
+                Acesso oficial: Usuário: <strong className="text-amber-400">resolve</strong> | Senha: <strong className="text-amber-400">resolve</strong>
+              </div>
             </form>
           </div>
         ) : (

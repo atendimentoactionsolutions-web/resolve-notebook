@@ -10,7 +10,9 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3015;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'resolve2026';
+const ADMIN_USER = process.env.ADMIN_USER || 'resolve';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'resolve';
+const AUTH_TOKEN = 'resolve-secret-token';
 
 // Middleware
 app.use(cors());
@@ -75,21 +77,24 @@ function writeProducts(products) {
 // Simple token auth middleware for admin operations
 function authMiddleware(req, res, next) {
   const token = req.headers['authorization'];
-  if (token === `Bearer ${ADMIN_PASSWORD}`) {
+  if (token === `Bearer ${AUTH_TOKEN}` || token === `Bearer ${ADMIN_PASSWORD}`) {
     return next();
   }
-  return res.status(401).json({ error: 'Acesso não autorizado. Senha incorreta.' });
+  return res.status(401).json({ error: 'Acesso não autorizado. Faça login novamente.' });
 }
 
 // --- API ROUTES ---
 
 // 1. Admin login verification
 app.post('/api/auth/login', (req, res) => {
-  const { password } = req.body;
-  if (password === ADMIN_PASSWORD) {
-    return res.json({ success: true, token: ADMIN_PASSWORD, message: 'Autenticado com sucesso!' });
+  const { username, password } = req.body;
+  const validUser = (username || '').trim().toLowerCase() === ADMIN_USER.toLowerCase();
+  const validPass = (password || '').trim() === ADMIN_PASSWORD;
+
+  if (validUser && validPass) {
+    return res.json({ success: true, token: AUTH_TOKEN, message: 'Autenticado com sucesso!' });
   }
-  return res.status(401).json({ success: false, error: 'Senha incorreta.' });
+  return res.status(401).json({ success: false, error: 'Usuário ou senha incorretos.' });
 });
 
 // 2. Upload image endpoint

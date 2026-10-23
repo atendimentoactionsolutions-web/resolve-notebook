@@ -149,7 +149,7 @@ export default function Hero({ onOpenQuote }) {
 
                     <div>
                       <h3 className="text-xl sm:text-2xl font-black text-white tracking-widest uppercase">
-                        resolve <span className="text-amber-400">NOTEBOOK</span>
+                        resolve NOTEBOOK
                       </h3>
                       <div className="mt-1">
                         <span className="inline-block bg-amber-400 text-black font-extrabold text-[9px] px-2.5 py-0.5 rounded tracking-widest uppercase">

@@ -6,6 +6,7 @@ export default function Logo({ size = 'default', showText = true, className = ''
   const isSmall = size === 'sm';
 
   const avatarSize = isLarge ? 'w-12 h-12' : isSmall ? 'w-8 h-8' : 'w-10 h-10';
+  const textSize = isLarge ? 'text-2xl' : isSmall ? 'text-base' : 'text-lg sm:text-xl';
 
   return (
     <div className={`flex items-center gap-3 select-none ${className}`}>
@@ -20,19 +21,19 @@ export default function Logo({ size = 'default', showText = true, className = ''
         </div>
       </div>
 
-      {/* Brand title lockup */}
+      {/* Brand title lockup - BOTH WORDS IN PURE WHITE ACCORDING TO OFFICIAL BRAND */}
       {showText && (
         <div className="flex flex-col leading-none">
-          <div className="flex items-baseline gap-1">
-            <span className={`font-black tracking-tight text-white ${isLarge ? 'text-2xl' : isSmall ? 'text-base' : 'text-lg sm:text-xl'}`}>
+          <div className="flex items-baseline gap-1.5">
+            <span className={`font-black tracking-tight text-white ${textSize}`}>
               resolve
             </span>
-            <span className={`font-black tracking-tight text-amber-400 ${isLarge ? 'text-2xl' : isSmall ? 'text-base' : 'text-lg sm:text-xl'}`}>
+            <span className={`font-black tracking-tight text-white ${textSize}`}>
               NOTEBOOK
             </span>
           </div>
-          <div className="mt-0.5">
-            <span className="text-[9px] font-bold tracking-[0.2em] text-zinc-400 uppercase">
+          <div className="mt-1 flex items-center">
+            <span className="inline-block bg-amber-400 text-black font-extrabold text-[8px] sm:text-[8.5px] px-2 py-0.5 rounded tracking-widest uppercase shadow-sm">
               Assistência Técnica
             </span>
           </div>

@@ -17,6 +17,7 @@ export default function Navbar({ onOpenQuote }) {
 
   const navLinks = [
     { name: 'Início', href: '#inicio' },
+    { name: 'Notebooks', href: '#vitrine' },
     { name: 'Serviços', href: '#servicos' },
     { name: 'Produtos', href: '#produtos' },
     { name: 'Para Empresas', href: '#empresas' },

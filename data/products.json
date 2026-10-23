@@ -1,0 +1,74 @@
+[
+  {
+    "id": "nb-1",
+    "title": "Dell Inspiron 15 3520 • Core i5 11ª Ger • 16GB RAM • SSD 512GB NVMe",
+    "price": 2490,
+    "installments": "ou 12x no cartão com pequena taxa",
+    "category": "Estudo & Trabalho",
+    "badge": "Seminovo Revisado • Garantia 3 Meses",
+    "specs": {
+      "cpu": "Intel Core i5-1135G7",
+      "ram": "16GB DDR4",
+      "storage": "SSD 512GB NVMe M.2",
+      "screen": "15.6\" Full HD Antirreflexo"
+    },
+    "description": "Notebook em excelente estado de conservação, bateria com ótima autonomia, totalmente revisado e higienizado com pasta térmica nova. Acompanha carregador original.",
+    "image": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=800&auto=format&fit=crop",
+    "status": "available",
+    "createdAt": "2026-10-23T16:00:00.000Z"
+  },
+  {
+    "id": "nb-2",
+    "title": "Lenovo ThinkPad T14 • Core i7 10ª Ger • 16GB RAM • SSD 512GB",
+    "price": 2890,
+    "installments": "ou até 12x no cartão",
+    "category": "Corporativo",
+    "badge": "Linha Corporativa • Ultra Resistente",
+    "specs": {
+      "cpu": "Intel Core i7-10610U",
+      "ram": "16GB DDR4",
+      "storage": "SSD 512GB NVMe",
+      "screen": "14\" Full HD IPS"
+    },
+    "description": "Equipamento topo de linha para profissionais exigentes. Teclado padrão ThinkPad resistente a respingos, leitor biométrico, carcaça de magnésio impecável.",
+    "image": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=800&auto=format&fit=crop",
+    "status": "available",
+    "createdAt": "2026-10-23T16:05:00.000Z"
+  },
+  {
+    "id": "nb-3",
+    "title": "Acer Nitro 5 Gamer • Ryzen 5 • 16GB RAM • SSD 512GB • GTX 1650 4GB",
+    "price": 3490,
+    "installments": "ou até 12x no cartão",
+    "category": "Gamer",
+    "badge": "Placa de Vídeo Dedicada • 144Hz",
+    "specs": {
+      "cpu": "AMD Ryzen 5 4600H (6C/12T)",
+      "ram": "16GB DDR4 Dual Channel",
+      "storage": "SSD 512GB NVMe + slot livre",
+      "screen": "15.6\" 144Hz Full HD IPS"
+    },
+    "description": "Ideal para jogos e edição de vídeo. Sistema duplo de ventilação limpo e revisado com thermal pads e pasta de prata novas. Roda GTA V, Valorant, CS2 e softwares pesados.",
+    "image": "https://images.unsplash.com/photo-1603302576837-37561b2e2302?q=80&w=800&auto=format&fit=crop",
+    "status": "available",
+    "createdAt": "2026-10-23T16:10:00.000Z"
+  },
+  {
+    "id": "nb-4",
+    "title": "Apple MacBook Air 13\" • Processador M1 • 8GB RAM • SSD 256GB",
+    "price": 4200,
+    "installments": "ou até 12x no cartão",
+    "category": "MacBook",
+    "badge": "Apple Silicon M1 • Bateria 90%+",
+    "specs": {
+      "cpu": "Apple M1 Chip 8-Core",
+      "ram": "8GB Unificada",
+      "storage": "SSD 256GB Apple Ultra-fast",
+      "screen": "13.3\" Retina True Tone"
+    },
+    "description": "MacBook Air M1 impecável sem marcas. Bateria com altíssima autonomia (ciclos baixos). Tela Retina perfeita. Acompanha carregador original Apple.",
+    "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop",
+    "status": "available",
+    "createdAt": "2026-10-23T16:15:00.000Z"
+  }
+]

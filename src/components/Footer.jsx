@@ -11,7 +11,7 @@ const InstagramIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-export default function Footer() {
+export default function Footer({ onOpenAdmin }) {
   const currentYear = new Date().getFullYear();
 
   const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(
@@ -125,6 +125,13 @@ export default function Footer() {
             <a href="#" className="hover:text-amber-400 transition">Política de Privacidade</a>
             <span>|</span>
             <a href="#" className="hover:text-amber-400 transition">Termos de Uso</a>
+            <span>|</span>
+            <button
+              onClick={onOpenAdmin}
+              className="hover:text-amber-400 transition flex items-center gap-1 cursor-pointer text-zinc-600 hover:text-amber-300"
+            >
+              🔒 Painel do Lojista
+            </button>
           </div>
 
           <p className="text-zinc-600">

@@ -4,7 +4,7 @@ import { SITE_CONFIG } from '../data/siteConfig';
 import { getStoreStatus } from '../utils/storeStatus';
 import { MessageCircle, Menu, X, PhoneCall } from 'lucide-react';
 
-export default function Navbar({ onOpenQuote }) {
+export default function Navbar({ onOpenQuote, onOpenAdmin }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const status = getStoreStatus();
@@ -41,10 +41,14 @@ export default function Navbar({ onOpenQuote }) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <a href="#inicio" className="group">
+          {/* Logo (Clique disfarçado abre o painel administrativo) */}
+          <div 
+            onClick={onOpenAdmin} 
+            className="group cursor-pointer select-none py-1"
+            title="Resolve Notebook"
+          >
             <Logo />
-          </a>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-7 text-sm font-medium">

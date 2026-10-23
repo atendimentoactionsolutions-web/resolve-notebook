@@ -10,7 +10,7 @@ import {
   Building2 
 } from 'lucide-react';
 
-export default function Hero({ onOpenQuote }) {
+export default function Hero({ onOpenQuote, onOpenAdmin }) {
   const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(
     'Olá! Gostaria de solicitar um orçamento para o meu notebook na Resolve Notebook.'
   )}`;
@@ -136,8 +136,12 @@ export default function Hero({ onOpenQuote }) {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
                   {/* High tech neon visual inside screen with official logo */}
-                  <div className="relative z-10 flex flex-col items-center text-center space-y-4">
-                    <div className="relative w-24 h-24 rounded-full p-[3px] bg-gradient-to-tr from-amber-400 via-orange-500 to-pink-500 shadow-[0_0_35px_rgba(245,158,11,0.5)]">
+                  <div 
+                    onClick={onOpenAdmin}
+                    className="relative z-10 flex flex-col items-center text-center space-y-4 cursor-pointer select-none"
+                    title="Resolve Notebook"
+                  >
+                    <div className="relative w-24 h-24 rounded-full p-[3px] bg-gradient-to-tr from-amber-400 via-orange-500 to-pink-500 shadow-[0_0_35px_rgba(245,158,11,0.5)] transition-transform hover:scale-105">
                       <div className="w-full h-full rounded-full overflow-hidden bg-black flex items-center justify-center">
                         <img
                           src={logoImg}

@@ -68,29 +68,16 @@ export default function NotebookShowcase({ onOpenAdmin }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
-              <Sparkles className="w-3.5 h-3.5" /> Pronta Entrega na Santa Ifigênia
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              Notebooks <span className="text-amber-400">Revisados & Seminovos</span>
-            </h2>
-            <p className="mt-2 text-base text-gray-400 max-w-2xl">
-              Máquinas selecionadas, 100% testadas em laboratório, higienizadas e com garantia de loja física no Shopping 355.
-            </p>
+        <div className="mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <Sparkles className="w-3.5 h-3.5" /> Pronta Entrega na Santa Ifigênia
           </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onOpenAdmin}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/80 hover:border-amber-400/50 text-gray-300 hover:text-white text-xs font-bold transition shadow"
-              title="Gerenciar estoque no Painel Administrativo"
-            >
-              <Lock className="w-3.5 h-3.5 text-amber-400" />
-              <span>Painel do Lojista</span>
-            </button>
-          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Notebooks <span className="text-amber-400">Revisados & Seminovos</span>
+          </h2>
+          <p className="mt-2 text-base text-gray-400 max-w-2xl">
+            Máquinas selecionadas, 100% testadas em laboratório, higienizadas e com garantia de loja física no Shopping 355.
+          </p>
         </div>
 
         {/* Category Filters */}

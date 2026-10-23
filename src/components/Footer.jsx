@@ -25,8 +25,8 @@ export default function Footer({ onOpenAdmin }) {
         {/* Main Footer Row */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 items-center pb-12 border-b border-zinc-800/80">
           
-          {/* Logo & Slogan */}
-          <div className="lg:col-span-4 space-y-3">
+          {/* Logo & Slogan (Clique disfarçado abre o painel) */}
+          <div onClick={onOpenAdmin} className="lg:col-span-4 space-y-3 cursor-pointer select-none" title="Resolve Notebook">
             <Logo size="lg" />
             <div className="pt-1">
               <span className="font-script text-2xl text-amber-300/80 drop-shadow">
@@ -125,13 +125,6 @@ export default function Footer({ onOpenAdmin }) {
             <a href="#" className="hover:text-amber-400 transition">Política de Privacidade</a>
             <span>|</span>
             <a href="#" className="hover:text-amber-400 transition">Termos de Uso</a>
-            <span>|</span>
-            <button
-              onClick={onOpenAdmin}
-              className="hover:text-amber-400 transition flex items-center gap-1 cursor-pointer text-zinc-600 hover:text-amber-300"
-            >
-              🔒 Painel do Lojista
-            </button>
           </div>
 
           <p className="text-zinc-600">

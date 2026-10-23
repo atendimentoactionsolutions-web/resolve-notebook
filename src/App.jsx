@@ -38,11 +38,11 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#0b0c10] text-gray-100 flex flex-col font-sans selection:bg-amber-400 selection:text-black">
       {/* Top Fixed Header */}
-      <Navbar onOpenQuote={handleOpenQuote} />
+      <Navbar onOpenQuote={handleOpenQuote} onOpenAdmin={() => setIsAdminOpen(true)} />
 
       {/* Main Content Sections */}
       <main className="flex-1">
-        <Hero onOpenQuote={handleOpenQuote} />
+        <Hero onOpenQuote={handleOpenQuote} onOpenAdmin={() => setIsAdminOpen(true)} />
         
         {/* Dynamic Notebooks Showcase with Live Stock */}
         <NotebookShowcase 

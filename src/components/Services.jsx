@@ -293,7 +293,6 @@ export default function Services({ onSelectService }) {
                           >
                             <div className="flex items-center justify-between gap-2">
                               <span className="text-xs font-semibold text-white">
-                                <span className="text-amber-400 font-mono font-bold mr-1.5">{cat.number}.</span>
                                 {cat.title}
                               </span>
                               {isExpanded ? (
@@ -315,7 +314,7 @@ export default function Services({ onSelectService }) {
                                   <button
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      onSelectService({ title: `${cat.number}. ${cat.title}` });
+                                      onSelectService({ title: cat.title });
                                     }}
                                     className="w-full text-center py-1.5 bg-amber-400/15 hover:bg-amber-400 text-amber-400 hover:text-black font-bold rounded-lg text-[10px] uppercase transition cursor-pointer"
                                   >

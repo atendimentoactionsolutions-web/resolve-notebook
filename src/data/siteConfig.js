@@ -18,68 +18,159 @@ export const SITE_CONFIG = {
 
 export const SERVICES = [
   {
-    id: "limpeza",
-    title: "Limpeza interna e troca de pasta térmica",
-    description: "Desobstrução do cooler, remoção de poeira e aplicação de pasta térmica de alta condutividade para evitar superaquecimento.",
-    icon: "Sparkles",
-    categoryNumber: 2,
-  },
-  {
-    id: "formatacao",
-    title: "Formatação e instalação de Windows / macOS",
-    description: "Instalação limpa do Windows 10/11 ou macOS, ativação, atualização de drivers e pacote de programas essenciais.",
-    icon: "AppWindow",
-    categoryNumber: 12,
-  },
-  {
-    id: "upgrade",
-    title: "Upgrade de SSD e Memória RAM",
-    description: "Deixe seu notebook até 10x mais rápido com SSD NVMe de alta velocidade e expansão de memória multitarefa.",
-    icon: "HardDrive",
-    categoryNumber: 8,
+    id: "placa-mae",
+    title: "Reparo de Placa-Mãe & Eletrônica Avançada",
+    category: "placa",
+    badge: "Laboratório Especializado",
+    description: "Diagnóstico e reparo de notebooks que não ligam, sofreram curto-circuito, sobretensão ou falha em componentes soldados.",
+    icon: "Cpu",
+    items: [
+      "Localização e remoção de curto nas linhas 19V, 3.3V e 5V",
+      "Substituição de MOSFETs, PWMs, capacitores e CI de carga",
+      "Regravação e reprogramação de BIOS / UEFI corrompida",
+      "Diagnóstico e reballing de chipset e chip gráfico (BGA)"
+    ]
   },
   {
     id: "tela",
-    title: "Troca de tela e cabo flat",
-    description: "Substituição de displays quebrados, com linhas, manchados ou sem brilho (HD, Full HD, IPS e 144Hz Gamer).",
+    title: "Troca de Tela & Cabo Flat de Vídeo",
+    category: "tela",
+    badge: "Reparo Rápido",
+    description: "Substituição de telas trincadas, quebradas, com faixas verticais, manchas, tela preta ou piscando ao movimentar a tampa.",
     icon: "Monitor",
-    categoryNumber: 4,
-  },
-  {
-    id: "teclado",
-    title: "Troca de teclado e touchpad",
-    description: "Troca de teclados convencionais e rebitados com teclas falhando, travadas ou danificadas por derramamento de líquidos.",
-    icon: "Keyboard",
-    categoryNumber: 5,
+    items: [
+      "Telas HD, Full HD, IPS e taxas de atualização 120Hz/144Hz Gamer",
+      "Troca do cabo flat de vídeo com mau contato ou rompido",
+      "Reparo do circuito de iluminação e backlight da tela",
+      "Compatível com Dell, Lenovo, Acer, Asus, HP, Samsung e MacBooks"
+    ]
   },
   {
     id: "dobradicas",
-    title: "Recuperação de carcaça e dobradiças",
-    description: "Reconstrução com resina acrílica estrutural, alívio de pressão e troca de tampas e molduras quebradas.",
+    title: "Recuperação de Carcaça & Dobradiças Quebradas",
+    category: "tela",
+    badge: "Especialidade da Casa",
+    description: "Reconstrução definitiva dos pontos de fixação das dobradiças quebradas, aliviando a pressão para abrir e fechar a tampa suavemente.",
     icon: "ShieldAlert",
-    categoryNumber: 6,
+    items: [
+      "Reconstrução estrutural com resina acrílica de alta resistência",
+      "Regulagem e alívio de tensão das dobradiças para evitar nova quebra",
+      "Troca da carcaça superior, moldura, base inferior ou palmrest",
+      "Acabamento estético alinhado mantendo a originalidade do aparelho"
+    ]
   },
   {
-    id: "bateria",
-    title: "Troca de bateria e conector DC Jack / USB-C",
-    description: "Baterias novas e originais, reparo do circuito de carga, conector DC Jack e entradas USB-C Power Delivery / MagSafe.",
+    id: "limpeza",
+    title: "Limpeza Preventiva & Troca de Pasta Térmica",
+    category: "termica",
+    badge: "Saúde do Aparelho",
+    description: "Elimine o superaquecimento, ruídos excessivos do cooler e travamentos causados por acúmulo de poeira e ressecamento térmico.",
+    icon: "Sparkles",
+    items: [
+      "Desobstrução completa de coolers e aletas do dissipador",
+      "Aplicação de pasta térmica de prata / alta condutividade",
+      "Substituição de thermal pads ressecados em chips de memória",
+      "Testes de estresse térmico antes e após a liberação do equipamento"
+    ]
+  },
+  {
+    id: "cooler-refrigeracao",
+    title: "Troca de Cooler & Sistema de Refrigeração",
+    category: "termica",
+    badge: "Silêncio & Desempenho",
+    description: "Substituição de ventoinhas travadas, com rolamento quebrado, emitindo barulho alto ou sem girar corretamente.",
+    icon: "Gauge",
+    items: [
+      "Troca de coolers originais para todas as marcas e linhas gamer",
+      "Substituição de conjunto dissipador e heatpipes furados/sem fluido",
+      "Correção de erro 'Cooler Error' na inicialização da BIOS",
+      "Eliminação de thermal throttling (queda brusca de FPS em jogos)"
+    ]
+  },
+  {
+    id: "upgrade",
+    title: "Upgrade de SSD NVMe & Expansão de Memória RAM",
+    category: "upgrade",
+    badge: "Até 10x Mais Rápido",
+    description: "Transforme um notebook lento em uma máquina veloz. Inicialização em segundos e agilidade total para trabalhar e estudar.",
+    icon: "HardDrive",
+    items: [
+      "Instalação de SSD NVMe M.2 ou SATA de alta velocidade",
+      "Expansão de memória RAM (8GB, 16GB, 32GB ou 64GB DDR4/DDR5)",
+      "Clonagem idêntica do sistema (sem perder nenhum arquivo ou programa)",
+      "Instalação de segundo disco (caddy ou slot secundário)"
+    ]
+  },
+  {
+    id: "bateria-energia",
+    title: "Bateria Nova & Reparo de Conector DC Jack / USB-C",
+    category: "perifericos",
+    badge: "Autonomia & Carga",
+    description: "Soluções para notebooks que não seguram carga, desligam ao tirar da tomada, têm bateria estufada ou conector folgado.",
     icon: "BatteryCharging",
-    categoryNumber: 7,
+    items: [
+      "Substituição de bateria interna ou externa com garantia de procedência",
+      "Troca do conector de força DC Jack com mau contato",
+      "Reparo da porta de carregamento USB-C Power Delivery e MagSafe",
+      "Reparo no circuito de charge da placa-mãe (notebook não carrega)"
+    ]
   },
   {
-    id: "placa-mae",
-    title: "Reparo eletrônico de placa-mãe & BGA",
-    description: "Laboratório avançado de microeletrônica: reparo de curtos em 19V, mosfets, PWM, regravação de BIOS e reballing.",
-    icon: "Cpu",
-    categoryNumber: 14,
+    id: "teclado-touchpad",
+    title: "Troca de Teclado & Touchpad",
+    category: "perifericos",
+    badge: "Conforto ao Digitar",
+    description: "Troca de teclados com teclas falhando, digitando sozinhas, travadas ou danificadas após queda de líquidos.",
+    icon: "Keyboard",
+    items: [
+      "Teclados ABNT2 (com Ç), retroiluminados e padrão US internacional",
+      "Substituição de teclados rebitados no chassi com acabamento de fábrica",
+      "Troca de touchpad / trackpad e cabos flats de conexão",
+      "Testes individuais de cada tecla e atalho funcional"
+    ]
   },
   {
-    id: "liquidos-backup",
-    title: "Danos por líquidos & Recuperação de dados",
-    description: "Desoxidação química após contato com água/café e recuperação segura de arquivos em HDs e SSDs danificados.",
+    id: "formatacao",
+    title: "Formatação Limpa de Windows 10/11 & macOS",
+    category: "software",
+    badge: "Sistema Otimizado",
+    description: "Restaure a estabilidade e velocidade do sistema operacional, eliminando vírus, falhas de tela azul e travamentos.",
+    icon: "AppWindow",
+    items: [
+      "Instalação limpa do Windows 11/10 ou macOS com licença original",
+      "Instalação dos drivers mais atualizados e estáveis do fabricante",
+      "Pacote de utilitários essenciais, antivírus e leitores configurados",
+      "Otimização do boot e desativação de programas desnecessários em segundo plano"
+    ]
+  },
+  {
+    id: "liquidos-oxidação",
+    title: "Desoxidação por Queda de Líquidos (Banho Químico)",
+    category: "placa",
+    badge: "Urgência & Salvamento",
+    description: "Socorro emergencial para notebooks que tiveram contato com água, café, refrigerante ou bebidas em geral.",
     icon: "Database",
-    categoryNumber: 16,
+    items: [
+      "Desmontagem técnica imediata para evitar curtos destrutivos",
+      "Lavagem em cuba ultrassônica com solvente dielétrico apropriado",
+      "Inspeção microscópica para reconstrução de trilhas e pads corroídos",
+      "Substituição de componentes e testes de isolamento elétrico"
+    ]
   },
+  {
+    id: "dados-backup",
+    title: "Backup & Recuperação Profissional de Dados",
+    category: "software",
+    badge: "Segurança Total",
+    description: "Recupere suas fotos, documentos, trabalhos e bancos de dados de notebooks que não ligam mais ou unidades com erro.",
+    icon: "Database",
+    items: [
+      "Backup preventivo seguro antes de manutenções ou formatações",
+      "Recuperação lógica de arquivos excluídos ou partições corrompidas",
+      "Extração de arquivos de placas queimadas com leitura direta do SSD/HD",
+      "Migração assistida de todos os seus dados para o seu novo notebook"
+    ]
+  }
 ];
 
 export const FEATURED_SERVICES = SERVICES;

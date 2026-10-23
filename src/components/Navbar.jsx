@@ -51,7 +51,7 @@ export default function Navbar({ onOpenQuote, onOpenAdmin }) {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-7 text-sm font-medium">
+          <nav className="hidden lg:flex items-center space-x-5 xl:space-x-6 text-sm font-medium">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -89,7 +89,7 @@ export default function Navbar({ onOpenQuote, onOpenAdmin }) {
           {/* Mobile menu trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-zinc-800 transition"
+            className="lg:hidden p-2 rounded-lg text-gray-300 hover:text-white hover:bg-zinc-800 transition"
             aria-label="Abrir menu"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -99,7 +99,7 @@ export default function Navbar({ onOpenQuote, onOpenAdmin }) {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0e1015] border-b border-zinc-800 px-4 pt-3 pb-6 space-y-3">
+        <div className="lg:hidden bg-[#0e1015] border-b border-zinc-800 px-4 pt-3 pb-6 space-y-3">
           {navLinks.map((link) => (
             <a
               key={link.name}

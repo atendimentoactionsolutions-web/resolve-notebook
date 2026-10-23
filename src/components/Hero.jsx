@@ -141,7 +141,7 @@ export default function Hero({ onOpenQuote, onOpenAdmin }) {
                     className="relative z-10 flex flex-col items-center text-center space-y-4 cursor-pointer select-none"
                     title="Resolve Notebook"
                   >
-                    <div className="relative w-24 h-24 rounded-full p-[3px] bg-gradient-to-tr from-amber-400 via-orange-500 to-pink-500 shadow-[0_0_35px_rgba(245,158,11,0.5)] transition-transform hover:scale-105">
+                    <div className="relative w-28 h-28 rounded-full p-[3px] bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-500 shadow-[0_0_35px_rgba(245,158,11,0.55)] transition-transform hover:scale-105">
                       <div className="w-full h-full rounded-full overflow-hidden bg-black flex items-center justify-center">
                         <img
                           src={logoImg}
@@ -152,11 +152,12 @@ export default function Hero({ onOpenQuote, onOpenAdmin }) {
                     </div>
 
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-white tracking-widest uppercase">
-                        resolve NOTEBOOK
+                      <h3 className="text-2xl sm:text-3xl font-black tracking-tight uppercase flex items-center justify-center gap-2">
+                        <span className="text-white">RESOLVE</span>
+                        <span className="text-amber-400">NOTEBOOK</span>
                       </h3>
-                      <div className="mt-1">
-                        <span className="inline-block bg-amber-400 text-black font-extrabold text-[9px] px-2.5 py-0.5 rounded tracking-widest uppercase">
+                      <div className="mt-1.5">
+                        <span className="inline-block bg-gradient-to-r from-amber-400 to-amber-500 text-black font-black text-[9.5px] px-3 py-0.5 rounded tracking-widest uppercase shadow">
                           Assistência Técnica
                         </span>
                       </div>

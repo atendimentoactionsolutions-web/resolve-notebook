@@ -1,0 +1,131 @@
+/* Resolve Notebook Injected Styles on WhatsApp Web */
+#resolve-wa-widget {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  user-select: none;
+}
+
+#resolve-wa-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #0f1118;
+  border: 1.5px solid #f59e0b;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(245, 158, 11, 0.3);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+#resolve-wa-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.8), 0 0 25px rgba(245, 158, 11, 0.5);
+  background: #151824;
+}
+
+#resolve-wa-toggle span {
+  color: #f59e0b;
+}
+
+#resolve-wa-panel {
+  position: absolute;
+  bottom: 52px;
+  right: 0;
+  width: 250px;
+  background: #11131d;
+  border: 1.5px solid #292d3e;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+#resolve-wa-panel.hidden {
+  display: none;
+}
+
+.resolve-panel-header {
+  padding: 10px 14px;
+  background: #171a27;
+  border-bottom: 1px solid #292d3e;
+  display: flex;
+  flex-direction: column;
+}
+
+.resolve-panel-header strong {
+  color: #fff;
+  font-size: 12.5px;
+}
+
+.resolve-panel-sub {
+  color: #f59e0b;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.resolve-panel-items {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.resolve-btn-snippet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1a1e2d;
+  border: 1px solid #292d3e;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #e5e7eb;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.resolve-btn-snippet:hover {
+  background: #f59e0b;
+  color: #000;
+  border-color: #f59e0b;
+  transform: translateX(-2px);
+}
+
+.resolve-icon {
+  font-size: 14px;
+}
+
+#resolve-injected-toast {
+  position: fixed;
+  bottom: 80px;
+  right: 30px;
+  background: #f59e0b;
+  color: #000;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  z-index: 1000000;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+#resolve-injected-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}

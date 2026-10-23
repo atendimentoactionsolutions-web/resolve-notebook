@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resolve Notebook - Assistente WhatsApp</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+            <line x1="12" y1="2" x2="12" y2="12" />
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">resolve <span>NOTEBOOK</span></div>
+          <div class="brand-sub">Assistente WhatsApp • Santa Ifigênia</div>
+        </div>
+      </div>
+      <div class="status-pill">
+        <span class="dot"></span> Online
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="tab-direct">💬 Conversar</button>
+      <button class="tab-btn" data-tab="tab-replies">⚡ Respostas</button>
+      <button class="tab-btn" data-tab="tab-os">📋 Criar OS</button>
+      <button class="tab-btn" data-tab="tab-calc">🧮 Upgrades</button>
+    </nav>
+
+    <!-- TAB 1: Conversar sem salvar contato -->
+    <section id="tab-direct" class="tab-content active">
+      <div class="card">
+        <label class="label">Número do Cliente (com DDD):</label>
+        <div class="input-group">
+          <span class="prefix">+55</span>
+          <input type="tel" id="direct-phone" placeholder="11 99999-9999" maxlength="15" autofocus>
+        </div>
+        
+        <label class="label mt-2">Mensagem Inicial (opcional):</label>
+        <textarea id="direct-msg" rows="3" placeholder="Olá! Aqui é da Resolve Notebook..."></textarea>
+        
+        <div class="quick-chips">
+          <span class="chip" data-msg="Olá! Aqui é da Resolve Notebook. Como posso ajudar com o seu notebook hoje?">Recepção</span>
+          <span class="chip" data-msg="Olá! Tudo bem? Segue a localização da nossa loja no Shopping 355 da Santa Ifigênia: https://share.google/LUfygV4B9Dst4atvz">Localização</span>
+          <span class="chip" data-msg="Olá! Seu notebook já está pronto para retirada na nossa loja!">Pronto</span>
+        </div>
+
+        <button id="btn-open-wa" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+          </svg>
+          Abrir Conversa no WhatsApp
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 2: Modelos de Respostas Prontas -->
+    <section id="tab-replies" class="tab-content">
+      <div class="search-box">
+        <input type="text" id="filter-replies" placeholder="🔍 Filtrar respostas prontas...">
+      </div>
+      
+      <div class="replies-list" id="replies-container">
+        <!-- Rendered by popup.js -->
+      </div>
+    </section>
+
+    <!-- TAB 3: Gerador de Ordem de Serviço (OS) -->
+    <section id="tab-os" class="tab-content">
+      <div class="card">
+        <div class="form-row">
+          <label class="label">Nome do Cliente:</label>
+          <input type="text" id="os-name" placeholder="Ex: Rodrigo Silva">
+        </div>
+        <div class="form-row">
+          <label class="label">Modelo do Notebook:</label>
+          <input type="text" id="os-model" placeholder="Ex: Dell Inspiron 15 / Acer Nitro 5">
+        </div>
+        <div class="form-row">
+          <label class="label">Acessórios deixados:</label>
+          <select id="os-accessories">
+            <option value="Notebook + Carregador original">Notebook + Carregador original</option>
+            <option value="Somente o Notebook (sem carregador)">Somente o Notebook (sem carregador)</option>
+            <option value="Notebook + Carregador + Bolsa/Capa">Notebook + Carregador + Bolsa/Capa</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="label">Defeito Relatado / Serviço Solicitado:</label>
+          <textarea id="os-issue" rows="2" placeholder="Ex: Não liga após queda / Troca de tela"></textarea>
+        </div>
+        <div class="form-row">
+          <label class="label">Senha do Windows / PIN (opcional):</label>
+          <input type="text" id="os-password" placeholder="Ex: 1234 ou 'Sem senha'">
+        </div>
+
+        <button id="btn-generate-os" class="btn btn-primary">
+          📋 Gerar e Copiar Comprovante de Entrada
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 4: Calculadora Rápida de Upgrades -->
+    <section id="tab-calc" class="tab-content">
+      <div class="card">
+        <div class="form-row">
+          <label class="label">Upgrade de Armazenamento:</label>
+          <select id="calc-ssd">
+            <option value="0">Nenhum (Manter atual)</option>
+            <option value="180">SSD 256GB NVMe / SATA - R$ 180</option>
+            <option value="260">SSD 512GB NVMe / SATA - R$ 260</option>
+            <option value="420">SSD 1TB NVMe de Alta Velocidade - R$ 420</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label class="label">Upgrade de Memória RAM:</label>
+          <select id="calc-ram">
+            <option value="0">Nenhum</option>
+            <option value="140">+8GB DDR4 Notebook - R$ 140</option>
+            <option value="250">+16GB DDR4 Notebook - R$ 250</option>
+            <option value="320">+16GB DDR5 Notebook - R$ 320</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label class="label">Serviço de Mão de Obra:</label>
+          <select id="calc-service">
+            <option value="0">Apenas instalação simples (Grátis)</option>
+            <option value="120">Formatação limpa + Instalação Windows 11 - R$ 120</option>
+            <option value="180">Combo: Formatação + Limpeza interna térmica - R$ 180</option>
+          </select>
+        </div>
+
+        <div class="calc-total-box">
+          <span class="calc-label">Total Estimado:</span>
+          <span class="calc-price" id="calc-total-price">R$ 0,00</span>
+        </div>
+
+        <button id="btn-copy-calc" class="btn btn-secondary">
+          📝 Copiar Orçamento Formatado para o WhatsApp
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer info -->
+    <footer class="footer">
+      <div class="footer-info">
+        <span>📍 Shopping 355 • Lj 14</span>
+        <a href="https://share.google/LUfygV4B9Dst4atvz" target="_blank" class="footer-link">Google Maps</a>
+      </div>
+      <div class="toast" id="toast">Copiado para a área de transferência!</div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

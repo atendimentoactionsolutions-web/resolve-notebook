@@ -123,22 +123,35 @@ export default function QuoteModal({ isOpen, onClose, initialService }) {
           {/* Serviço Desejado */}
           <div>
             <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-1.5">
-              Serviço Principal:
+              Serviço Principal / Área de Reparo:
             </label>
             <select
               value={selectedService}
               onChange={(e) => setSelectedService(e.target.value)}
               className="w-full bg-[#181a24] border border-zinc-700 focus:border-amber-400 rounded-xl px-4 py-3 text-sm text-white focus:outline-none transition cursor-pointer"
             >
-              <option value="">Selecione o serviço...</option>
-              {SERVICES.map((s) => (
-                <option key={s.id} value={s.title} className="bg-zinc-900 text-white">
-                  {s.title}
-                </option>
-              ))}
-              <option value="Outro defeito ou não sei identificar" className="bg-zinc-900 text-white">
-                Outro defeito ou não sei identificar
-              </option>
+              <option value="">Selecione o serviço ou área...</option>
+              <option value="01. Diagnóstico e Avaliação Técnica">01. Diagnóstico e Avaliação Técnica (Não liga / Sem vídeo)</option>
+              <option value="02. Limpeza e Manutenção Preventiva">02. Limpeza e Manutenção Preventiva + Pasta Térmica</option>
+              <option value="03. Sistema de Refrigeração (Cooler / Superaquecimento)">03. Sistema de Refrigeração (Cooler / Superaquecimento)</option>
+              <option value="04. Tela e Imagem (Troca de Display / Cabo Flat)">04. Tela e Imagem (Troca de Display / Cabo Flat)</option>
+              <option value="05. Teclado e Touchpad">05. Teclado e Touchpad</option>
+              <option value="06. Carcaça e Dobradiças (Recuperação / Tampa quebrada)">06. Carcaça e Dobradiças (Recuperação / Tampa quebrada)</option>
+              <option value="07. Bateria e Alimentação (DC Jack / USB-C / MagSafe)">07. Bateria e Alimentação (DC Jack / USB-C / MagSafe)</option>
+              <option value="08. Armazenamento e Memória RAM (Upgrade SSD / RAM)">08. Armazenamento e Memória RAM (Upgrade SSD / RAM)</option>
+              <option value="09. Portas, Conectores USB e HDMI">09. Portas, Conectores USB e HDMI</option>
+              <option value="10. Wi-Fi e Bluetooth">10. Wi-Fi e Bluetooth</option>
+              <option value="11. Áudio, Câmera e Microfone">11. Áudio, Câmera e Microfone</option>
+              <option value="12. Sistema Operacional (Windows / macOS / Formatação)">12. Sistema Operacional (Windows / macOS / Formatação)</option>
+              <option value="13. Backup e Transferência / Clonagem de Dados">13. Backup e Transferência / Clonagem de Dados</option>
+              <option value="14. Reparo Eletrônico de Placa-Mãe (Curto / Microeletrônica)">14. Reparo Eletrônico de Placa-Mãe (Curto / Microeletrônica)</option>
+              <option value="15. BIOS e Firmware (Regravação EEPROM)">15. BIOS e Firmware (Regravação EEPROM)</option>
+              <option value="16. Danos por Líquidos e Oxidação (Caiu água / Desoxidação)">16. Danos por Líquidos e Oxidação (Caiu água / Desoxidação)</option>
+              <option value="17. Reparos BGA e Chip Gráfico (GPU / Reballing)">17. Reparos BGA e Chip Gráfico (GPU / Reballing)</option>
+              <option value="18. Recuperação Avançada de Dados">18. Recuperação Avançada de Dados</option>
+              <option value="19. Manutenção de Notebooks Antigos">19. Manutenção de Notebooks Antigos</option>
+              <option value="20. Suporte Técnico Complementar">20. Suporte Técnico Complementar</option>
+              <option value="Outro defeito ou não sei identificar">Outro defeito ou não sei identificar</option>
             </select>
           </div>
 

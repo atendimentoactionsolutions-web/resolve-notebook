@@ -3,9 +3,11 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import NotebookShowcase from './components/NotebookShowcase';
 import Services from './components/Services';
+import BeforeAfterSlider from './components/BeforeAfterSlider';
 import Products from './components/Products';
 import BuySell from './components/BuySell';
 import Corporate from './components/Corporate';
+import FAQ from './components/FAQ';
 import About from './components/About';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
@@ -48,18 +50,37 @@ export default function App() {
           onOpenAdmin={() => setIsAdminOpen(true)} 
         />
 
+        {/* 20 Categories Master-Detail Services */}
         <Services onSelectService={handleSelectService} />
+
+        {/* Real Cases Before & After Interactive Slider */}
+        <div id="casos">
+          <BeforeAfterSlider />
+        </div>
+
+        {/* Featured Products */}
         <Products />
+
+        {/* Buy & Sell Banners */}
         <BuySell onOpenQuote={handleOpenQuote} />
+
+        {/* B2B Solutions */}
         <Corporate />
+
+        {/* Interactive FAQ Section */}
+        <FAQ />
+
+        {/* About Santa Ifigênia */}
         <About />
+
+        {/* Customer Testimonials with Google 5.0 badge */}
         <Testimonials />
       </main>
 
       {/* Footer */}
       <Footer onOpenAdmin={() => setIsAdminOpen(true)} />
 
-      {/* Interactive WhatsApp Budget Modal */}
+      {/* Interactive 3-Step WhatsApp Budget Wizard */}
       <QuoteModal
         isOpen={isQuoteOpen}
         onClose={() => setIsQuoteOpen(false)}

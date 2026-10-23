@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Logo from './Logo';
 import { SITE_CONFIG } from '../data/siteConfig';
+import { getStoreStatus } from '../utils/storeStatus';
 import { MessageCircle, Menu, X, PhoneCall } from 'lucide-react';
 
 export default function Navbar({ onOpenQuote }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const status = getStoreStatus();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,8 +21,8 @@ export default function Navbar({ onOpenQuote }) {
     { name: 'Início', href: '#inicio' },
     { name: 'Notebooks', href: '#vitrine' },
     { name: 'Serviços', href: '#servicos' },
-    { name: 'Produtos', href: '#produtos' },
-    { name: 'Para Empresas', href: '#empresas' },
+    { name: 'Antes & Depois', href: '#casos' },
+    { name: 'FAQ', href: '#faq' },
     { name: 'Sobre', href: '#sobre' },
     { name: 'Contato', href: '#contato' },
   ];
@@ -58,8 +60,17 @@ export default function Navbar({ onOpenQuote }) {
             ))}
           </nav>
 
-          {/* WhatsApp CTA Button */}
+          {/* WhatsApp CTA Button & Live Status */}
           <div className="hidden sm:flex items-center gap-3">
+            <div className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border ${
+              status.isOpen 
+                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
+                : 'bg-amber-400/10 border-amber-400/30 text-amber-300'
+            }`}>
+              <span className={`w-2 h-2 rounded-full ${status.isOpen ? 'bg-emerald-400 animate-ping' : 'bg-amber-400'}`} />
+              <span>{status.shortText}</span>
+            </div>
+
             <a
               href={whatsappUrl}
               target="_blank"

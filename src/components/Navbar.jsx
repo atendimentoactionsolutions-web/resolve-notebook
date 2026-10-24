@@ -45,9 +45,9 @@ export default function Navbar({ onOpenQuote, onOpenAdmin }) {
           <div 
             onClick={onOpenAdmin} 
             className="group cursor-pointer select-none py-1"
-            title="Resolve Notebook"
+            title="Acesso Lojista (Resolve Notebook)"
           >
-            <Logo />
+            <Logo onClick={onOpenAdmin} />
           </div>
 
           {/* Desktop Navigation */}

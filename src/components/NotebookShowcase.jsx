@@ -69,8 +69,21 @@ export default function NotebookShowcase({ onOpenAdmin }) {
         
         {/* Section Header */}
         <div className="mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
-            <Sparkles className="w-3.5 h-3.5" /> Pronta Entrega na Santa Ifigênia
+          <div className="flex items-center justify-between gap-4 mb-2">
+            <div 
+              onClick={onOpenAdmin}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-400 text-xs font-bold uppercase tracking-wider cursor-pointer hover:bg-amber-400/20 transition select-none"
+              title="Acesso Lojista (Gerenciar Estoque)"
+            >
+              <Sparkles className="w-3.5 h-3.5" /> Pronta Entrega na Santa Ifigênia
+            </div>
+            <button
+              onClick={onOpenAdmin}
+              className="text-xs text-zinc-500 hover:text-amber-400 flex items-center gap-1.5 transition cursor-pointer font-medium p-1 rounded"
+              title="Acesso do Lojista (Cadastrar e Gerenciar Notebooks)"
+            >
+              <span>🔒 Acesso Lojista</span>
+            </button>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Notebooks <span className="text-amber-400">Revisados & Seminovos</span>

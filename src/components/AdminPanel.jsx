@@ -255,15 +255,16 @@ export default function AdminPanel({ isOpen, onClose, onRefreshCatalog }) {
   };
 
   // Metrics
-  const totalStock = products.length;
-  const availableCount = products.filter(p => p.status !== 'sold').length;
-  const soldCount = products.filter(p => p.status === 'sold').length;
-  const totalStockValue = products
+  const productList = Array.isArray(products) ? products : [];
+  const totalStock = productList.length;
+  const availableCount = productList.filter(p => p.status !== 'sold').length;
+  const soldCount = productList.filter(p => p.status === 'sold').length;
+  const totalStockValue = productList
     .filter(p => p.status !== 'sold')
     .reduce((acc, cur) => acc + (Number(cur.price) || 0), 0);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto animate-fadeIn">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto animate-fadeIn">
       <div 
         className="relative w-full max-w-4xl bg-[#10121a] border border-amber-400/40 rounded-3xl p-6 sm:p-8 shadow-[0_0_50px_rgba(245,158,11,0.25)] my-8 max-h-[92vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}

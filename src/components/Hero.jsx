@@ -138,15 +138,19 @@ export default function Hero({ onOpenQuote, onOpenAdmin }) {
                   {/* High tech neon visual inside screen with official logo */}
                   <div 
                     onClick={onOpenAdmin}
-                    className="relative z-10 flex flex-col items-center text-center space-y-4 cursor-pointer select-none"
-                    title="Resolve Notebook"
+                    onTouchEnd={onOpenAdmin}
+                    role="button"
+                    tabIndex={0}
+                    className="relative z-10 flex flex-col items-center text-center space-y-4 cursor-pointer select-none active:scale-95 transition-transform"
+                    title="Acesso Lojista (Resolve Notebook)"
                   >
-                    <div className="relative w-28 h-28 rounded-full p-[3px] bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-500 shadow-[0_0_35px_rgba(245,158,11,0.55)] transition-transform hover:scale-105">
+                    <div className="relative w-28 h-28 rounded-full p-[3px] bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-500 shadow-[0_0_35px_rgba(245,158,11,0.55)] transition-transform hover:scale-105 pointer-events-none">
                       <div className="w-full h-full rounded-full overflow-hidden bg-black flex items-center justify-center">
                         <img
                           src={logoImg}
                           alt="Resolve Notebook Logo Oficial"
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover pointer-events-none"
+                          draggable="false"
                         />
                       </div>
                     </div>

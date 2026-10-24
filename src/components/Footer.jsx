@@ -26,8 +26,8 @@ export default function Footer({ onOpenAdmin }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 items-center pb-12 border-b border-zinc-800/80">
           
           {/* Logo & Slogan (Clique disfarçado abre o painel) */}
-          <div onClick={onOpenAdmin} className="lg:col-span-4 space-y-3 cursor-pointer select-none" title="Resolve Notebook">
-            <Logo size="lg" />
+          <div onClick={onOpenAdmin} className="lg:col-span-4 space-y-3 cursor-pointer select-none" title="Acesso Lojista (Resolve Notebook)">
+            <Logo size="lg" onClick={onOpenAdmin} />
             <div className="pt-1">
               <span className="font-script text-2xl text-amber-300/80 drop-shadow">
                 Tecnologia que te move
@@ -117,8 +117,15 @@ export default function Footer({ onOpenAdmin }) {
 
         {/* Bottom Sub-footer */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
-          <p>
-            © {currentYear} Resolve Notebook. Todos os direitos reservados.
+          <p className="flex items-center gap-1.5">
+            <span>© {currentYear} Resolve Notebook. Todos os direitos reservados.</span>
+            <button 
+              onClick={onOpenAdmin}
+              className="text-zinc-600 hover:text-amber-400 p-0.5 rounded cursor-pointer transition text-[11px]"
+              title="Acesso Lojista (Painel Administrativo)"
+            >
+              🔒
+            </button>
           </p>
 
           <div className="flex items-center gap-4">

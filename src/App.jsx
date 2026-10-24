@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import NotebookShowcase from './components/NotebookShowcase';
@@ -20,6 +20,43 @@ export default function App() {
   const [selectedService, setSelectedService] = useState(null);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [showcaseKey, setShowcaseKey] = useState(0);
+
+  // Abertura automática via rota (/admin, /painel, #admin, #painel) e atalhos
+  useEffect(() => {
+    const checkRoute = () => {
+      const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+      if (
+        path.includes('/admin') || 
+        path.includes('/painel') || 
+        path.includes('/login') ||
+        hash === '#admin' || 
+        hash === '#painel' || 
+        hash === '#login'
+      ) {
+        setIsAdminOpen(true);
+      }
+    };
+
+    checkRoute();
+    window.addEventListener('hashchange', checkRoute);
+    window.addEventListener('popstate', checkRoute);
+
+    // Atalho de teclado: Ctrl + Shift + A ou Alt + A
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') || (e.altKey && e.key.toLowerCase() === 'a')) {
+        e.preventDefault();
+        setIsAdminOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('hashchange', checkRoute);
+      window.removeEventListener('popstate', checkRoute);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const handleOpenQuote = () => {
     setSelectedService(null);

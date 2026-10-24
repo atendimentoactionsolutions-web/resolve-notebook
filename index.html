@@ -6,8 +6,22 @@
     <link rel="shortcut icon" type="image/png" href="/logo.png?v=2" />
     <link rel="apple-touch-icon" href="/logo.png?v=2" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Resolve Notebook | Assistência Técnica Especializada na Santa Ifigênia</title>
     <meta name="description" content="Assistência técnica especializada e venda de notebooks na Santa Ifigênia, São Paulo. Upgrades, reparo de placas, telas, baterias e manutenção preventiva." />
+    <!-- Auto-recovery against stale browser cache -->
+    <script>
+      window.addEventListener('error', function(e) {
+        if (e.message && (e.message.indexOf('Unexpected token') !== -1 || e.message.indexOf('Loading chunk') !== -1)) {
+          if (!sessionStorage.getItem('reloaded_once_cache')) {
+            sessionStorage.setItem('reloaded_once_cache', 'true');
+            window.location.reload(true);
+          }
+        }
+      });
+    </script>
     <!-- Google Fonts: Plus Jakarta Sans & Caveat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

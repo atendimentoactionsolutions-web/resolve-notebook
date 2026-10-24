@@ -171,8 +171,27 @@ app.delete('/api/products/:id', authMiddleware, (req, res) => {
 
 // Serve frontend dist if available
 if (fs.existsSync(DIST_DIR)) {
+  // Prevent browser caching of index.html so updates are always seen immediately
+  app.use((req, res, next) => {
+    if (req.path === '/' || req.path === '/index.html' || req.path.startsWith('/admin') || req.path.startsWith('/painel')) {
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+    next();
+  });
+
+  // Serve static files
   app.use(express.static(DIST_DIR));
+
+  // If a request for an asset in /assets/ is not found, return 404 instead of index.html
+  app.use('/assets', (req, res) => {
+    res.status(404).type('text/plain').send('Asset not found');
+  });
+
+  // SPA fallback
   app.use((req, res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.sendFile(path.join(DIST_DIR, 'index.html'));
   });
 }

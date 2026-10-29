@@ -22,11 +22,48 @@ app.use(express.json({ limit: '10mb' }));
 // Directories
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
+const PRODUCTS_SEED_FILE = path.join(DATA_DIR, 'products.seed.json');
+const PRODUCTS_BACKUP_FILE = path.join(DATA_DIR, 'products.backup.json');
+const SESSIONS_FILE = path.join(DATA_DIR, 'sessions.json');
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
 const DIST_DIR = path.join(__dirname, 'dist');
 
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
+// Persistent session management so server restarts never invalidate admin login
+function loadSessions() {
+  try {
+    if (fs.existsSync(SESSIONS_FILE)) {
+      const data = JSON.parse(fs.readFileSync(SESSIONS_FILE, 'utf-8'));
+      const now = Date.now();
+      for (const [token, expires] of Object.entries(data)) {
+        if (typeof expires === 'number' && expires > now) {
+          sessions.set(token, expires);
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Erro ao ler sessions.json:', err.message);
+  }
+}
+
+function saveSessions() {
+  try {
+    const obj = {};
+    const now = Date.now();
+    for (const [token, expires] of sessions.entries()) {
+      if (expires > now) obj[token] = expires;
+    }
+    const temporaryFile = `${SESSIONS_FILE}.tmp`;
+    fs.writeFileSync(temporaryFile, JSON.stringify(obj), 'utf-8');
+    fs.renameSync(temporaryFile, SESSIONS_FILE);
+  } catch (err) {
+    console.error('Erro ao salvar sessions.json:', err.message);
+  }
+}
+
+loadSessions();
 
 // Multer storage for uploaded photos
 const storage = multer.diskStorage({
@@ -53,10 +90,34 @@ const upload = multer({
 // Serve uploaded images statically
 app.use('/uploads', express.static(UPLOADS_DIR));
 
-// Helpers for products JSON
+// Helpers for products JSON with automatic backup & seed restoration
 function readProducts() {
   try {
-    if (!fs.existsSync(PRODUCTS_FILE)) return [];
+    if (!fs.existsSync(PRODUCTS_FILE)) {
+      // 1. Try restore from backup
+      if (fs.existsSync(PRODUCTS_BACKUP_FILE)) {
+        try {
+          const backupRaw = fs.readFileSync(PRODUCTS_BACKUP_FILE, 'utf-8');
+          const backup = JSON.parse(backupRaw);
+          if (Array.isArray(backup) && backup.length > 0) {
+            writeProducts(backup);
+            return backup;
+          }
+        } catch (_) {}
+      }
+      // 2. Try restore from seed
+      if (fs.existsSync(PRODUCTS_SEED_FILE)) {
+        try {
+          const seedRaw = fs.readFileSync(PRODUCTS_SEED_FILE, 'utf-8');
+          const seed = JSON.parse(seedRaw);
+          if (Array.isArray(seed) && seed.length > 0) {
+            writeProducts(seed);
+            return seed;
+          }
+        } catch (_) {}
+      }
+      return [];
+    }
     const raw = fs.readFileSync(PRODUCTS_FILE, 'utf-8');
     const products = JSON.parse(raw);
     if (!Array.isArray(products)) throw new Error('Formato inválido do catálogo.');
@@ -72,6 +133,17 @@ function writeProducts(products) {
     const temporaryFile = `${PRODUCTS_FILE}.tmp`;
     fs.writeFileSync(temporaryFile, JSON.stringify(products, null, 2), 'utf-8');
     fs.renameSync(temporaryFile, PRODUCTS_FILE);
+
+    // Keep backup automatically synchronized whenever products exist
+    if (Array.isArray(products) && products.length > 0) {
+      try {
+        const backupTmp = `${PRODUCTS_BACKUP_FILE}.tmp`;
+        fs.writeFileSync(backupTmp, JSON.stringify(products, null, 2), 'utf-8');
+        fs.renameSync(backupTmp, PRODUCTS_BACKUP_FILE);
+      } catch (backupErr) {
+        console.error('Aviso ao sincronizar backup de produtos:', backupErr.message);
+      }
+    }
     return true;
   } catch (err) {
     console.error('Erro ao salvar products.json:', err);
@@ -79,7 +151,7 @@ function writeProducts(products) {
   }
 }
 
-// Simple token auth middleware for admin operations
+// Token auth middleware for admin operations
 function authMiddleware(req, res, next) {
   const token = req.headers['authorization'];
   const sessionToken = token?.startsWith('Bearer ') ? token.slice(7) : '';
@@ -87,14 +159,49 @@ function authMiddleware(req, res, next) {
   if (expires && expires > Date.now()) {
     return next();
   }
-  sessions.delete(sessionToken);
+  if (sessionToken) {
+    sessions.delete(sessionToken);
+    saveSessions();
+  }
   return res.status(401).json({ error: 'Acesso não autorizado. Faça login novamente.' });
 }
 
 // --- API ROUTES ---
 function validateProduct(req, res, next) {
   const body = req.body;
-  const invalid = !body || Array.isArray(body) ||
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return res.status(400).json({ error: 'Dados do produto inválidos. Confira título, preço e especificações.' });
+  }
+
+  // Normalize price if provided as string or formatted currency (e.g. "2.490,00" or "2490")
+  if (body.price !== undefined) {
+    if (typeof body.price === 'string') {
+      const clean = body.price.replace(/[R$\s]/g, '').trim();
+      if (clean.includes(',')) {
+        body.price = parseFloat(clean.replace(/\./g, '').replace(',', '.'));
+      } else {
+        body.price = parseFloat(clean);
+      }
+    }
+  }
+
+  // Normalize specs object: ensure all values are strings, never rejecting empty/null fields
+  if (body.specs !== undefined && body.specs !== null && typeof body.specs === 'object' && !Array.isArray(body.specs)) {
+    for (const [k, v] of Object.entries(body.specs)) {
+      if (v === null || v === undefined) {
+        body.specs[k] = '';
+      } else if (typeof v !== 'string') {
+        body.specs[k] = String(v);
+      }
+    }
+  }
+
+  // Normalize images array if null
+  if (body.images === null) {
+    body.images = [];
+  }
+
+  const invalid =
     (req.method === 'POST' && (typeof body.title !== 'string' || !body.title.trim())) ||
     ['title', 'installments', 'category', 'badge', 'condition', 'description', 'image'].some(key =>
       body[key] !== undefined && typeof body[key] !== 'string') ||
@@ -102,6 +209,7 @@ function validateProduct(req, res, next) {
     (body.status !== undefined && !['available', 'sold'].includes(body.status)) ||
     (body.images !== undefined && (!Array.isArray(body.images) || body.images.some(image => typeof image !== 'string'))) ||
     (body.specs !== undefined && (!body.specs || typeof body.specs !== 'object' || Array.isArray(body.specs) || Object.values(body.specs).some(value => typeof value !== 'string')));
+
   if (invalid) return res.status(400).json({ error: 'Dados do produto inválidos. Confira título, preço e especificações.' });
   next();
 }
@@ -120,7 +228,8 @@ app.post('/api/auth/login', (req, res) => {
       if (expires <= Date.now()) sessions.delete(token);
     }
     const AUTH_TOKEN = randomBytes(32).toString('hex');
-    sessions.set(AUTH_TOKEN, Date.now() + 8 * 60 * 60 * 1000);
+    sessions.set(AUTH_TOKEN, Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days session
+    saveSessions();
     return res.json({ success: true, token: AUTH_TOKEN, message: 'Autenticado com sucesso!' });
   }
   return res.status(401).json({ success: false, error: 'Usuário ou senha incorretos.' });

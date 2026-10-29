@@ -3,6 +3,16 @@ import React, { useState, useEffect } from 'react';
 const CATEGORIES = ['Notebook', 'MacBook', 'SSD', 'Memória RAM', 'Acessório', 'Outro'];
 const CONDITIONS = ['Revisado', 'Seminovo', 'Novo'];
 
+function parsePriceInput(val) {
+  if (typeof val === 'number') return val;
+  if (!val) return 0;
+  const clean = String(val).replace(/[R$\s]/g, '').trim();
+  if (clean.includes(',')) {
+    return parseFloat(clean.replace(/\./g, '').replace(',', '.')) || 0;
+  }
+  return parseFloat(clean) || 0;
+}
+
 export default function Admin({ onNavigate }) {
   const [token, setToken] = useState(localStorage.getItem('resolve_admin_token') || '');
   const [usernameInput, setUsernameInput] = useState('');
@@ -43,11 +53,11 @@ export default function Admin({ onNavigate }) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          username: usernameInput, 
+          username: usernameInput.trim(), 
           password: passwordInput 
         })
       });
-      if (res.status === 401) handleLogout();
+      if (res.status === 401) { handleLogout(); setLoginError('Sua sessão expirou. Faça login novamente.'); return; }
       const data = await res.json();
       if (res.ok && data.token) {
         setToken(data.token);
@@ -117,20 +127,33 @@ export default function Admin({ onNavigate }) {
   const handleSaveProduct = async (e) => {
     e.preventDefault();
     if (saving || uploadingImage) return;
+
+    if (!title.trim()) {
+      setFormError('Informe o título do produto.');
+      return;
+    }
+
     setSaving(true);
     setFormSuccess('');
     setFormError('');
 
+    const numericPrice = parsePriceInput(price);
+
     const payload = {
-      title,
-      price: Number(price) || 0,
-      installments,
-      category,
-      condition,
-      badge: condition,
-      specs: { cpu, ram, storage, screen },
-      description,
-      image: imageUrl,
+      title: title.trim(),
+      price: numericPrice,
+      installments: installments.trim() || 'ou em até 12x no cartão',
+      category: category || 'Notebook',
+      condition: condition || 'Revisado',
+      badge: condition || 'Revisado',
+      specs: { 
+        cpu: cpu.trim(), 
+        ram: ram.trim(), 
+        storage: storage.trim(), 
+        screen: screen.trim() 
+      },
+      description: description.trim(),
+      image: imageUrl || 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=800&auto=format&fit=crop',
       images: imageUrl ? [imageUrl, ...(products.find(p => p.id === editingId)?.images || []).filter(image => image !== imageUrl)] : [],
       status: editingId ? (products.find(p => p.id === editingId)?.status || 'available') : 'available'
     };
@@ -157,13 +180,18 @@ export default function Admin({ onNavigate }) {
         });
       }
 
+      if (res.status === 401) {
+        handleLogout();
+        setLoginError('Sua sessão expirou. Faça login novamente para salvar o produto.');
+        return;
+      }
+
+      const data = await res.json();
       if (res.ok) {
         setFormSuccess(editingId ? 'Produto atualizado com sucesso!' : 'Produto cadastrado com sucesso!');
         resetForm();
         loadProducts();
       } else {
-        if (res.status === 401) handleLogout();
-        const data = await res.json();
         setFormError(data.error || 'Erro ao salvar produto.');
       }
     } catch (err) {
@@ -239,6 +267,7 @@ export default function Admin({ onNavigate }) {
     setScreen('');
     setDescription('');
     setImageUrl('');
+    setFormError('');
   };
 
   // Metrics
@@ -445,10 +474,10 @@ export default function Admin({ onNavigate }) {
                     Preço à Vista (R$):
                   </label>
                   <input
-                    type="number"
-                    step="any"
+                    type="text"
+                    inputMode="decimal"
                     required
-                    placeholder="Ex.: 2490"
+                    placeholder="Ex.: 2490 ou 2.490,00"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--line)', background: 'var(--paper)', fontSize: '14px' }}

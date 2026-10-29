@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useDeferredValue } from 'react';
 import { FULL_SERVICES_CATALOG } from '../data/siteConfig';
+import useScrollReveal from '../hooks/useScrollReveal';
+import { getRepairQuestions, buildRepairMessage } from '../data/repairQuestions';
+import GoogleReviews from './GoogleReviews';
 
 const issueNames = [
   'Não liga ou não carrega',
@@ -41,7 +44,13 @@ const normalize = (text) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, ''
 
 export default function Home({ onNavigate }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeUsage, setActiveUsage] = useState('Trabalho');
+  const headerRef = useRef(null);
+  const contentRef = useRef(null);
+  useScrollReveal(contentRef);
+  const [activeUsage, setActiveUsage] = useState(() => {
+    const profile = new URLSearchParams(window.location.search).get('perfil');
+    return Object.keys(useContent).find(key => key.toLowerCase() === profile?.toLowerCase()) || 'Trabalho';
+  });
   const [isDark, setIsDark] = useState(() => localStorage.getItem('resolve_theme') === 'dark');
 
   // Modo Escuro discreto e persistente
@@ -67,6 +76,33 @@ export default function Home({ onNavigate }) {
     return () => window.removeEventListener('keydown', handleKey);
   }, []);
 
+  useEffect(() => () => document.body.classList.remove('modal-open'), []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const closeOutside = (event) => {
+      if (!headerRef.current?.contains(event.target)) setMenuOpen(false);
+    };
+    const closeWithEscape = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        headerRef.current?.querySelector('.menu-toggle')?.focus();
+      }
+    };
+    const desktop = window.matchMedia('(min-width: 1001px)');
+    const closeOnDesktop = (event) => {
+      if (event.matches) setMenuOpen(false);
+    };
+    document.addEventListener('pointerdown', closeOutside);
+    document.addEventListener('keydown', closeWithEscape);
+    desktop.addEventListener('change', closeOnDesktop);
+    return () => {
+      document.removeEventListener('pointerdown', closeOutside);
+      document.removeEventListener('keydown', closeWithEscape);
+      desktop.removeEventListener('change', closeOnDesktop);
+    };
+  }, [menuOpen]);
+
   // Repair Dialog State
   const [isRepairOpen, setIsRepairOpen] = useState(false);
   const [repairStep, setRepairStep] = useState(1);
@@ -74,23 +110,42 @@ export default function Home({ onNavigate }) {
   const [brand, setBrand] = useState('');
   const [model, setModel] = useState('');
   const [notes, setNotes] = useState('');
+  const [repairAnswers, setRepairAnswers] = useState({});
+  const repairQuestions = getRepairQuestions(selectedIssue);
 
   // Services Dialog State
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [serviceSearch, setServiceSearch] = useState('');
 
+  useEffect(() => {
+    if (!isRepairOpen && !isServicesOpen) return;
+    const previousFocus = document.activeElement;
+    const dialog = document.getElementById(isServicesOpen ? 'services-dialog' : 'repair-dialog');
+    const selector = 'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]';
+    const focusable = () => [...dialog.querySelectorAll(selector)].filter(element => element.getClientRects().length);
+    focusable()[0]?.focus();
+    const trapFocus = (event) => {
+      if (event.key !== 'Tab') return;
+      const elements = focusable();
+      const first = elements[0];
+      const last = elements.at(-1);
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+    dialog.addEventListener('keydown', trapFocus);
+    return () => {
+      dialog.removeEventListener('keydown', trapFocus);
+      previousFocus?.focus();
+    };
+  }, [isRepairOpen, isServicesOpen, repairStep]);
+
   // FAQ open states
   const [openFaq, setOpenFaq] = useState(null);
-
-  // Read initial profile from URL
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const p = params.get('perfil');
-    if (p) {
-      const match = Object.keys(useContent).find(k => k.toLowerCase() === p.toLowerCase());
-      if (match) setActiveUsage(match);
-    }
-  }, []);
 
   const handleSelectUsage = (usage) => {
     setActiveUsage(usage);
@@ -102,6 +157,7 @@ export default function Home({ onNavigate }) {
 
   const openRepairModal = (issue = '') => {
     setMenuOpen(false);
+    setRepairAnswers({});
     if (issue) {
       setSelectedIssue(issue);
       setRepairStep(2);
@@ -143,11 +199,7 @@ export default function Home({ onNavigate }) {
   }, [isServicesOpen, isRepairOpen]);
 
   const generateWhatsAppLink = () => {
-    let msg = `Olá! Vim pelo site da RESOLVE Notebook.\n\nProblema: ${selectedIssue || 'Avaliação geral'}.`;
-    if (brand) msg += `\nMarca: ${brand}.`;
-    if (model.trim()) msg += `\nModelo: ${model.trim()}.`;
-    if (notes.trim()) msg += `\nDetalhes: ${notes.trim()}`;
-    msg += '\n\nGostaria de conversar com um técnico sobre a avaliação do equipamento.';
+    const msg = buildRepairMessage({ issue: selectedIssue, brand, model, notes, answers: repairAnswers });
     return `https://wa.me/5511988095982?text=${encodeURIComponent(msg)}`;
   };
 
@@ -167,7 +219,8 @@ export default function Home({ onNavigate }) {
     }
   };
 
-  const normalizedQuery = normalize(serviceSearch.trim());
+  const deferredSearch = useDeferredValue(serviceSearch);
+  const normalizedQuery = normalize(deferredSearch.trim());
 
   const filteredCategories = useMemo(() => {
     if (!normalizedQuery) {
@@ -218,7 +271,10 @@ export default function Home({ onNavigate }) {
           <symbol id="laptop" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="13" rx="1"/><path d="m4 16-3 4h22l-3-4M9 20h6"/></symbol>
           <symbol id="battery" viewBox="0 0 24 24"><rect x="2" y="6" width="18" height="12" rx="2"/><path d="M23 10v4M7 9l-2 4h4l-2 3m7-6h3"/></symbol>
           <symbol id="keyboard" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M5 9h1m3 0h1m3 0h1m3 0h2M5 12h1m3 0h1m3 0h1m3 0h2M6 15h12"/></symbol>
-          <symbol id="chat" viewBox="0 0 24 24"><path d="M21 11.5a9 9 0 0 1-9 9 10 10 0 0 1-4-.8L2 22l1.9-6a9 9 0 1 1 17.1-4.5Z"/><path d="M8 8c.5 4 2 5.5 6 7l2-2-3-1-1 1c-1.5-.8-2.5-1.8-3-3l1-1-1-3-1 2Z"/></symbol>
+          <symbol id="whatsapp-icon" viewBox="0 0 24 24">
+            <path d="M20.8 11.9a8.8 8.8 0 0 1-13.1 7.7L2.8 21l1.4-4.8A8.8 8.8 0 1 1 20.8 11.9Z" fill="none" stroke="currentColor" strokeWidth="1.7" />
+            <path d="M17.05 13.9c-.25-.12-1.47-.72-1.7-.81-.23-.08-.4-.12-.56.13-.16.24-.64.8-.79.96-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.23.25-.87.85-.87 2.07s.89 2.4 1.01 2.56c.13.17 1.75 2.67 4.24 3.74.59.25 1.05.4 1.41.51.59.19 1.13.16 1.56.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.47-.28Z" fill="currentColor" stroke="none" />
+          </symbol>
           <symbol id="case" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M8 7V3h8v4M2 12h20m-12-1v3h4v-3"/></symbol>
         </defs>
       </svg>
@@ -226,9 +282,9 @@ export default function Home({ onNavigate }) {
       <a className="skip" href="#conteudo">Pular para o conteúdo</a>
 
       {/* Main Header */}
-      <header className="header">
+      <header className="header" ref={headerRef}>
         <div className="wrap header-inner">
-          <a className="brand" href="#inicio" aria-label="RESOLVE Notebook, início">
+          <a className="brand" href="#inicio" aria-label="RESOLVE Notebook, início" onClick={() => setMenuOpen(false)}>
             <img 
               src="/assets/logo-original.png" 
               alt="Logo RESOLVE" 
@@ -236,11 +292,6 @@ export default function Home({ onNavigate }) {
               height="44" 
               style={{ cursor: 'pointer' }}
               title="RESOLVE Notebook"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onNavigate('/admin');
-              }}
             />
             <span>RESOLVE<span className="brand-sub">NOTEBOOK</span></span>
           </a>
@@ -250,9 +301,7 @@ export default function Home({ onNavigate }) {
             <a href="/produtos" onClick={(e) => { e.preventDefault(); onNavigate('/produtos'); setMenuOpen(false); }}>Produtos</a>
             <a href="#empresas" onClick={() => setMenuOpen(false)}>Para empresas</a>
             <a href="#loja" onClick={() => setMenuOpen(false)}>A loja</a>
-          </nav>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="header-actions">
             <button
               type="button"
               onClick={() => setIsDark(!isDark)}
@@ -286,13 +335,16 @@ export default function Home({ onNavigate }) {
               href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20RESOLVE%20Notebook%20e%20gostaria%20de%20falar%20com%20um%20t%C3%A9cnico."
               target="_blank" 
               rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
             >
               Falar com um técnico <svg aria-hidden="true"><use href="#arrow"/></svg>
             </a>
           </div>
+          </nav>
 
           <button 
             className="menu-toggle" 
+            type="button"
             aria-controls="main-nav" 
             aria-expanded={menuOpen} 
             aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
@@ -304,7 +356,7 @@ export default function Home({ onNavigate }) {
         </div>
       </header>
 
-      <main id="conteudo">
+      <main id="conteudo" ref={contentRef}>
         {/* Section: Hero */}
         <section className="hero wrap" id="inicio">
           <div className="hero-copy">
@@ -326,10 +378,12 @@ export default function Home({ onNavigate }) {
           <figure className="hero-visual">
             <img 
               className="hero-photo" 
+              fetchPriority="high"
+              decoding="async"
               src="/assets/repair.jpg" 
               alt="Mãos trabalhando nos componentes internos de um notebook, imagem ilustrativa" 
               width="1400" 
-              height="2100" 
+              height="1867"
             />
           </figure>
         </section>
@@ -432,7 +486,7 @@ export default function Home({ onNavigate }) {
                   src="/assets/notebook-detail.jpg" 
                   alt="Notebook visto de cima sobre uma mesa" 
                   width="1200" 
-                  height="800" 
+                  height="960"
                   loading="lazy" 
                 />
               </div>
@@ -477,8 +531,8 @@ export default function Home({ onNavigate }) {
               <img 
                 src="/assets/laptop-workspace.jpg" 
                 alt="Notebook Dell sobre uma superfície clara, imagem ilustrativa" 
-                width="1400" 
-                height="933" 
+                width="1024"
+                height="576"
                 loading="lazy" 
               />
               <figcaption>
@@ -562,6 +616,8 @@ export default function Home({ onNavigate }) {
           </div>
         </section>
 
+        <GoogleReviews />
+
         {/* Section: Dúvidas / FAQ */}
         <section className="faq section wrap" id="duvidas">
           <div>
@@ -603,12 +659,11 @@ export default function Home({ onNavigate }) {
               <details 
                 key={idx} 
                 open={openFaq === idx}
-                onClick={(e) => {
+              >
+                <summary onClick={(e) => {
                   e.preventDefault();
                   setOpenFaq(openFaq === idx ? null : idx);
-                }}
-              >
-                <summary>
+                }}>
                   {faq.q}
                   <span aria-hidden="true">{openFaq === idx ? '−' : '+'}</span>
                 </summary>
@@ -653,11 +708,10 @@ export default function Home({ onNavigate }) {
             </div>
 
             {/* Mapa Interativo Google Maps */}
-            <div style={{ 
+            <div className="store-map" style={{
               marginTop: '32px', 
               borderRadius: '16px', 
               overflow: 'hidden', 
-              height: '350px', 
               width: '100%', 
               boxShadow: '0 8px 30px rgba(0,0,0,0.15)',
               background: '#fff'
@@ -687,11 +741,6 @@ export default function Home({ onNavigate }) {
               width="44" 
               height="44" 
               style={{ cursor: 'pointer' }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                onNavigate('/admin');
-              }}
             />
             <span>RESOLVE<span className="brand-sub">NOTEBOOK</span></span>
           </a>
@@ -713,9 +762,6 @@ export default function Home({ onNavigate }) {
         <div className="wrap footer-bottom">
           <span>© 2026 RESOLVE Notebook.</span>
           <span>Reparar é dar uma nova chance.</span>
-          <a href="/admin" onClick={(e) => { e.preventDefault(); onNavigate('/admin'); }}>
-            Acesso administrativo
-          </a>
           <button 
             type="button" 
             onClick={() => setIsDark(!isDark)}
@@ -724,6 +770,11 @@ export default function Home({ onNavigate }) {
             {isDark ? 'Modo claro' : 'Modo escuro'}
           </button>
           <a href="#inicio">Voltar ao topo ↑</a>
+        </div>
+        <div className="wrap footer-admin-access">
+          <a className="admin-access-link" href="/admin" onClick={(e) => { e.preventDefault(); onNavigate('/admin'); }}>
+            Acessar painel ADM
+          </a>
         </div>
       </footer>
 
@@ -735,7 +786,7 @@ export default function Home({ onNavigate }) {
         target="_blank" 
         rel="noopener noreferrer"
       >
-        <svg aria-hidden="true"><use href="#chat"/></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#whatsapp-icon"/></svg>
       </a>
 
       {/* Modal: Repair Dialog (2 Etapas) */}
@@ -774,6 +825,7 @@ export default function Home({ onNavigate }) {
                       type="button"
                       onClick={() => {
                         setSelectedIssue(issue);
+                        setRepairAnswers({});
                         setRepairStep(2);
                       }}
                     >
@@ -785,7 +837,11 @@ export default function Home({ onNavigate }) {
                 <p className="dialog-footnote">Não sabe identificar? Escolha “Outro problema” e conte para a gente.</p>
               </div>
             ) : (
-              <form id="repair-step-two" onSubmit={(e) => e.preventDefault()}>
+              <form id="repair-step-two" onSubmit={(e) => {
+                e.preventDefault();
+                window.open(generateWhatsAppLink(), '_blank', 'noopener,noreferrer');
+                closeRepairModal();
+              }}>
                 <button type="button" className="back-button" onClick={() => setRepairStep(1)}>
                   ← Alterar problema
                 </button>
@@ -825,6 +881,23 @@ export default function Home({ onNavigate }) {
                   </label>
                 </div>
 
+                <fieldset className="repair-questions">
+                  <legend>Sobre o problema</legend>
+                  {repairQuestions.map(question => (
+                    <label key={question.id}>
+                      {question.label} <span>(opcional)</span>
+                      <select
+                        name={question.id}
+                        value={repairAnswers[question.id] || ''}
+                        onChange={(e) => setRepairAnswers(previous => ({ ...previous, [question.id]: e.target.value }))}
+                      >
+                        <option value="">Selecione uma opção</option>
+                        {question.options.map(option => <option key={option} value={option}>{option}</option>)}
+                      </select>
+                    </label>
+                  ))}
+                </fieldset>
+
                 <label>
                   Quer contar mais alguma coisa? <span>(opcional)</span>
                   <textarea 
@@ -837,16 +910,13 @@ export default function Home({ onNavigate }) {
                   />
                 </label>
 
-                <a 
+                <button
                   id="repair-whatsapp" 
                   className="button button-yellow" 
-                  href={generateWhatsAppLink()} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  onClick={() => closeRepairModal()}
+                  type="submit"
                 >
                   Continuar no WhatsApp <svg aria-hidden="true"><use href="#arrow"/></svg>
-                </a>
+                </button>
                 <p className="dialog-footnote">
                   Você confere e envia a mensagem no WhatsApp. Nenhum orçamento é aprovado por aqui.
                 </p>

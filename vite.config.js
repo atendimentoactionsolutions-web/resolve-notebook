@@ -9,7 +9,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
-    emptyOutDir: false,
+    emptyOutDir: true,
   },
   server: {
     proxy: {

@@ -19,7 +19,7 @@ export default function App() {
   const handleNavigate = (path) => {
     window.history.pushState({}, '', path);
     setCurrentPath(path.split('?')[0].toLowerCase());
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   // Atalho secreto de teclado: Ctrl + Shift + A ou Alt + A

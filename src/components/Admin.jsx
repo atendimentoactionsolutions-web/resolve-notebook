@@ -13,6 +13,7 @@ export default function Admin({ onNavigate }) {
 
   // Form State
   const [editingId, setEditingId] = useState(null);
+  const [saving, setSaving] = useState(false);
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [installments, setInstallments] = useState('ou em até 12x no cartão');
@@ -46,6 +47,7 @@ export default function Admin({ onNavigate }) {
           password: passwordInput 
         })
       });
+      if (res.status === 401) handleLogout();
       const data = await res.json();
       if (res.ok && data.token) {
         setToken(data.token);
@@ -63,17 +65,18 @@ export default function Admin({ onNavigate }) {
     localStorage.removeItem('resolve_admin_token');
   };
 
-  const loadProducts = async () => {
+  async function loadProducts() {
     setLoading(true);
     try {
       const res = await fetch('/api/products');
+      if (!res.ok) throw new Error('Não foi possível carregar os produtos.');
       if (res.ok) {
         const data = await res.json();
         const list = Array.isArray(data) ? data : (data.products || []);
         setProducts(list);
       }
     } catch (err) {
-      console.error('Erro ao carregar produtos:', err);
+      setFormError(err.message || 'Erro ao carregar produtos.');
     } finally {
       setLoading(false);
     }
@@ -97,6 +100,7 @@ export default function Admin({ onNavigate }) {
         body: formData
       });
 
+      if (res.status === 401) handleLogout();
       const data = await res.json();
       if (res.ok && data.url) {
         setImageUrl(data.url);
@@ -112,6 +116,8 @@ export default function Admin({ onNavigate }) {
 
   const handleSaveProduct = async (e) => {
     e.preventDefault();
+    if (saving || uploadingImage) return;
+    setSaving(true);
     setFormSuccess('');
     setFormError('');
 
@@ -125,8 +131,8 @@ export default function Admin({ onNavigate }) {
       specs: { cpu, ram, storage, screen },
       description,
       image: imageUrl,
-      images: imageUrl ? [imageUrl] : [],
-      status: 'available'
+      images: imageUrl ? [imageUrl, ...(products.find(p => p.id === editingId)?.images || []).filter(image => image !== imageUrl)] : [],
+      status: editingId ? (products.find(p => p.id === editingId)?.status || 'available') : 'available'
     };
 
     try {
@@ -156,11 +162,14 @@ export default function Admin({ onNavigate }) {
         resetForm();
         loadProducts();
       } else {
+        if (res.status === 401) handleLogout();
         const data = await res.json();
         setFormError(data.error || 'Erro ao salvar produto.');
       }
     } catch (err) {
       setFormError('Erro ao comunicar com o servidor.');
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -192,11 +201,11 @@ export default function Admin({ onNavigate }) {
         },
         body: JSON.stringify({ ...p, status: newStatus })
       });
-      if (res.ok) {
-        loadProducts();
-      }
+      if (res.status === 401) handleLogout();
+      if (!res.ok) throw new Error('Não foi possível atualizar o produto.');
+      loadProducts();
     } catch (err) {
-      console.error('Erro ao atualizar status:', err);
+      setFormError(err.message);
     }
   };
 
@@ -209,11 +218,11 @@ export default function Admin({ onNavigate }) {
           'Authorization': `Bearer ${token}`
         }
       });
-      if (res.ok) {
-        loadProducts();
-      }
+      if (res.status === 401) handleLogout();
+      if (!res.ok) throw new Error('Não foi possível excluir o produto.');
+      loadProducts();
     } catch (err) {
-      console.error('Erro ao excluir:', err);
+      setFormError(err.message);
     }
   };
 
@@ -287,6 +296,7 @@ export default function Admin({ onNavigate }) {
 
       {/* Main Content */}
       <main className="wrap" style={{ padding: '40px 0 80px 0' }}>
+        {loading && <p role="status">Carregando produtos…</p>}
         {!token ? (
           /* --- VIEW 1: LOGIN --- */
           <div className="auth-main" style={{ maxWidth: '440px', margin: '40px auto', background: 'var(--white)', padding: '36px 32px', borderRadius: '20px', border: '1px solid var(--line)', textAlign: 'center', boxShadow: '0 8px 30px rgba(0,0,0,0.04)' }}>
@@ -345,7 +355,7 @@ export default function Admin({ onNavigate }) {
               )}
 
               <button 
-                type="submit" 
+                type="submit" disabled={saving || uploadingImage}
                 className="button button-yellow" 
                 style={{ width: '100%', justifyContent: 'center', padding: '14px', marginTop: '6px' }}
               >
@@ -467,7 +477,7 @@ export default function Admin({ onNavigate }) {
                     onChange={(e) => setCategory(e.target.value)}
                     style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--line)', background: 'var(--paper)', fontSize: '14px' }}
                   >
-                    {CATEGORIES.filter(c => c !== 'Todos').map(c => (
+                    {[...new Set([...CATEGORIES, category])].map(c => (
                       <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
@@ -482,7 +492,7 @@ export default function Admin({ onNavigate }) {
                     onChange={(e) => setCondition(e.target.value)}
                     style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--line)', background: 'var(--paper)', fontSize: '14px' }}
                   >
-                    {CONDITIONS.map(c => (
+                    {[...new Set([...CONDITIONS, condition])].map(c => (
                       <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
@@ -577,7 +587,7 @@ export default function Admin({ onNavigate }) {
                 </div>
 
                 <div style={{ gridColumn: '1 / -1', display: 'flex', gap: '12px', alignItems: 'center' }}>
-                  <button type="submit" className="button button-yellow" style={{ padding: '12px 24px' }}>
+                  <button type="submit" disabled={saving || uploadingImage} className="button button-yellow" style={{ padding: '12px 24px' }}>
                     {editingId ? 'Salvar Alterações' : 'Cadastrar no Estoque'}
                   </button>
                   {editingId && (

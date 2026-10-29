@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useDeferredValue } from 'react';
+
+const normalize = (value) => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
 const CATEGORIES = ['Todos', 'Notebook', 'MacBook', 'SSD', 'Memória RAM', 'Acessório', 'Outro'];
 
@@ -12,11 +14,25 @@ export default function Catalog({ onNavigate }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
+  const deferredSearch = useDeferredValue(search);
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [activeProduct, setActiveProduct] = useState(null);
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
 
   const dialogRef = useRef(null);
+
+  useEffect(() => {
+    if (!activeProduct) return;
+    const dialog = dialogRef.current;
+    const previousFocus = document.activeElement;
+    dialog.showModal();
+    document.body.classList.add('modal-open');
+    return () => {
+      dialog.close();
+      document.body.classList.remove('modal-open');
+      previousFocus?.focus();
+    };
+  }, [activeProduct]);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -26,7 +42,8 @@ export default function Catalog({ onNavigate }) {
       if (!res.ok) throw new Error('Não foi possível carregar o catálogo.');
       const data = await res.json();
       const list = Array.isArray(data) ? data : (data.products || []);
-      setProducts(list);
+      if (!Array.isArray(list)) throw new Error('Resposta inválida do catálogo.');
+      setProducts(list.filter(p => p && p.status !== 'sold'));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro ao carregar catálogo.');
     } finally {
@@ -51,30 +68,23 @@ export default function Catalog({ onNavigate }) {
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
-      const pCat = (p.category || '').toLowerCase();
-      const sCat = selectedCategory.toLowerCase();
-      
-      let catMatch = selectedCategory === 'Todos';
-      if (!catMatch) {
-        if (selectedCategory === 'Notebook') {
-          catMatch = pCat.includes('notebook') || pCat.includes('trabalho') || pCat.includes('estudo') || pCat.includes('corporativo') || pCat.includes('gamer') || !['macbook', 'ssd', 'memória', 'memoria', 'acessório', 'acessorio'].some(c => pCat.includes(c));
-        } else if (selectedCategory === 'MacBook') {
-          catMatch = pCat.includes('macbook') || pCat.includes('apple') || (p.title || '').toLowerCase().includes('macbook');
-        } else {
-          catMatch = pCat.includes(sCat) || sCat.includes(pCat);
-        }
-      }
-      const q = search.toLowerCase().trim();
-      const textMatch = 
-        !q ||
-        (p.title || '').toLowerCase().includes(q) ||
-        (p.description || '').toLowerCase().includes(q) ||
-        (p.category || '').toLowerCase().includes(q) ||
-        (p.badge || '').toLowerCase().includes(q);
+      const pCat = normalize(p.category);
+      const title = normalize(p.title);
+      const isMac = /macbook|apple/.test(pCat) || title.includes('macbook');
+      const isNotebook = !isMac && /notebook|trabalho|estudo|corporativo|gamer|geral/.test(pCat);
+      const category = normalize(selectedCategory);
+      const catMatch = selectedCategory === 'Todos' ||
+        (selectedCategory === 'Notebook' ? isNotebook :
+          selectedCategory === 'MacBook' ? isMac :
+            selectedCategory === 'Outro' ? (!isMac && !isNotebook && !/ssd|memoria|acessorio/.test(pCat)) :
+              pCat.includes(category));
+      const q = normalize(deferredSearch.trim());
+      const searchable = [p.title, p.description, p.category, p.badge, ...Object.values(p.specs || {})].map(normalize).join(' ');
+      const textMatch = !q || searchable.includes(q);
 
       return catMatch && textMatch;
     });
-  }, [products, selectedCategory, search]);
+  }, [products, selectedCategory, deferredSearch]);
 
   const handleOpenDetail = (p) => {
     setActiveProduct(p);
@@ -127,11 +137,6 @@ export default function Catalog({ onNavigate }) {
             width="44" 
             height="44" 
             style={{ cursor: 'pointer' }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onNavigate('/admin');
-            }}
           />
           <span>RESOLVE<span className="brand-sub">NOTEBOOK</span></span>
         </a>
@@ -335,7 +340,7 @@ export default function Catalog({ onNavigate }) {
             <dialog 
               ref={dialogRef}
               className="product-dialog" 
-              open 
+              onCancel={() => setActiveProduct(null)}
               aria-labelledby="product-dialog-title"
               onClick={(e) => {
                 if (e.target.classList.contains('product-dialog')) handleCloseDetail();
@@ -423,14 +428,14 @@ export default function Catalog({ onNavigate }) {
       </main>
 
       {/* Catalog Footer */}
-      <footer className="catalog-footer" style={{ borderTop: '1px solid var(--line)', marginTop: '60px', padding: '28px max(24px, 50vw - 640px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', color: 'var(--muted)' }}>
+      <footer className="catalog-footer">
         <span>RESOLVE Notebook · Rua Santa Ifigênia, 361 — Loja 14</span>
         <a 
           href="/admin" 
+          className="admin-access-link"
           onClick={(e) => { e.preventDefault(); onNavigate('/admin'); }}
-          style={{ color: 'var(--ink)', fontWeight: 600 }}
         >
-          Acesso administrativo
+          Acessar painel ADM
         </a>
       </footer>
     </div>

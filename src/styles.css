@@ -872,3 +872,111 @@ body.dark-mode #repair-dialog .dialog-top {
   background: #111714 !important;
   border-bottom-color: #24332a !important;
 }
+
+/* Header actions share the navigation so they collapse into the mobile menu. */
+.header nav {
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+.header nav .header-cta {
+  padding: 9px 15px;
+}
+@media (max-width: 700px) {
+  .header-inner {
+    height: 52px;
+    gap: 10px;
+  }
+  .header .brand {
+    gap: 7px;
+  }
+  .header .brand img {
+    width: 30px;
+    height: 30px;
+  }
+  .header .brand > span {
+    font-size: 20px;
+  }
+  .header .brand-sub {
+    font-size: 6px;
+    letter-spacing: 3px;
+  }
+  .header nav {
+    top: 52px;
+  }
+  .header-actions {
+    width: 100%;
+    margin: 10px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .header nav .header-cta {
+    flex: 1;
+    margin: 0;
+    padding: 13px 15px;
+    font-size: 12px;
+    white-space: normal;
+  }
+}
+
+/* Let mobile photos follow the available width without fixed-height cropping. */
+@media (max-width: 700px) {
+  .hero > *,
+  .process-grid > *,
+  .notebook-grid > *,
+  .product-detail-grid > * {
+    min-width: 0;
+  }
+  .hero-visual,
+  .process-image,
+  .notebook-grid figure {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-width: 0;
+  }
+  .hero-photo,
+  .process-image img,
+  .notebook-grid figure > img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+  .product-image,
+  .product-detail-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+  .product-image > img,
+  .product-detail-image > img {
+    min-height: 0;
+    object-fit: contain !important;
+  }
+  .product-thumbnails img {
+    object-fit: contain !important;
+  }
+}
+
+.footer-admin-access {
+  padding-block: 8px 20px;
+  text-align: right;
+}
+.admin-access-link {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted);
+  opacity: .55;
+}
+.admin-access-link:hover,
+.admin-access-link:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}

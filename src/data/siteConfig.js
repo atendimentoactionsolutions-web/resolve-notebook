@@ -494,23 +494,4 @@ export const PRODUCTS = [
   },
 ];
 
-export const TESTIMONIALS = [
-  {
-    name: "Carlos M.",
-    role: "Cliente Verificado no Google",
-    text: "Excelente atendimento, serviço de qualidade e muito profissionais. Trocaram a tela e recuperaram a carcaça do meu Dell. Recomendo de olhos fechados!",
-    stars: 5,
-  },
-  {
-    name: "Fernanda S.",
-    role: "Cliente Verificado no Google",
-    text: "Meu notebook molhou com café e não ligava mais. Fizeram a desoxidação e reparo na placa-mãe. Voltou a funcionar como novo. Atendimento honesto e nota 10!",
-    stars: 5,
-  },
-  {
-    name: "Ricardo T.",
-    role: "Cliente Verificado no Google",
-    text: "Melhor assistência técnica da Santa Ifigênia. Fizeram upgrade de SSD NVMe e limpeza interna em menos de 2 horas. Confiança, preço justo e competência!",
-    stars: 5,
-  },
-];
+export const TESTIMONIALS = [];

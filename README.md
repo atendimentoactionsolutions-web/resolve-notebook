@@ -1,5 +1,15 @@
 # Resolve Notebook - Site Oficial & Landing Page
 
+## Catálogo e painel administrativo
+
+O catálogo, o login e o envio de fotos precisam do servidor da API. Durante o desenvolvimento, execute `npm run start` em um terminal e `npm run dev` em outro. Somente iniciar o Vite não inicia a API.
+
+Para servir a versão compilada, execute `npm run build` e depois `npm run start`. O site completo fica em `http://localhost:3015`.
+
+Configure `ADMIN_USER` e `ADMIN_PASSWORD` no ambiente do servidor para definir o acesso administrativo. As sessões duram oito horas e exigem novo login após reiniciar o servidor.
+
+Validação: `npm test` verifica a API com estoque temporário, sem modificar `data/products.json`; `npm run build` gera a versão de produção; `npm run lint` faz a análise estática. No PowerShell com scripts bloqueados, use `npm.cmd` no lugar de `npm`.
+
 Site moderno e responsivo desenvolvido com **React + Tailwind CSS + Lucide Icons** baseado no design exclusivo Dark Tech & Gold para a **Resolve Notebook** (Assistência Técnica Especializada na Santa Ifigênia, São Paulo - SP).
 
 ---

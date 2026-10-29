@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { FULL_SERVICES_CATALOG } from '../data/siteConfig';
 
 const issueNames = [
   'Não liga ou não carrega',
@@ -11,19 +12,7 @@ const issueNames = [
   'Outro problema'
 ];
 
-const serviceData = [
-  ['Placa-mãe e eletrônica', 'Diagnóstico e reparo de falhas que impedem o funcionamento.', 'Não liga ou não carrega'],
-  ['Tela e cabo flat', 'Troca de tela e correção de falhas de imagem.', 'Tela quebrada ou sem imagem'],
-  ['Carcaça e dobradiças', 'Recuperação de fixações, bases e estrutura.', 'Carcaça ou dobradiça quebrada'],
-  ['Limpeza e pasta térmica', 'Manutenção preventiva e cuidado com o superaquecimento.', 'Lento, travando ou esquentando'],
-  ['Cooler e refrigeração', 'Ventilação, ruídos e controle de temperatura.', 'Lento, travando ou esquentando'],
-  ['SSD e memória RAM', 'Mais capacidade e agilidade para a sua rotina.', 'Upgrade de SSD e memória'],
-  ['Bateria e conector de carga', 'Autonomia, carregamento e conectores.', 'Bateria dura pouco'],
-  ['Teclado e touchpad', 'Teclas com falhas, teclado e navegação.', 'Teclado ou sistema com falhas'],
-  ['Windows e macOS', 'Reinstalação e configuração do sistema.', 'Teclado ou sistema com falhas'],
-  ['Desoxidação por líquidos', 'Avaliação de equipamentos que tiveram contato com líquidos.', 'Contato com líquido'],
-  ['Backup e recuperação de dados', 'Avaliação e orientação para acesso aos seus arquivos.', 'Backup e recuperação de dados']
-];
+
 
 const useContent = {
   Trabalho: {
@@ -53,6 +42,30 @@ const normalize = (text) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, ''
 export default function Home({ onNavigate }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeUsage, setActiveUsage] = useState('Trabalho');
+  const [isDark, setIsDark] = useState(() => localStorage.getItem('resolve_theme') === 'dark');
+
+  // Modo Escuro discreto e persistente
+  useEffect(() => {
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('resolve_theme', 'dark');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('resolve_theme', 'light');
+    }
+  }, [isDark]);
+
+  // Atalho imperceptível de teclado: Alt + D
+  useEffect(() => {
+    const handleKey = (e) => {
+      if ((e.altKey && e.key.toLowerCase() === 'd') || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'd')) {
+        e.preventDefault();
+        setIsDark(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
 
   // Repair Dialog State
   const [isRepairOpen, setIsRepairOpen] = useState(false);
@@ -117,6 +130,18 @@ export default function Home({ onNavigate }) {
     document.body.classList.remove('modal-open');
   };
 
+  // Fechar modals com tecla Escape
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        if (isServicesOpen) closeServicesModal();
+        if (isRepairOpen) closeRepairModal();
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isServicesOpen, isRepairOpen]);
+
   const generateWhatsAppLink = () => {
     let msg = `Olá! Vim pelo site da RESOLVE Notebook.\n\nProblema: ${selectedIssue || 'Avaliação geral'}.`;
     if (brand) msg += `\nMarca: ${brand}.`;
@@ -126,9 +151,57 @@ export default function Home({ onNavigate }) {
     return `https://wa.me/5511988095982?text=${encodeURIComponent(msg)}`;
   };
 
-  const filteredServices = serviceData.filter(row => 
-    normalize(row.join(' ')).includes(normalize(serviceSearch))
-  );
+  const [expandedCats, setExpandedCats] = useState([]);
+
+  const toggleCategory = (catNumber) => {
+    setExpandedCats(prev => 
+      prev.includes(catNumber) ? prev.filter(n => n !== catNumber) : [...prev, catNumber]
+    );
+  };
+
+  const toggleAllCategories = () => {
+    if (expandedCats.length === FULL_SERVICES_CATALOG.length) {
+      setExpandedCats([]);
+    } else {
+      setExpandedCats(FULL_SERVICES_CATALOG.map(c => c.number));
+    }
+  };
+
+  const normalizedQuery = normalize(serviceSearch.trim());
+
+  const filteredCategories = useMemo(() => {
+    if (!normalizedQuery) {
+      return FULL_SERVICES_CATALOG.map(cat => ({
+        ...cat,
+        displayItems: cat.items
+      }));
+    }
+
+    return FULL_SERVICES_CATALOG.map(cat => {
+      const titleMatches = normalize(cat.title).includes(normalizedQuery) || cat.number.includes(normalizedQuery);
+      const matchingItems = cat.items.filter(item => normalize(item).includes(normalizedQuery));
+
+      if (titleMatches) {
+        return {
+          ...cat,
+          displayItems: cat.items
+        };
+      }
+
+      if (matchingItems.length > 0) {
+        return {
+          ...cat,
+          displayItems: matchingItems
+        };
+      }
+
+      return null;
+    }).filter(Boolean);
+  }, [normalizedQuery]);
+
+  const matchingServicesCount = useMemo(() => {
+    return filteredCategories.reduce((acc, cat) => acc + cat.displayItems.length, 0);
+  }, [filteredCategories]);
 
   return (
     <div>
@@ -151,16 +224,6 @@ export default function Home({ onNavigate }) {
       </svg>
 
       <a className="skip" href="#conteudo">Pular para o conteúdo</a>
-
-      {/* Utility Top Bar */}
-      <div className="utility">
-        <div className="wrap utility-inner">
-          <span>Santa Ifigênia, São Paulo <span className="utility-dot">•</span> Loja física</span>
-          <a href="https://share.google/LUfygV4B9Dst4atvz" target="_blank" rel="noopener noreferrer">
-            Rua Santa Ifigênia, 361 — Loja 14 <svg aria-hidden="true"><use href="#arrow"/></svg>
-          </a>
-        </div>
-      </div>
 
       {/* Main Header */}
       <header className="header">
@@ -189,14 +252,44 @@ export default function Home({ onNavigate }) {
             <a href="#loja" onClick={() => setMenuOpen(false)}>A loja</a>
           </nav>
 
-          <a 
-            className="button button-dark header-cta" 
-            href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20RESOLVE%20Notebook%20e%20gostaria%20de%20falar%20com%20um%20t%C3%A9cnico."
-            target="_blank" 
-            rel="noopener noreferrer"
-          >
-            Falar com um técnico <svg aria-hidden="true"><use href="#arrow"/></svg>
-          </a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              type="button"
+              onClick={() => setIsDark(!isDark)}
+              aria-label={isDark ? "Modo claro" : "Modo escuro"}
+              title={isDark ? "Mudar para modo claro (Alt+D)" : "Mudar para modo escuro (Alt+D)"}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '8px',
+                borderRadius: '50%',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'inherit',
+                opacity: 0.5,
+                transition: 'opacity 0.2s',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '0.5'}
+            >
+              {isDark ? (
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              ) : (
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              )}
+            </button>
+
+            <a 
+              className="button button-dark header-cta" 
+              href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20RESOLVE%20Notebook%20e%20gostaria%20de%20falar%20com%20um%20t%C3%A9cnico."
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              Falar com um técnico <svg aria-hidden="true"><use href="#arrow"/></svg>
+            </a>
+          </div>
 
           <button 
             className="menu-toggle" 
@@ -228,9 +321,6 @@ export default function Home({ onNavigate }) {
                 Ver produtos disponíveis
               </a>
             </div>
-            <div className="hero-note">
-              <svg aria-hidden="true"><use href="#check"/></svg> O reparo começa com a sua aprovação.
-            </div>
           </div>
 
           <figure className="hero-visual">
@@ -241,10 +331,6 @@ export default function Home({ onNavigate }) {
               width="1400" 
               height="2100" 
             />
-            <figcaption>
-              <span>Reparo, cuidado e precisão.</span>
-              <span>RESOLVE Notebook</span>
-            </figcaption>
           </figure>
         </section>
 
@@ -271,7 +357,6 @@ export default function Home({ onNavigate }) {
               <h2>O que aconteceu<br/>com seu notebook?</h2>
             </div>
             <div className="section-aside">
-              <p>Escolha o sintoma para<br/>iniciar o atendimento.</p>
               <button className="text-link" onClick={openServicesModal}>
                 Explorar todos os serviços <svg aria-hidden="true"><use href="#right"/></svg>
               </button>
@@ -334,18 +419,6 @@ export default function Home({ onNavigate }) {
             </button>
           </div>
 
-          <div className="brand-strip">
-            <span>Cuidado com as marcas que você usa.</span>
-            <div>
-              <b>DELL</b>
-              <b>Lenovo</b>
-              <b>ASUS</b>
-              <b>acer</b>
-              <b>HP</b>
-              <b>SAMSUNG</b>
-              <b>Apple</b>
-            </div>
-          </div>
         </section>
 
         {/* Section: Como Funciona */}
@@ -397,9 +470,6 @@ export default function Home({ onNavigate }) {
             <div>
               <h2>Seu próximo notebook<br/>começa por aqui.</h2>
             </div>
-            <p className="section-description">
-              Equipamentos revisados e testados na loja física. Conte para a gente o que você precisa fazer.
-            </p>
           </div>
 
           <div className="notebook-grid">
@@ -574,12 +644,34 @@ export default function Home({ onNavigate }) {
               </div>
               <a 
                 className="button button-dark" 
-                href="https://share.google/LUfygV4B9Dst4atvz" 
+                href="https://share.google/a5QyoccpiAJ3BJaKQ" 
                 target="_blank" 
                 rel="noopener noreferrer"
               >
                 Traçar rota até a loja <svg aria-hidden="true"><use href="#arrow"/></svg>
               </a>
+            </div>
+
+            {/* Mapa Interativo Google Maps */}
+            <div style={{ 
+              marginTop: '32px', 
+              borderRadius: '16px', 
+              overflow: 'hidden', 
+              height: '350px', 
+              width: '100%', 
+              boxShadow: '0 8px 30px rgba(0,0,0,0.15)',
+              background: '#fff'
+            }}>
+              <iframe 
+                title="Localização RESOLVE Notebook - Rua Santa Ifigênia, 361"
+                src="https://maps.google.com/maps?q=Resolve%20Notebook%20Rua%20Santa%20Ifig%C3%AAnia%20361%20S%C3%A3o%20Paulo&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                width="100%" 
+                height="100%" 
+                style={{ border: 0, display: 'block' }}
+                allowFullScreen="" 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </div>
         </section>
@@ -624,6 +716,13 @@ export default function Home({ onNavigate }) {
           <a href="/admin" onClick={(e) => { e.preventDefault(); onNavigate('/admin'); }}>
             Acesso administrativo
           </a>
+          <button 
+            type="button" 
+            onClick={() => setIsDark(!isDark)}
+            style={{ background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}
+          >
+            {isDark ? 'Modo claro' : 'Modo escuro'}
+          </button>
           <a href="#inicio">Voltar ao topo ↑</a>
         </div>
       </footer>
@@ -641,15 +740,19 @@ export default function Home({ onNavigate }) {
 
       {/* Modal: Repair Dialog (2 Etapas) */}
       {isRepairOpen && (
-        <dialog 
-          id="repair-dialog" 
-          open 
-          aria-labelledby="repair-title" 
-          aria-describedby="repair-description"
+        <div 
+          className="modal-overlay"
           onClick={(e) => {
-            if (e.target.id === 'repair-dialog') closeRepairModal();
+            if (e.target === e.currentTarget) closeRepairModal();
           }}
         >
+          <div 
+            id="repair-dialog" 
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="repair-title" 
+            aria-describedby="repair-description"
+          >
           <div className="dialog-top">
             <span className="eyebrow">RESOLVE Notebook / Atendimento</span>
             <button className="dialog-close" onClick={closeRepairModal} aria-label="Fechar atendimento">×</button>
@@ -750,70 +853,158 @@ export default function Home({ onNavigate }) {
               </form>
             )}
           </div>
-        </dialog>
+        </div>
+      </div>
       )}
 
       {/* Modal: Services Dialog */}
       {isServicesOpen && (
-        <dialog 
-          id="services-dialog" 
-          open 
-          aria-labelledby="services-title"
+        <div 
+          className="modal-overlay"
           onClick={(e) => {
-            if (e.target.id === 'services-dialog') closeServicesModal();
+            if (e.target === e.currentTarget) closeServicesModal();
           }}
         >
+          <div 
+            id="services-dialog" 
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="services-title"
+          >
           <div className="dialog-top">
-            <span className="eyebrow">RESOLVE Notebook / Assistência</span>
+            <span className="eyebrow">RESOLVE Notebook / Banco Técnico de Serviços</span>
             <button className="dialog-close" onClick={closeServicesModal} aria-label="Fechar serviços">×</button>
           </div>
 
           <div className="dialog-body">
-            <p className="eyebrow">Reparos e manutenção</p>
-            <h2 id="services-title">Nossos serviços.</h2>
+            <p className="eyebrow">Laboratório de Bancada na Santa Ifigênia</p>
+            <h2 id="services-title">Catálogo Completo de Serviços.</h2>
+            <p className="dialog-intro-text">
+              Consulte nossa relação completa com os 20 procedimentos e especialidades de bancada executados em nosso laboratório próprio.
+            </p>
 
-            <label className="service-search">
-              Encontrar um serviço
-              <input 
-                type="search" 
-                placeholder="Busque por tela, SSD, bateria…" 
-                id="service-search" 
-                value={serviceSearch} 
-                onChange={(e) => setServiceSearch(e.target.value)}
-                autoComplete="off" 
-              />
-            </label>
-
-            <div id="all-services-list" aria-live="polite">
-              {filteredServices.length > 0 ? (
-                filteredServices.map(([name, desc, issue], idx) => (
+            <div className="service-search-wrap">
+              <label className="service-search">
+                <span className="service-search-label">Buscar procedimento ou sintoma:</span>
+                <input 
+                  type="search" 
+                  placeholder="Ex.: não liga, tela quebrada, curto, dobradiça, pasta térmica, BIOS, líquido, SSD..." 
+                  id="service-search" 
+                  value={serviceSearch} 
+                  onChange={(e) => setServiceSearch(e.target.value)}
+                  autoComplete="off" 
+                />
+              </label>
+              <div className="catalog-meta-bar">
+                <span>
+                  {serviceSearch.trim() ? (
+                    <>Resultados para "<strong>{serviceSearch.trim()}</strong>" ({matchingServicesCount} procedimentos encontrados em {filteredCategories.length} categorias)</>
+                  ) : (
+                    <><strong>20 Especialidades de Bancada</strong> • 140 procedimentos técnicos catalogados</>
+                  )}
+                </span>
+                {!serviceSearch.trim() && (
                   <button 
-                    key={idx} 
                     type="button" 
+                    className="catalog-toggle-all"
+                    onClick={toggleAllCategories}
+                  >
+                    {expandedCats.length === FULL_SERVICES_CATALOG.length ? 'Recolher todas' : 'Expandir todas'}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div id="full-services-accordion" className="services-accordion" aria-live="polite">
+              {filteredCategories.length > 0 ? (
+                filteredCategories.map((cat) => {
+                  const isExpanded = serviceSearch.trim() ? true : expandedCats.includes(cat.number);
+                  return (
+                    <div key={cat.number} className={`service-cat-card ${isExpanded ? 'is-open' : ''}`}>
+                      <button 
+                        type="button" 
+                        className="service-cat-header"
+                        onClick={() => toggleCategory(cat.number)}
+                        aria-expanded={isExpanded}
+                      >
+                        <div className="service-cat-title-group">
+                          <span className="service-cat-badge">{cat.number}</span>
+                          <span className="service-cat-name">{cat.title}</span>
+                        </div>
+                        <div className="service-cat-action">
+                          <span className="service-cat-count">{cat.displayItems.length} procedimentos</span>
+                          <svg className={`service-cat-arrow ${isExpanded ? 'rotated' : ''}`} aria-hidden="true">
+                            <use href="#arrow"/>
+                          </svg>
+                        </div>
+                      </button>
+
+                      {isExpanded && (
+                        <div className="service-cat-content">
+                          <ul className="service-subitems-list">
+                            {cat.displayItems.map((item, idx) => (
+                              <li key={idx} className="service-subitem-row">
+                                <div className="service-subitem-text">
+                                  <svg className="service-check-icon" aria-hidden="true"><use href="#check"/></svg>
+                                  <span>{item}</span>
+                                </div>
+                                <button 
+                                  type="button"
+                                  className="service-subitem-cta"
+                                  title="Solicitar avaliação para este procedimento"
+                                  onClick={() => {
+                                    closeServicesModal();
+                                    openRepairModal(item);
+                                  }}
+                                >
+                                  Solicitar avaliação <svg aria-hidden="true"><use href="#arrow"/></svg>
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className="service-cat-footer">
+                            <button 
+                              type="button" 
+                              className="service-cat-direct-btn"
+                              onClick={() => {
+                                closeServicesModal();
+                                openRepairModal(cat.title);
+                              }}
+                            >
+                              Avaliar defeito em {cat.title} <svg aria-hidden="true"><use href="#right"/></svg>
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="no-result" style={{ padding: '36px 20px', textAlign: 'center' }}>
+                  <p style={{ fontWeight: 700, fontSize: '15px', marginBottom: '8px' }}>Nenhum procedimento encontrado para "{serviceSearch}".</p>
+                  <p style={{ fontSize: '13px', color: 'var(--muted)', maxWidth: '420px', margin: '0 auto 20px' }}>
+                    Não encontrou exatamente o seu termo? Converse direto com nossos técnicos pelo WhatsApp para tirar dúvidas sobre o seu equipamento.
+                  </p>
+                  <button 
+                    type="button" 
+                    className="button button-yellow" 
+                    style={{ margin: '0 auto', display: 'inline-flex', padding: '12px 24px' }}
                     onClick={() => {
-                      closeServicesModal();
-                      openRepairModal(issue);
+                      window.open(`https://wa.me/5511988095982?text=${encodeURIComponent(`Olá! Vim pelo site da RESOLVE Notebook e gostaria de consultar sobre o seguinte serviço: ${serviceSearch}`)}`, '_blank');
                     }}
                   >
-                    <span>
-                      <strong>{name}</strong>
-                      <small>{desc}</small>
-                    </span>
-                    <svg aria-hidden="true"><use href="#arrow"/></svg>
+                    Falar com um técnico no WhatsApp <svg aria-hidden="true"><use href="#arrow"/></svg>
                   </button>
-                ))
-              ) : (
-                <p className="no-result">
-                  Não encontrou? Tente outro termo ou fale com a nossa equipe pelo WhatsApp.
-                </p>
+                </div>
               )}
             </div>
 
             <p className="dialog-footnote">
-              A indicação do procedimento e o orçamento dependem da avaliação do equipamento.
+              A indicação do procedimento exato e o orçamento dependem sempre da avaliação física em laboratório.
             </p>
           </div>
-        </dialog>
+        </div>
+      </div>
       )}
     </div>
   );

@@ -290,9 +290,13 @@ export default function Admin({ onNavigate }) {
         {!token ? (
           /* --- VIEW 1: LOGIN --- */
           <div className="auth-main" style={{ maxWidth: '440px', margin: '40px auto', background: 'var(--white)', padding: '36px 32px', borderRadius: '20px', border: '1px solid var(--line)', textAlign: 'center', boxShadow: '0 8px 30px rgba(0,0,0,0.04)' }}>
-            <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'var(--yellow)', color: 'var(--ink)', fontWeight: 800, fontSize: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px auto' }}>
-              RN
-            </div>
+            <img 
+              src="/assets/logo-original.png" 
+              alt="RESOLVE Notebook" 
+              width="54" 
+              height="54" 
+              style={{ borderRadius: '50%', margin: '0 auto 16px auto', display: 'block' }} 
+            />
 
             <p style={{ margin: '0 0 6px 0', fontSize: '13px', color: 'var(--muted)', fontWeight: 600 }}>
               RESOLVE Notebook
@@ -312,7 +316,7 @@ export default function Admin({ onNavigate }) {
                 <input
                   type="text"
                   required
-                  placeholder="Digite o usuário (ex: resolve)"
+                  placeholder="Digite o usuário"
                   value={usernameInput}
                   onChange={(e) => setUsernameInput(e.target.value)}
                   style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--line)', background: 'var(--paper)', fontSize: '14px' }}
@@ -327,7 +331,7 @@ export default function Admin({ onNavigate }) {
                 <input
                   type="password"
                   required
-                  placeholder="Digite a senha (ex: resolve)"
+                  placeholder="Digite a senha"
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
                   style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--line)', background: 'var(--paper)', fontSize: '14px' }}
@@ -347,10 +351,6 @@ export default function Admin({ onNavigate }) {
               >
                 Entrar no Painel
               </button>
-
-              <div style={{ textAlign: 'center', fontSize: '12px', color: 'var(--muted)', marginTop: '8px' }}>
-                Usuário: <strong>resolve</strong> | Senha: <strong>resolve</strong>
-              </div>
             </form>
           </div>
         ) : (

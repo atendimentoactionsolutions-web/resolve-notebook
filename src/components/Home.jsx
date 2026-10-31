@@ -3,6 +3,7 @@ import { FULL_SERVICES_CATALOG } from '../data/siteConfig';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { getRepairQuestions, buildRepairMessage } from '../data/repairQuestions';
 import GoogleReviews from './GoogleReviews';
+import ServiceQuiz from './ServiceQuiz';
 
 const issueNames = [
   'Não liga ou não carrega',
@@ -51,7 +52,7 @@ export default function Home({ onNavigate }) {
     const profile = new URLSearchParams(window.location.search).get('perfil');
     return Object.keys(useContent).find(key => key.toLowerCase() === profile?.toLowerCase()) || 'Trabalho';
   });
-  const [isDark, setIsDark] = useState(() => localStorage.getItem('resolve_theme') === 'dark');
+  const [isDark, setIsDark] = useState(() => localStorage.getItem('resolve_theme') !== 'light');
 
   // Modo Escuro discreto e persistente
   useEffect(() => {
@@ -361,9 +362,9 @@ export default function Home({ onNavigate }) {
         <section className="hero wrap" id="inicio">
           <div className="hero-copy">
             <p className="hero-context">Assistência especializada na Santa Ifigênia</p>
-            <h1>Mais vida para<br/>o seu notebook.</h1>
+            <h1>Assistência especializada<br/>para o seu notebook.</h1>
             <p className="hero-intro">
-              Reparos, upgrades e notebooks revisados. A solução começa com um diagnóstico claro e uma boa conversa.
+              Reparos, upgrades e notebooks revisados. Diagnóstico preciso e atendimento transparente para você escolher a melhor solução.
             </p>
             <div className="hero-actions">
               <button className="button button-yellow" onClick={() => openRepairModal()}>
@@ -417,105 +418,8 @@ export default function Home({ onNavigate }) {
             </div>
           </div>
 
-          <div className="service-list">
-            <button className="service-row" onClick={() => openRepairModal('Não liga ou não carrega')}>
-              <svg className="service-icon" aria-hidden="true"><use href="#power"/></svg>
-              <span>
-                <strong>Não liga ou não carrega</strong>
-                <small>Placa-mãe, conectores e circuitos de carga.</small>
-              </span>
-              <svg className="service-arrow" aria-hidden="true"><use href="#arrow"/></svg>
-            </button>
+          <ServiceQuiz />
 
-            <button className="service-row" onClick={() => openRepairModal('Tela quebrada ou sem imagem')}>
-              <svg className="service-icon" aria-hidden="true"><use href="#screen"/></svg>
-              <span>
-                <strong>Tela quebrada ou sem imagem</strong>
-                <small>Telas, cabo flat e falhas de imagem.</small>
-              </span>
-              <svg className="service-arrow" aria-hidden="true"><use href="#arrow"/></svg>
-            </button>
-
-            <button className="service-row" onClick={() => openRepairModal('Lento, travando ou esquentando')}>
-              <svg className="service-icon" aria-hidden="true"><use href="#speed"/></svg>
-              <span>
-                <strong>Lento, travando ou esquentando</strong>
-                <small>SSD, memória e manutenção térmica.</small>
-              </span>
-              <svg className="service-arrow" aria-hidden="true"><use href="#arrow"/></svg>
-            </button>
-
-            <button className="service-row" onClick={() => openRepairModal('Carcaça ou dobradiça quebrada')}>
-              <svg className="service-icon" aria-hidden="true"><use href="#laptop"/></svg>
-              <span>
-                <strong>Carcaça ou dobradiça quebrada</strong>
-                <small>Reconstrução e recuperação da estrutura.</small>
-              </span>
-              <svg className="service-arrow" aria-hidden="true"><use href="#arrow"/></svg>
-            </button>
-
-            <button className="service-row" onClick={() => openRepairModal('Bateria dura pouco')}>
-              <svg className="service-icon" aria-hidden="true"><use href="#battery"/></svg>
-              <span>
-                <strong>Bateria dura pouco</strong>
-                <small>Troca de bateria e diagnóstico de autonomia.</small>
-              </span>
-              <svg className="service-arrow" aria-hidden="true"><use href="#arrow"/></svg>
-            </button>
-
-            <button className="service-row" onClick={() => openRepairModal('Teclado ou sistema com falhas')}>
-              <svg className="service-icon" aria-hidden="true"><use href="#keyboard"/></svg>
-              <span>
-                <strong>Teclado ou sistema com falhas</strong>
-                <small>Teclado, touchpad, sistema e dados.</small>
-              </span>
-              <svg className="service-arrow" aria-hidden="true"><use href="#arrow"/></svg>
-            </button>
-          </div>
-
-        </section>
-
-        {/* Section: Como Funciona */}
-        <section className="process" id="como-funciona">
-          <div className="wrap process-grid">
-            <div className="process-intro">
-              <h2>Você entende o problema.<br/>E escolhe o próximo passo.</h2>
-              <p>Clareza no diagnóstico.<br/>Cuidado no reparo. Confiança na entrega.</p>
-              <div className="process-image">
-                <img 
-                  src="/assets/notebook-detail.jpg" 
-                  alt="Notebook visto de cima sobre uma mesa" 
-                  width="1200" 
-                  height="960"
-                  loading="lazy" 
-                />
-              </div>
-            </div>
-
-            <ol className="steps">
-              <li>
-                <span>01</span>
-                <div>
-                  <h3>Conte o que aconteceu.</h3>
-                  <p>Fale pelo WhatsApp ou traga seu notebook à loja. Nossa equipe recebe o equipamento e entende o problema.</p>
-                </div>
-              </li>
-              <li>
-                <span>02</span>
-                <div>
-                  <h3>Decida com clareza.</h3>
-                  <p>Depois da análise, você recebe o diagnóstico e o orçamento. O serviço começa com a sua aprovação.</p>
-                </div>
-              </li>
-              <li>
-                <span>03</span>
-                <div>
-                  <h3>Volte à sua rotina.</h3>
-                  <p>Reparo concluído e equipamento testado. Nossa equipe explica o serviço realizado na entrega.</p>
-                </div>
-              </li>
-            </ol>
-          </div>
         </section>
 
         {/* Section: Notebooks / Perfis de Uso */}
@@ -600,10 +504,10 @@ export default function Home({ onNavigate }) {
             <svg aria-hidden="true"><use href="#case"/></svg>
           </div>
           <div>
-            <p className="eyebrow">Atendimento para empresas</p>
-            <h2>Sua equipe trabalha.<br/>A gente cuida dos notebooks.</h2>
+            <p className="eyebrow">Atendimento corporativo</p>
+            <h2>Assistência técnica especializada<br/>para notebooks da sua empresa.</h2>
             <p>
-              Manutenção preventiva, reparos e upgrades para os equipamentos da sua empresa. Atendimento alinhado à sua necessidade.
+              Manutenção preventiva, reparos e upgrades para apoiar a produtividade da sua equipe. Diagnóstico claro e soluções adequadas às necessidades da sua operação.
             </p>
             <a 
               className="text-link" 
@@ -611,7 +515,7 @@ export default function Home({ onNavigate }) {
               target="_blank" 
               rel="noopener noreferrer"
             >
-              Conversar sobre minha empresa <svg aria-hidden="true"><use href="#arrow"/></svg>
+              Solicitar atendimento corporativo <svg aria-hidden="true"><use href="#arrow"/></svg>
             </a>
           </div>
         </section>

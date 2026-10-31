@@ -1,4 +1,20 @@
 /* Shared sizing and interaction rules, loaded after the original theme. */
+.service-quiz { max-width: 880px; padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--white); }
+.service-quiz h3 { margin: 24px 0; font-size: clamp(22px, 3vw, 30px); line-height: 1.35; }
+.quiz-progress { display: block; width: 100%; height: 5px; accent-color: #c8a000; border: 0; border-radius: 5px; overflow: hidden; }
+.quiz-progress::-webkit-progress-bar { background: var(--line); }
+.quiz-progress::-webkit-progress-value { background: var(--yellow); }
+.quiz-progress::-moz-progress-bar { background: var(--yellow); }
+.quiz-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.quiz-options button { display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; padding: 18px; min-height: 70px; background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; line-height: 1.5; }
+.quiz-options button:hover { border-color: #b18c00; }
+.service-quiz .back-button { display: block; margin: 24px 0 0; }
+.service-quiz .button-yellow { white-space: normal; }
+@media (max-width: 600px) {
+  .service-quiz { padding: 20px; }
+  .quiz-options { grid-template-columns: 1fr; }
+  .service-quiz .button-yellow { width: 100%; }
+}
 html {
   scrollbar-gutter: stable;
   -webkit-text-size-adjust: 100%;
@@ -11,6 +27,8 @@ html {
 
 .header nav > a { white-space: nowrap; }
 .header nav .header-cta { color: var(--white); }
+body.dark-mode .header nav .header-cta { color: #17201f; }
+body.dark-mode .header nav .header-cta:hover { background: #dce3e1; }
 .header-actions { flex-shrink: 0; }
 .floating-chat svg { display: block; width: 26px; height: 26px; }
 .button { max-width: 100%; }

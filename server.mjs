@@ -324,9 +324,11 @@ app.use(['/api/leads', '/api/avaliacoes'], async (req, res, next) => {
   }
   try {
     const targetUrl = new URL(req.originalUrl, LEADS_SERVICE_URL);
-    const headers = { ...req.headers };
-    delete headers.host;
-    delete headers['content-length'];
+    const headers = {};
+    if (req.headers['content-type']) headers['content-type'] = req.headers['content-type'];
+    if (req.headers['authorization']) headers['authorization'] = req.headers['authorization'];
+    if (req.headers['x-idempotency-key']) headers['x-idempotency-key'] = req.headers['x-idempotency-key'];
+    if (req.headers['user-agent']) headers['user-agent'] = req.headers['user-agent'];
 
     const response = await fetch(targetUrl.toString(), {
       method: req.method,
@@ -341,7 +343,7 @@ app.use(['/api/leads', '/api/avaliacoes'], async (req, res, next) => {
     const text = await response.text();
     res.status(response.status).type(contentType).send(text);
   } catch (err) {
-    console.error('Erro no proxy para serviço Python de leads:', err.message);
+    console.error('Erro no proxy para serviço Python de leads:', err.message, err.cause);
     res.status(502).json({ error: 'Serviço de atendimento temporariamente indisponível. Tente novamente em instantes.' });
   }
 });

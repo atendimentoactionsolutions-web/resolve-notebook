@@ -102,7 +102,11 @@ export default function ServiceQuizModal({ isOpen, onClose, initialIssue = '', o
   };
 
   const handleFormatPhone = (val) => {
-    const raw = val.replace(/\D/g, '').slice(0, 11);
+    let raw = val.replace(/\D/g, '');
+    if (raw.startsWith('55') && (raw.length === 12 || raw.length === 13)) {
+      raw = raw.slice(2);
+    }
+    raw = raw.slice(0, 11);
     if (raw.length <= 2) return raw;
     if (raw.length <= 6) return `(${raw.slice(0, 2)}) ${raw.slice(2)}`;
     if (raw.length <= 10) return `(${raw.slice(0, 2)}) ${raw.slice(2, 6)}-${raw.slice(6)}`;

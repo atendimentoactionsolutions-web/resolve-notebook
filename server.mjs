@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
 import { randomBytes, randomUUID } from 'node:crypto';
+import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,6 +14,8 @@ const app = express();
 const PORT = process.env.PORT || 3015;
 const ADMIN_USER = process.env.ADMIN_USER || 'resolve';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'resolve';
+const LEADS_SERVICE_URL = process.env.LEADS_SERVICE_URL || 'http://127.0.0.1:5001';
+const WHATSAPP_API_URL = process.env.WHATSAPP_API_URL || 'http://127.0.0.1:3010';
 const sessions = new Map();
 
 // Middleware
@@ -311,6 +314,80 @@ app.delete('/api/products/:id', authMiddleware, (req, res) => {
   res.json({ success: true, message: 'Produto removido com sucesso.' });
 });
 
+// 7. Proxy de leads e avaliações para o serviço Python dedicado
+app.use(['/api/leads', '/api/avaliacoes'], async (req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-Idempotency-Key');
+    return res.status(204).end();
+  }
+  try {
+    const targetUrl = new URL(req.originalUrl, LEADS_SERVICE_URL);
+    const headers = { ...req.headers };
+    delete headers.host;
+    delete headers['content-length'];
+
+    const response = await fetch(targetUrl.toString(), {
+      method: req.method,
+      headers: {
+        ...headers,
+        'Content-Type': req.headers['content-type'] || 'application/json'
+      },
+      body: ['POST', 'PUT', 'PATCH'].includes(req.method) ? JSON.stringify(req.body) : undefined
+    });
+
+    const contentType = response.headers.get('content-type') || 'application/json';
+    const text = await response.text();
+    res.status(response.status).type(contentType).send(text);
+  } catch (err) {
+    console.error('Erro no proxy para serviço Python de leads:', err.message);
+    res.status(502).json({ error: 'Serviço de atendimento temporariamente indisponível. Tente novamente em instantes.' });
+  }
+});
+
+// 8. WhatsApp status e pareamento para a tela /qrcoderesolve (protegido por admin)
+app.get('/api/whatsapp/status', authMiddleware, async (req, res) => {
+  try {
+    const response = await fetch(`${WHATSAPP_API_URL.replace(/\/$/, '')}/status`, {
+      signal: AbortSignal.timeout(4000)
+    });
+    const data = await response.json();
+    return res.json({
+      success: true,
+      status: data.status || 'UNKNOWN',
+      user: data.user || null,
+      name: data.name || null,
+      hasQr: !!data.hasQr,
+      qrCodeDataUrl: data.qrCodeDataUrl || null
+    });
+  } catch (err) {
+    return res.json({
+      success: true,
+      status: 'DISCONNECTED',
+      message: 'Instância do WhatsApp não iniciada ou desconectada na porta 3010.',
+      user: null,
+      name: null,
+      hasQr: false,
+      qrCodeDataUrl: null
+    });
+  }
+});
+
+app.post('/api/whatsapp/reset', authMiddleware, async (req, res) => {
+  try {
+    const response = await fetch(`${WHATSAPP_API_URL.replace(/\/$/, '')}/reset`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: AbortSignal.timeout(6000)
+    });
+    const data = await response.json().catch(() => ({}));
+    return res.json({ success: true, ...data });
+  } catch (err) {
+    return res.status(502).json({ success: false, error: 'Não foi possível reiniciar a sessão do WhatsApp.' });
+  }
+});
+
 app.use('/api', (req, res) => res.status(404).json({ error: 'Endpoint não encontrado.' }));
 
 app.use((err, req, res, next) => {
@@ -349,4 +426,33 @@ if (fs.existsSync(DIST_DIR)) {
 
 const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`Resolve Notebook Server ativo na porta ${server.address().port}`);
+});
+
+// Auto-iniciar serviço Python de leads se não estiver em ambiente de teste
+let pythonProcess = null;
+function startLeadsPythonService() {
+  if (process.env.PORT === '0' || process.env.NODE_ENV === 'test' || process.env.NO_PYTHON_LEADS) {
+    return;
+  }
+  const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
+  const scriptPath = path.join(__dirname, 'server_leads.py');
+  if (fs.existsSync(scriptPath)) {
+    try {
+      pythonProcess = spawn(pythonCmd, [scriptPath], {
+        stdio: 'ignore',
+        detached: false,
+        env: { ...process.env, DATA_DIR, LEADS_SERVICE_PORT: '5001' }
+      });
+      pythonProcess.unref();
+      pythonProcess.on('error', (err) => {
+        console.error('Aviso: serviço Python de leads não pôde ser iniciado automaticamente:', err.message);
+      });
+    } catch (_) {}
+  }
+}
+
+startLeadsPythonService();
+
+process.on('exit', () => {
+  if (pythonProcess) pythonProcess.kill();
 });

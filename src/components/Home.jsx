@@ -3,7 +3,7 @@ import { FULL_SERVICES_CATALOG } from '../data/siteConfig';
 import useScrollReveal from '../hooks/useScrollReveal';
 import { getRepairQuestions, buildRepairMessage } from '../data/repairQuestions';
 import GoogleReviews from './GoogleReviews';
-import ServiceQuiz from './ServiceQuiz';
+import ServiceQuizModal from './ServiceQuizModal';
 
 const issueNames = [
   'Não liga ou não carrega',
@@ -117,6 +117,11 @@ export default function Home({ onNavigate }) {
   // Services Dialog State
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [serviceSearch, setServiceSearch] = useState('');
+
+  // Quiz Modal State
+  const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
+  const [quizInitialIssue, setQuizInitialIssue] = useState('');
+  const quizOpenerRef = useRef(null);
 
   useEffect(() => {
     if (!isRepairOpen && !isServicesOpen) return;
@@ -362,16 +367,23 @@ export default function Home({ onNavigate }) {
         <section className="hero wrap" id="inicio">
           <div className="hero-copy">
             <p className="hero-context">Assistência especializada na Santa Ifigênia</p>
-            <h1>Assistência especializada<br/>para o seu notebook.</h1>
+            <h1>Conserto de notebooks na Santa Ifigênia</h1>
             <p className="hero-intro">
-              Reparos, upgrades e notebooks revisados. Diagnóstico preciso e atendimento transparente para você escolher a melhor solução.
+              Reparos e upgrades com orçamento aprovado por você antes do serviço.
             </p>
             <div className="hero-actions">
-              <button className="button button-yellow" onClick={() => openRepairModal()}>
+              <button 
+                ref={quizOpenerRef}
+                className="button button-yellow" 
+                onClick={() => {
+                  setQuizInitialIssue('');
+                  setIsQuizModalOpen(true);
+                }}
+              >
                 Solicitar avaliação <svg aria-hidden="true"><use href="#arrow"/></svg>
               </button>
               <a className="text-link" href="/produtos" onClick={(e) => { e.preventDefault(); onNavigate('/produtos'); }}>
-                Ver produtos disponíveis
+                Ver notebooks disponíveis
               </a>
             </div>
           </div>
@@ -418,8 +430,35 @@ export default function Home({ onNavigate }) {
             </div>
           </div>
 
-          <ServiceQuiz />
+          <div className="issue-options" style={{ marginTop: '20px' }}>
+            {issueNames.map((issue) => (
+              <button
+                key={issue}
+                type="button"
+                onClick={() => {
+                  setQuizInitialIssue(issue);
+                  setIsQuizModalOpen(true);
+                }}
+              >
+                <span>{issue}</span>
+                <svg aria-hidden="true"><use href="#arrow"/></svg>
+              </button>
+            ))}
+          </div>
 
+          <div style={{ marginTop: '32px', textAlign: 'center' }}>
+            <button 
+              type="button" 
+              className="button button-yellow"
+              onClick={() => {
+                setQuizInitialIssue('');
+                setIsQuizModalOpen(true);
+              }}
+              style={{ margin: '0 auto' }}
+            >
+              Solicitar avaliação <svg aria-hidden="true"><use href="#arrow"/></svg>
+            </button>
+          </div>
         </section>
 
         {/* Section: Notebooks / Perfis de Uso */}
@@ -692,6 +731,14 @@ export default function Home({ onNavigate }) {
       >
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#whatsapp-icon"/></svg>
       </a>
+
+      {/* Quiz Modal Aberto Exclusivamente pelo Botão Amarelo */}
+      <ServiceQuizModal 
+        isOpen={isQuizModalOpen} 
+        onClose={() => setIsQuizModalOpen(false)} 
+        initialIssue={quizInitialIssue}
+        openerRef={quizOpenerRef}
+      />
 
       {/* Modal: Repair Dialog (2 Etapas) */}
       {isRepairOpen && (

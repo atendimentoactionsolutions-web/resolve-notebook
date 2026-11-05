@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef, useDeferredValue } from 'r
 
 const normalize = (value) => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
-const CATEGORIES = ['Todos', 'Notebook', 'MacBook', 'SSD', 'Memória RAM', 'Acessório', 'Outro'];
+// Categorias dinâmicas baseadas apenas no estoque real
 
 const formatMoney = (val) => {
   const num = Number(val) || 0;
@@ -16,6 +16,18 @@ export default function Catalog({ onNavigate }) {
   const [search, setSearch] = useState('');
   const deferredSearch = useDeferredValue(search);
   const [selectedCategory, setSelectedCategory] = useState('Todos');
+
+  const availableCategories = useMemo(() => {
+    const cats = new Set();
+    products.forEach(p => {
+      if (p.category && p.category.trim()) cats.add(p.category.trim());
+    });
+    const list = Array.from(cats);
+    if (list.length > 1) {
+      return ['Todos', ...list];
+    }
+    return list;
+  }, [products]);
   const [activeProduct, setActiveProduct] = useState(null);
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
 
@@ -66,6 +78,12 @@ export default function Catalog({ onNavigate }) {
     }
   }, []);
 
+  useEffect(() => {
+    if (availableCategories.length > 0 && !availableCategories.includes(selectedCategory)) {
+      setSelectedCategory(availableCategories[0]);
+    }
+  }, [availableCategories, selectedCategory]);
+
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       const pCat = normalize(p.category);
@@ -98,8 +116,8 @@ export default function Catalog({ onNavigate }) {
   };
 
   const generateWhatsAppLink = (product) => {
-    const priceText = formatMoney(product.price || (product.priceCents ? product.priceCents / 100 : 0));
-    const msg = `Olá! Vi este produto no catálogo da RESOLVE Notebook:\n\n*${product.title}*\n${priceText} (${product.installments || 'consulte parcelamento'})\n\nEle ainda está disponível? Gostaria de mais informações.`;
+    const modelOrTitle = product.model || product.title;
+    const msg = `Olá! Vi o *${modelOrTitle}* no catálogo da RESOLVE Notebook e tenho interesse nele. Ainda está disponível na loja?`;
     return `https://wa.me/5511988095982?text=${encodeURIComponent(msg)}`;
   };
 
@@ -172,6 +190,41 @@ export default function Catalog({ onNavigate }) {
         </div>
 
         <section className="catalog-section" aria-label="Catálogo de produtos">
+          {/* Se houver apenas 1 unidade no estoque, apresente-a com destaque antes dos filtros */}
+          {products.length === 1 && !loading && (
+            <div style={{ marginBottom: '32px', background: 'var(--white)', padding: '24px', borderRadius: '18px', border: '1.5px solid var(--line)' }}>
+              <span className="featured-label" style={{ position: 'static', display: 'inline-block', marginBottom: '14px' }}>
+                Única unidade disponível no estoque
+              </span>
+              <div style={{ display: 'grid', gridTemplateColumns: 'minmax(240px, 320px) 1fr', gap: '28px', alignItems: 'center' }}>
+                <div style={{ background: '#edf1ef', borderRadius: '12px', height: '220px', display: 'grid', placeItems: 'center', overflow: 'hidden' }}>
+                  {((Array.isArray(products[0].images) && products[0].images[0]) || products[0].image) ? (
+                    <img 
+                      src={(Array.isArray(products[0].images) && products[0].images[0]) || products[0].image} 
+                      alt={products[0].title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <svg aria-hidden="true" style={{ width: '64px', height: '64px', color: 'var(--muted)' }}><use href="#laptop-icon"/></svg>
+                  )}
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '24px', margin: '0 0 10px 0', lineHeight: 1.3 }}>{products[0].title}</h2>
+                  <div style={{ fontSize: '22px', fontWeight: 700, margin: '0 0 16px 0' }}>
+                    {formatMoney(products[0].price || (products[0].priceCents ? products[0].priceCents / 100 : 0))}
+                  </div>
+                  <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                    <button className="button button-dark" onClick={() => handleOpenDetail(products[0])} style={{ minHeight: '44px', padding: '10px 18px', fontSize: '13px' }}>
+                      Ver ficha técnica
+                    </button>
+                    <a className="button button-yellow" href={generateWhatsAppLink(products[0])} target="_blank" rel="noopener noreferrer" style={{ minHeight: '44px', padding: '10px 18px', fontSize: '13px' }}>
+                      Tenho interesse <svg aria-hidden="true" style={{ width: '16px', height: '16px' }}><use href="#arrow-up-right"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           {/* Tools: Search & Refresh */}
           <div className="catalog-tools">
             <div className="catalog-search">
@@ -210,7 +263,7 @@ export default function Catalog({ onNavigate }) {
 
           {/* Category Filter Pills */}
           <div className="catalog-categories" aria-label="Categorias">
-            {CATEGORIES.map((cat) => (
+            {availableCategories.map((cat) => (
               <button
                 key={cat}
                 type="button"
@@ -395,14 +448,17 @@ export default function Catalog({ onNavigate }) {
                     {activeProduct.installments && <small>{activeProduct.installments}</small>}
                   </div>
 
-                  {activeProduct.specs && Object.keys(activeProduct.specs).length > 0 && (
-                    <div style={{ margin: '16px 0', padding: '14px', background: 'var(--paper)', borderRadius: '12px', fontSize: '13px', lineHeight: 1.6 }}>
-                      {activeProduct.specs.cpu && <div><strong>Processador:</strong> {activeProduct.specs.cpu}</div>}
-                      {activeProduct.specs.ram && <div><strong>Memória:</strong> {activeProduct.specs.ram}</div>}
-                      {activeProduct.specs.storage && <div><strong>Armazenamento:</strong> {activeProduct.specs.storage}</div>}
-                      {activeProduct.specs.screen && <div><strong>Tela:</strong> {activeProduct.specs.screen}</div>}
-                    </div>
-                  )}
+                  <div style={{ margin: '16px 0', padding: '16px', background: 'var(--paper)', borderRadius: '12px', fontSize: '13px', lineHeight: 1.7, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {activeProduct.model && <div><strong>Modelo:</strong> {activeProduct.model}</div>}
+                    {(activeProduct.specs?.cpu || activeProduct.specs?.processor) && <div><strong>Processador:</strong> {activeProduct.specs?.cpu || activeProduct.specs?.processor}</div>}
+                    {activeProduct.specs?.ram && <div><strong>Memória RAM:</strong> {activeProduct.specs?.ram}</div>}
+                    {(activeProduct.specs?.ssd || activeProduct.specs?.storage) && <div><strong>SSD / Armazenamento:</strong> {activeProduct.specs?.ssd || activeProduct.specs?.storage}</div>}
+                    {activeProduct.specs?.screen && <div><strong>Tela:</strong> {activeProduct.specs?.screen}</div>}
+                    {(activeProduct.condition || activeProduct.specs?.condition) && <div><strong>Condição:</strong> {activeProduct.condition || activeProduct.specs?.condition}</div>}
+                    {(activeProduct.battery || activeProduct.specs?.battery) && <div><strong>Bateria:</strong> {activeProduct.battery || activeProduct.specs?.battery}</div>}
+                    {(activeProduct.warranty || activeProduct.specs?.warranty) && <div><strong>Garantia:</strong> {activeProduct.warranty || activeProduct.specs?.warranty}</div>}
+                    {(activeProduct.price || activeProduct.priceCents) && <div><strong>Preço:</strong> {formatMoney(activeProduct.price || (activeProduct.priceCents ? activeProduct.priceCents / 100 : 0))}</div>}
+                  </div>
 
                   <p className="product-full-description">
                     {activeProduct.description || 'Fale com nossa equipe para conhecer as características deste produto.'}

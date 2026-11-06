@@ -20,6 +20,18 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
+
+#root {
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
+
 .hero > *, .process-grid > *, .notebook-grid > *, .faq > *,
 .section-heading > *, .product-detail-grid > *, .trust-line > * {
   min-width: 0;
@@ -47,7 +59,7 @@ body.dark-mode .header nav .header-cta:hover { background: #dce3e1; }
 .footer-admin-access .admin-access-link { color: #a7b6aa; }
 .footer-top > div, .footer-bottom { row-gap: 12px; }
 .store-map { height: clamp(240px, 30vw, 350px); }
-.business { margin-block: clamp(8px, 2vw, 28px); }
+.product-dialog { overflow-y: auto; max-height: calc(100dvh - 36px); }
 .notebook-grid figcaption { color: #c5d0c8; flex-wrap: wrap; }
 .service-subitem-text { min-width: 0; overflow-wrap: anywhere; }
 .service-cat-direct-btn { text-align: left; }
@@ -638,64 +650,29 @@ body.modal-open .floating-chat {
 /* === BUSINESS CORPORATE ENHANCED SECTION === */
 .business {
   display: grid;
-  grid-template-columns: 1.15fr 0.95fr;
+  grid-template-columns: 1.12fr 0.88fr;
   gap: 48px;
   align-items: center;
-  padding: 48px;
-  background: #eaf1ed;
+  padding: 52px;
+  background: #f4f6f8;
+  border: 1px solid #e2e8f0;
   border-radius: 24px;
-  margin-block: clamp(24px, 4vw, 48px);
+  margin-block: clamp(32px, 5vw, 56px);
   position: relative;
   overflow: hidden;
 }
 
 body.dark-mode .business {
-  background: #121215;
-  border: 1px solid #222228;
-}
-
-.business-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 8px;
-}
-
-.business-header .business-icon {
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  background: var(--yellow);
-  color: #17201f;
-  border-radius: 12px;
-  flex-shrink: 0;
-}
-
-.business-header .business-icon svg {
-  width: 24px;
-  height: 24px;
-  stroke-width: 1.8;
-}
-
-.business-header .eyebrow {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: #876c00;
-}
-
-body.dark-mode .business-header .eyebrow {
-  color: var(--yellow);
+  background: #0d0d10;
+  border: 1px solid #1f1f26;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
 }
 
 .business h2 {
-  font-size: clamp(28px, 2.6vw, 38px);
-  line-height: 1.15;
+  font-size: clamp(28px, 2.7vw, 40px);
+  line-height: 1.18;
   letter-spacing: -1.2px;
-  margin: 12px 0 16px;
+  margin: 0 0 16px;
   color: var(--ink);
 }
 
@@ -705,9 +682,10 @@ body.dark-mode .business h2 {
 
 .business-desc {
   font-size: 15px;
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--muted);
   margin-bottom: 24px;
+  max-width: 580px;
 }
 
 body.dark-mode .business-desc {
@@ -717,17 +695,17 @@ body.dark-mode .business-desc {
 .business-benefits {
   list-style: none;
   padding: 0;
-  margin: 0 0 28px 0;
+  margin: 0 0 30px 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 13px;
 }
 
 .business-benefits li {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 500;
   color: var(--ink);
 }
@@ -751,16 +729,23 @@ body.dark-mode .business-benefits li svg {
   gap: 16px;
 }
 
+.business-cta-row .button {
+  gap: 16px;
+  min-height: 54px;
+  padding: 14px 28px;
+}
+
 .business-visual {
   position: relative;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
   aspect-ratio: 4 / 3;
+  border: 1px solid #e2e8f0;
 }
 
 body.dark-mode .business-visual {
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
   border: 1px solid #222228;
 }
 
@@ -768,6 +753,7 @@ body.dark-mode .business-visual {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transition: transform 0.4s ease;
 }
@@ -782,15 +768,15 @@ body.dark-mode .business-visual {
   left: 16px;
   right: 16px;
   padding: 12px 18px;
-  background: rgba(16, 28, 24, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(10, 10, 12, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .business-badge strong {
@@ -801,17 +787,77 @@ body.dark-mode .business-visual {
 
 .business-badge span {
   font-size: 11px;
-  color: #d1ded8;
+  color: #d4d4d8;
+  line-height: 1.4;
 }
 
 @media (max-width: 900px) {
   .business {
     grid-template-columns: 1fr;
-    padding: 32px 24px;
+    padding: 36px 28px;
     gap: 32px;
+    margin-block: 36px;
   }
   .business-visual {
     aspect-ratio: 16 / 10;
+    max-height: 340px;
+  }
+}
+
+@media (max-width: 600px) {
+  .business {
+    padding: 26px 20px;
+    gap: 24px;
+    border-radius: 18px;
+    margin-block: 28px;
+  }
+  .business h2 {
+    font-size: clamp(23px, 6.4vw, 29px);
+    letter-spacing: -0.8px;
+    margin-bottom: 12px;
+  }
+  .business-desc {
+    font-size: 13.5px;
+    line-height: 1.65;
+    margin-bottom: 18px;
+  }
+  .business-benefits {
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .business-benefits li {
+    font-size: 13px;
+    gap: 10px;
+  }
+  .business-cta-row {
+    width: 100%;
+  }
+  .business-cta-row .button {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 16px;
+    font-size: 13px;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
+  .business-visual {
+    aspect-ratio: 16 / 10;
+    max-height: 230px;
+    border-radius: 16px;
+  }
+  .business-badge {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    padding: 9px 12px;
+    border-radius: 10px;
+  }
+  .business-badge strong {
+    font-size: 11.5px;
+  }
+  .business-badge span {
+    font-size: 9.5px;
   }
 }
 
@@ -993,4 +1039,96 @@ body.dark-mode .quiz-protocol-code {
   width: 26px;
   background: var(--yellow);
   box-shadow: 0 0 10px rgba(255, 212, 56, 0.6);
+}
+
+@media (max-width: 600px) {
+  .carousel-stealth-indicators {
+    bottom: 12px;
+    padding: 4px 10px;
+    gap: 8px;
+    border-radius: 16px;
+  }
+  .swipe-hint-badge {
+    font-size: 8.5px;
+    letter-spacing: 0.3px;
+    gap: 2px;
+  }
+  .stealth-dots-track {
+    gap: 4px;
+  }
+  .stealth-dot {
+    width: 10px;
+    height: 3px;
+  }
+  .stealth-dot.active {
+    width: 18px;
+  }
+}
+
+/* === CREDIT CARD SIMULATOR RESPONSIVE & DARK MODE HARMONY === */
+body.dark-mode .credit-card-widget {
+  background: linear-gradient(135deg, #16161b 0%, #08080a 55%, #121217 100%) !important;
+  border-color: rgba(255, 212, 56, 0.45) !important;
+}
+
+body.dark-mode .card-simulator-container > div:last-child {
+  background: #101014 !important;
+  border-color: #222228 !important;
+}
+
+body.dark-mode .card-simulator-container label {
+  color: #ffffff !important;
+}
+
+body.dark-mode .card-simulator-container button[type="button"] {
+  color: #ffd438 !important;
+}
+
+body.dark-mode .card-simulator-container table thead tr {
+  background: #18181c !important;
+  border-color: #222228 !important;
+}
+
+body.dark-mode .card-simulator-container table th {
+  color: #ffffff !important;
+}
+
+body.dark-mode .card-simulator-container table td {
+  border-color: #1f1f26 !important;
+  color: #e4e4e7 !important;
+}
+
+@media (max-width: 480px) {
+  .credit-card-widget {
+    padding: 16px 14px 14px !important;
+    border-radius: 14px !important;
+  }
+  .card-simulator-container > div:last-child {
+    padding: 12px 12px !important;
+    border-radius: 0 0 14px 14px !important;
+  }
+}
+
+/* === MOBILE TAP TARGETS & MODAL HARMONY === */
+@media (max-width: 600px) {
+  .quiz-modal-overlay {
+    padding: 12px;
+  }
+  .quiz-modal-panel {
+    border-radius: 16px;
+    max-height: calc(100dvh - 24px);
+  }
+  .quiz-modal-header {
+    padding: 16px 18px 14px;
+  }
+  .quiz-modal-title {
+    font-size: 18px;
+  }
+  .quiz-modal-body {
+    padding: 18px 16px;
+  }
+  .quiz-option-btn {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
 }

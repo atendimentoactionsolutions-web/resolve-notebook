@@ -26,6 +26,8 @@ dist-ssr
 # Persistent data and user uploads - NEVER overwrite on git updates
 data/products.json
 data/products.backup.json
+data/rates.json
+data/rates.backup.json
 data/leads.db*
 data/*.tmp
 data/sessions.json

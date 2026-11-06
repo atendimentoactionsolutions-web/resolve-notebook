@@ -31,14 +31,26 @@ test('API: autenticação, validação e ciclo completo do estoque', async () =>
     assert.equal(login.status, 200);
     const token = login.body.token;
     assert.equal((await request('/api/products', 'POST', { title: 'Teste', price: -1 }, token)).status, 400);
-    const created = await request('/api/products', 'POST', { title: 'Teste', price: 1200, images: ['/uploads/test.jpg'], condition: 'Novo' }, token);
+    const created = await request('/api/products', 'POST', { title: 'Teste', price: 1200, images: ['/uploads/test.jpg'], condition: 'Novo', warranty: '1 Ano' }, token);
     assert.equal(created.status, 201);
     assert.equal(created.body.condition, 'Novo');
+    assert.equal(created.body.warranty, '1 Ano');
     assert.deepEqual(created.body.images, ['/uploads/test.jpg']);
-    const updated = await request(`/api/products/${created.body.id}`, 'PUT', { id: 'alterado', status: 'sold' }, token);
+    const updated = await request(`/api/products/${created.body.id}`, 'PUT', { id: 'alterado', status: 'sold', warranty: '2 Anos' }, token);
     assert.equal(updated.body.id, created.body.id);
     assert.equal(updated.body.status, 'sold');
+    assert.equal(updated.body.warranty, '2 Anos');
     assert.equal(JSON.parse(await readFile(path.join(directory, 'products.json'), 'utf8'))[0].status, 'sold');
+
+    // Rates endpoints test
+    const ratesRes = await request('/api/rates');
+    assert.equal(ratesRes.status, 200);
+    assert.equal(ratesRes.body.maxInstallments, 12);
+    assert.equal((await request('/api/rates', 'POST', { maxInstallments: 18 })).status, 401);
+    const updatedRates = await request('/api/rates', 'POST', { maxInstallments: 18, debit: 1.25 }, token);
+    assert.equal(updatedRates.status, 200);
+    assert.equal(updatedRates.body.rates.maxInstallments, 18);
+    assert.equal(updatedRates.body.rates.debit, 1.25);
     assert.equal((await request(`/api/products/${created.body.id}`, 'DELETE', undefined, token)).status, 200);
     assert.deepEqual((await request('/api/products')).body, []);
     assert.equal((await request('/api/inexistente')).status, 404);

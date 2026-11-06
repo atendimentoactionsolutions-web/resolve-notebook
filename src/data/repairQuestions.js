@@ -51,15 +51,56 @@ export function getRepairQuestions(issue = '') {
   return profile === 'liquid' ? profiles[profile] : [...profiles[profile], since];
 }
 
-export function buildRepairMessage({ issue, brand, model = '', notes = '', answers = {} }) {
-  const lines = ['Olá! Vim pelo site da RESOLVE Notebook.', '', `Problema: ${issue || 'Avaliação geral'}.`];
-  if (brand) lines.push(`Marca: ${brand}.`);
-  if (model.trim()) lines.push(`Modelo: ${model.trim()}.`);
-  for (const question of getRepairQuestions(issue)) {
-    const answer = answers[question.id];
-    if (question.options.includes(answer)) lines.push(`${question.label} ${answer}.`);
+export function buildRepairMessage({ issue = '', brand = '', model = '', notes = '', answers = {}, name = '', customDescription = '' }) {
+  const mainIssue = customDescription?.trim() || issue || 'Avaliação geral';
+  const lines = [
+    '🔧 *SOLICITAÇÃO DE AVALIAÇÃO TÉCNICA • RESOLVE NOTEBOOK*',
+    '📍 *Santa Ifigênia, SP — Loja Física Especializada*',
+    '',
+    'Olá! Vim pelo site da RESOLVE Notebook e gostaria de uma avaliação para o meu equipamento.',
+    '',
+    '📋 *DADOS DO ATENDIMENTO:*'
+  ];
+
+  if (name && name.trim()) {
+    lines.push(`• *Cliente*: ${name.trim()}`);
   }
-  if (notes.trim()) lines.push(`Detalhes: ${notes.trim()}`);
-  lines.push('', 'Gostaria de conversar com um técnico sobre a avaliação do equipamento.');
+
+  lines.push(`• *Problema*: ${mainIssue}`);
+
+  if (brand && brand.trim()) {
+    lines.push(`• Marca: ${brand.trim()}`);
+  }
+
+  if (model && model.trim()) {
+    lines.push(`• Modelo: ${model.trim()}`);
+  }
+
+  // Detalhes adicionais e respostas de diagnóstico
+  const details = [];
+  if (issue) {
+    for (const question of getRepairQuestions(issue)) {
+      const answer = answers[question.id];
+      if (question.options.includes(answer)) {
+        details.push(`${question.label} ${answer}.`);
+      }
+    }
+  }
+
+  if (notes && notes.trim()) {
+    details.push(`Detalhes: ${notes.trim()}`);
+  }
+
+  if (details.length > 0) {
+    lines.push('', '🔍 *DETALHES:*');
+    details.forEach(d => lines.push(`• ${d}`));
+  }
+
+  lines.push(
+    '',
+    'Gostaria de conversar com um técnico sobre a avaliação do equipamento.',
+    'Agradeço pela atenção!'
+  );
+
   return lines.join('\n');
 }

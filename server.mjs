@@ -27,6 +27,8 @@ const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const PRODUCTS_SEED_FILE = path.join(DATA_DIR, 'products.seed.json');
 const PRODUCTS_BACKUP_FILE = path.join(DATA_DIR, 'products.backup.json');
+const RATES_FILE = path.join(DATA_DIR, 'rates.json');
+const RATES_BACKUP_FILE = path.join(DATA_DIR, 'rates.backup.json');
 const SESSIONS_FILE = path.join(DATA_DIR, 'sessions.json');
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
 const DIST_DIR = path.join(__dirname, 'dist');
@@ -154,6 +156,82 @@ function writeProducts(products) {
   }
 }
 
+// Default card machine fees (taxas padrão de maquininhas: Stone, PagBank, InfinitePay, Ton)
+const DEFAULT_RATES = {
+  maxInstallments: 12,
+  interestFreeInstallments: 1, // 1 = somente à vista sem juros; > 1 = parcelas sem juros até N
+  calculationMode: 'compound', // 'compound' (fator padrão lojista) ou 'simple' (markup percentual)
+  machineName: 'Maquininha Padrão da Loja',
+  debit: 1.39,
+  credit1x: 3.15,
+  installments: {
+    "1": 3.15,
+    "2": 4.50,
+    "3": 5.40,
+    "4": 6.30,
+    "5": 7.20,
+    "6": 8.10,
+    "7": 8.90,
+    "8": 9.80,
+    "9": 10.70,
+    "10": 11.60,
+    "11": 12.50,
+    "12": 13.40,
+    "18": 17.90
+  },
+  updatedAt: new Date().toISOString()
+};
+
+function readRates() {
+  try {
+    if (!fs.existsSync(RATES_FILE)) {
+      if (fs.existsSync(RATES_BACKUP_FILE)) {
+        try {
+          const raw = fs.readFileSync(RATES_BACKUP_FILE, 'utf-8');
+          const backup = JSON.parse(raw);
+          if (backup && typeof backup === 'object') {
+            writeRates(backup);
+            return backup;
+          }
+        } catch (_) {}
+      }
+      writeRates(DEFAULT_RATES);
+      return DEFAULT_RATES;
+    }
+    const raw = fs.readFileSync(RATES_FILE, 'utf-8');
+    const parsed = JSON.parse(raw);
+    return {
+      ...DEFAULT_RATES,
+      ...parsed,
+      installments: {
+        ...DEFAULT_RATES.installments,
+        ...(parsed.installments || {})
+      }
+    };
+  } catch (err) {
+    console.error('Erro ao ler rates.json:', err.message);
+    return DEFAULT_RATES;
+  }
+}
+
+function writeRates(rates) {
+  try {
+    const temporaryFile = `${RATES_FILE}.tmp`;
+    fs.writeFileSync(temporaryFile, JSON.stringify(rates, null, 2), 'utf-8');
+    fs.renameSync(temporaryFile, RATES_FILE);
+
+    try {
+      const backupTmp = `${RATES_BACKUP_FILE}.tmp`;
+      fs.writeFileSync(backupTmp, JSON.stringify(rates, null, 2), 'utf-8');
+      fs.renameSync(backupTmp, RATES_BACKUP_FILE);
+    } catch (_) {}
+    return true;
+  } catch (err) {
+    console.error('Erro ao salvar rates.json:', err.message);
+    throw err;
+  }
+}
+
 // Token auth middleware for admin operations
 function authMiddleware(req, res, next) {
   const token = req.headers['authorization'];
@@ -206,7 +284,7 @@ function validateProduct(req, res, next) {
 
   const invalid =
     (req.method === 'POST' && (typeof body.title !== 'string' || !body.title.trim())) ||
-    ['title', 'installments', 'category', 'badge', 'condition', 'description', 'image'].some(key =>
+    ['title', 'installments', 'category', 'badge', 'condition', 'description', 'image', 'warranty', 'model'].some(key =>
       body[key] !== undefined && typeof body[key] !== 'string') ||
     (body.price !== undefined && (typeof body.price !== 'number' || !Number.isFinite(body.price) || body.price < 0)) ||
     (body.status !== undefined && !['available', 'sold'].includes(body.status)) ||
@@ -214,6 +292,34 @@ function validateProduct(req, res, next) {
     (body.specs !== undefined && (!body.specs || typeof body.specs !== 'object' || Array.isArray(body.specs) || Object.values(body.specs).some(value => typeof value !== 'string')));
 
   if (invalid) return res.status(400).json({ error: 'Dados do produto inválidos. Confira título, preço e especificações.' });
+  next();
+}
+
+function validateRates(req, res, next) {
+  const body = req.body;
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return res.status(400).json({ error: 'Dados das taxas inválidos.' });
+  }
+  if (body.maxInstallments !== undefined && (typeof body.maxInstallments !== 'number' || body.maxInstallments < 1 || body.maxInstallments > 24)) {
+    return res.status(400).json({ error: 'Número máximo de parcelas inválido (1 a 24).' });
+  }
+  if (body.interestFreeInstallments !== undefined && (typeof body.interestFreeInstallments !== 'number' || body.interestFreeInstallments < 1 || body.interestFreeInstallments > 24)) {
+    return res.status(400).json({ error: 'Parcelas sem juros inválidas.' });
+  }
+  if (body.machineName !== undefined && typeof body.machineName !== 'string') {
+    return res.status(400).json({ error: 'Nome da maquininha inválido.' });
+  }
+  if (body.installments !== undefined) {
+    if (typeof body.installments !== 'object' || Array.isArray(body.installments)) {
+      return res.status(400).json({ error: 'Tabela de parcelas inválida.' });
+    }
+    for (const [k, v] of Object.entries(body.installments)) {
+      const num = Number(v);
+      if (!Number.isFinite(num) || num < 0 || num > 100) {
+        return res.status(400).json({ error: `Taxa da parcela ${k}x inválida.` });
+      }
+    }
+  }
   next();
 }
 
@@ -261,9 +367,11 @@ app.post('/api/products', authMiddleware, validateProduct, (req, res) => {
     title: req.body.title || 'Notebook',
     price: Number(req.body.price) || 0,
     installments: req.body.installments || 'em até 12x no cartão',
-    category: req.body.category || 'Geral',
-    badge: req.body.badge || 'Seminovo Revisado',
-    condition: req.body.condition || 'Revisado',
+    category: req.body.category || 'Notebook',
+    badge: req.body.badge || (req.body.warranty ? `Garantia ${req.body.warranty}` : 'Seminovo Revisado'),
+    condition: req.body.condition || 'Seminovo',
+    warranty: req.body.warranty || '3 Meses',
+    model: req.body.model || '',
     images: req.body.images || [],
     specs: req.body.specs || {},
     description: req.body.description || '',
@@ -312,6 +420,26 @@ app.delete('/api/products/:id', authMiddleware, (req, res) => {
   products = products.filter(p => p.id !== id);
   writeProducts(products);
   res.json({ success: true, message: 'Produto removido com sucesso.' });
+});
+
+// 7. Card Machine Rates (public get, admin post)
+app.get('/api/rates', (req, res) => {
+  res.json(readRates());
+});
+
+app.post('/api/rates', authMiddleware, validateRates, (req, res) => {
+  const current = readRates();
+  const updated = {
+    ...current,
+    ...req.body,
+    installments: {
+      ...current.installments,
+      ...(req.body.installments || {})
+    },
+    updatedAt: new Date().toISOString()
+  };
+  writeRates(updated);
+  res.json({ success: true, rates: updated });
 });
 
 // 7. Proxy de leads e avaliações para o serviço Python dedicado

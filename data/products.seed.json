@@ -4,8 +4,11 @@
     "title": "Dell Inspiron 15 3520 • Core i5 11ª Ger • 16GB RAM • SSD 512GB NVMe",
     "price": 2490,
     "installments": "ou 12x no cartão com pequena taxa",
-    "category": "Estudo & Trabalho",
-    "badge": "Seminovo Revisado • Garantia 3 Meses",
+    "category": "Notebook",
+    "badge": "Seminovo • Garantia 3 Meses",
+    "condition": "Seminovo",
+    "warranty": "3 Meses",
+    "model": "Inspiron 15 3520",
     "specs": {
       "cpu": "Intel Core i5-1135G7",
       "ram": "16GB DDR4",
@@ -15,7 +18,11 @@
     "description": "Notebook em excelente estado de conservação, bateria com ótima autonomia, totalmente revisado e higienizado com pasta térmica nova. Acompanha carregador original.",
     "image": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=800&auto=format&fit=crop",
     "status": "available",
-    "createdAt": "2026-10-23T16:00:00.000Z"
+    "createdAt": "2026-10-23T16:00:00.000Z",
+    "images": [
+      "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=800&auto=format&fit=crop"
+    ],
+    "updatedAt": "2026-11-06T18:52:56.247Z"
   },
   {
     "id": "nb-2",
@@ -23,7 +30,10 @@
     "price": 2890,
     "installments": "ou até 12x no cartão",
     "category": "Corporativo",
-    "badge": "Linha Corporativa • Ultra Resistente",
+    "badge": "Corporativo • Garantia 6 Meses",
+    "condition": "Seminovo",
+    "warranty": "6 Meses",
+    "model": "ThinkPad T14 Gen 1",
     "specs": {
       "cpu": "Intel Core i7-10610U",
       "ram": "16GB DDR4",
@@ -41,7 +51,10 @@
     "price": 3490,
     "installments": "ou até 12x no cartão",
     "category": "Gamer",
-    "badge": "Placa de Vídeo Dedicada • 144Hz",
+    "badge": "Gamer • Garantia 6 Meses",
+    "condition": "Seminovo",
+    "warranty": "6 Meses",
+    "model": "Nitro 5 AN515",
     "specs": {
       "cpu": "AMD Ryzen 5 4600H (6C/12T)",
       "ram": "16GB DDR4 Dual Channel",
@@ -59,7 +72,10 @@
     "price": 4200,
     "installments": "ou até 12x no cartão",
     "category": "MacBook",
-    "badge": "Apple Silicon M1 • Bateria 90%+",
+    "badge": "Apple M1 • Garantia 1 Ano",
+    "condition": "Seminovo",
+    "warranty": "1 Ano",
+    "model": "MacBook Air 13 M1 (A2337)",
     "specs": {
       "cpu": "Apple M1 Chip 8-Core",
       "ram": "8GB Unificada",

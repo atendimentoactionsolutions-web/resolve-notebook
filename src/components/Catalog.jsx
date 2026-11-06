@@ -1,16 +1,12 @@
 import React, { useState, useEffect, useMemo, useRef, useDeferredValue } from 'react';
+import CreditCardSimulator from './CreditCardSimulator';
+import { calculateInstallments, formatMoney, DEFAULT_RATES } from '../utils/cardCalculator';
 
 const normalize = (value) => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
-// Categorias dinâmicas baseadas apenas no estoque real
-
-const formatMoney = (val) => {
-  const num = Number(val) || 0;
-  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(num);
-};
-
 export default function Catalog({ onNavigate }) {
   const [products, setProducts] = useState([]);
+  const [rates, setRates] = useState(DEFAULT_RATES);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
@@ -63,8 +59,19 @@ export default function Catalog({ onNavigate }) {
     }
   };
 
+  const fetchRates = async () => {
+    try {
+      const res = await fetch('/api/rates');
+      if (res.ok) {
+        const data = await res.json();
+        setRates(data);
+      }
+    } catch (_) {}
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchRates();
 
     // Check query params for initial profile/filter
     const params = new URLSearchParams(window.location.search);
@@ -302,7 +309,10 @@ export default function Catalog({ onNavigate }) {
             <div className="product-grid">
               {filteredProducts.map((p) => {
                 const img = (Array.isArray(p.images) && p.images[0]) || p.image;
-                const priceFormatted = formatMoney(p.price || (p.priceCents ? p.priceCents / 100 : 0));
+                const numericPrice = p.price || (p.priceCents ? p.priceCents / 100 : 0);
+                const priceFormatted = formatMoney(numericPrice);
+                const sims = calculateInstallments(numericPrice, rates);
+                const sim12 = sims.length > 0 ? sims[sims.length - 1] : null;
 
                 return (
                   <article key={p.id} className="product-card">
@@ -326,14 +336,14 @@ export default function Catalog({ onNavigate }) {
                         )}
                         {(p.featured || p.badge) && (
                           <span className="featured-label">
-                            {p.badge || 'Revisado'}
+                            {p.badge || 'Seminovo'}
                           </span>
                         )}
                       </div>
 
                       <div className="product-card-head">
                         <span>{p.category || 'Notebook'}</span>
-                        <span>{p.condition || 'Revisado'}</span>
+                        <span>{p.condition || 'Seminovo'}</span>
                       </div>
 
                       <h2>{p.title}</h2>
@@ -341,14 +351,30 @@ export default function Catalog({ onNavigate }) {
 
                     <p className="product-description">{p.description}</p>
 
-                    <div className="product-price">
-                      <strong>{priceFormatted}</strong>
-                      {p.installments && <small>{p.installments}</small>}
+                    <div className="product-price" style={{ margin: '14px 0 12px 0' }}>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+                        <strong style={{ fontSize: '24px' }}>{priceFormatted}</strong>
+                        <span style={{ fontSize: '11px', fontWeight: 700, color: '#16a34a' }}>à vista no Pix</span>
+                      </div>
+                      {sim12 && (
+                        <div style={{ fontSize: '12px', color: 'var(--ink)', fontWeight: 600, marginTop: '4px' }}>
+                          💳 ou <strong>{sim12.installment}x de {formatMoney(sim12.installmentValue)}</strong> no cartão
+                        </div>
+                      )}
+                      {p.warranty && (
+                        <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '4px' }}>
+                          🛡️ Garantia de <b>{p.warranty}</b>
+                        </div>
+                      )}
                     </div>
 
                     <div className="product-card-actions">
-                      <button className="quiet-button" onClick={() => handleOpenDetail(p)}>
-                        Ver detalhes
+                      <button 
+                        className="quiet-button" 
+                        onClick={() => handleOpenDetail(p)}
+                        style={{ fontSize: '12px', padding: '8px 12px' }}
+                      >
+                        💳 Simular cartão
                       </button>
                       <a 
                         className="button button-yellow" 
@@ -440,24 +466,38 @@ export default function Catalog({ onNavigate }) {
                 </div>
 
                 <div className="product-detail-copy">
-                  <p>{activeProduct.category} · {activeProduct.condition || activeProduct.badge || 'Revisado'}</p>
+                  <p>{activeProduct.category} · {activeProduct.condition || activeProduct.badge || 'Seminovo'}</p>
                   <h2 id="product-dialog-title">{activeProduct.title}</h2>
 
-                  <div className="product-price">
-                    <strong>{formatMoney(activeProduct.price || (activeProduct.priceCents ? activeProduct.priceCents / 100 : 0))}</strong>
-                    {activeProduct.installments && <small>{activeProduct.installments}</small>}
+                  <div className="product-price" style={{ margin: '14px 0 10px 0' }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                      <strong style={{ fontSize: '28px' }}>{formatMoney(activeProduct.price || (activeProduct.priceCents ? activeProduct.priceCents / 100 : 0))}</strong>
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#16a34a' }}>à vista no Pix / Dinheiro</span>
+                    </div>
                   </div>
 
-                  <div style={{ margin: '16px 0', padding: '16px', background: 'var(--paper)', borderRadius: '12px', fontSize: '13px', lineHeight: 1.7, display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    {activeProduct.model && <div><strong>Modelo:</strong> {activeProduct.model}</div>}
-                    {(activeProduct.specs?.cpu || activeProduct.specs?.processor) && <div><strong>Processador:</strong> {activeProduct.specs?.cpu || activeProduct.specs?.processor}</div>}
-                    {activeProduct.specs?.ram && <div><strong>Memória RAM:</strong> {activeProduct.specs?.ram}</div>}
-                    {(activeProduct.specs?.ssd || activeProduct.specs?.storage) && <div><strong>SSD / Armazenamento:</strong> {activeProduct.specs?.ssd || activeProduct.specs?.storage}</div>}
-                    {activeProduct.specs?.screen && <div><strong>Tela:</strong> {activeProduct.specs?.screen}</div>}
-                    {(activeProduct.condition || activeProduct.specs?.condition) && <div><strong>Condição:</strong> {activeProduct.condition || activeProduct.specs?.condition}</div>}
-                    {(activeProduct.battery || activeProduct.specs?.battery) && <div><strong>Bateria:</strong> {activeProduct.battery || activeProduct.specs?.battery}</div>}
-                    {(activeProduct.warranty || activeProduct.specs?.warranty) && <div><strong>Garantia:</strong> {activeProduct.warranty || activeProduct.specs?.warranty}</div>}
-                    {(activeProduct.price || activeProduct.priceCents) && <div><strong>Preço:</strong> {formatMoney(activeProduct.price || (activeProduct.priceCents ? activeProduct.priceCents / 100 : 0))}</div>}
+                  {/* REALISTIC CREDIT CARD SIMULATION WIDGET */}
+                  <CreditCardSimulator 
+                    price={activeProduct.price || (activeProduct.priceCents ? activeProduct.priceCents / 100 : 0)} 
+                    rates={rates} 
+                    productTitle={activeProduct.title} 
+                  />
+
+                  <div style={{ margin: '16px 0', padding: '16px', background: 'var(--paper)', borderRadius: '14px', fontSize: '13px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}>
+                      <span>🛡️ <strong>Garantia Loja Física:</strong></span>
+                      <span style={{ fontWeight: 700, color: '#936a00' }}>{activeProduct.warranty || activeProduct.specs?.warranty || '3 Meses'}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}>
+                      <span>🏷️ <strong>Condição:</strong></span>
+                      <span style={{ fontWeight: 700 }}>{activeProduct.condition || 'Seminovo Impecável'}</span>
+                    </div>
+                    {activeProduct.model && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span><strong>Modelo:</strong></span><span>{activeProduct.model}</span></div>}
+                    {(activeProduct.specs?.cpu || activeProduct.specs?.processor) && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span><strong>Processador:</strong></span><span>{activeProduct.specs?.cpu || activeProduct.specs?.processor}</span></div>}
+                    {activeProduct.specs?.ram && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span><strong>Memória RAM:</strong></span><span>{activeProduct.specs?.ram}</span></div>}
+                    {(activeProduct.specs?.ssd || activeProduct.specs?.storage) && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span><strong>SSD / Armazenamento:</strong></span><span>{activeProduct.specs?.ssd || activeProduct.specs?.storage}</span></div>}
+                    {activeProduct.specs?.screen && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span><strong>Tela:</strong></span><span>{activeProduct.specs?.screen}</span></div>}
+                    {(activeProduct.battery || activeProduct.specs?.battery) && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span><strong>Bateria:</strong></span><span>{activeProduct.battery || activeProduct.specs?.battery}</span></div>}
                   </div>
 
                   <p className="product-full-description">
@@ -469,12 +509,13 @@ export default function Catalog({ onNavigate }) {
                     href={generateWhatsAppLink(activeProduct)} 
                     target="_blank" 
                     rel="noopener noreferrer"
+                    style={{ width: '100%', justifyContent: 'center' }}
                   >
                     Consultar pelo WhatsApp <svg aria-hidden="true" style={{ width: '18px', height: '18px' }}><use href="#arrow-up-right"/></svg>
                   </a>
 
-                  <small className="availability-note">
-                    Confirme a disponibilidade e as condições com a loja antes de comprar.
+                  <small className="availability-note" style={{ display: 'block', textAlign: 'center', marginTop: '10px' }}>
+                    Confirme a disponibilidade e passe seu cartão em nossa loja na Santa Ifigênia, 361.
                   </small>
                 </div>
               </div>

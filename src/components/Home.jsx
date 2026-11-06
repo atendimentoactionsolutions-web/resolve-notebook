@@ -22,14 +22,6 @@ const heroImages = [
     alt: 'Técnico especialista instalando componentes e SSD NVMe em notebook',
   },
   {
-    src: '/assets/repair-3.jpg',
-    alt: 'Técnica trabalhando com chave de precisão em bancada ESD de notebook',
-  },
-  {
-    src: '/assets/repair-4.jpg',
-    alt: 'Técnico sênior testando circuitos da placa-mãe de notebook com multímetro digital',
-  },
-  {
     src: '/assets/repair-5.jpg',
     alt: 'Técnico instalando sistema de refrigeração e pasta térmica em notebook',
   },
@@ -623,12 +615,6 @@ export default function Home({ onNavigate }) {
         {/* Section: Empresas */}
         <section className="business wrap" id="empresas">
           <div className="business-content">
-            <div className="business-header">
-              <div className="business-icon">
-                <svg aria-hidden="true"><use href="#case"/></svg>
-              </div>
-              <p className="eyebrow">Atendimento corporativo</p>
-            </div>
             <h2>Assistência técnica especializada<br/>para notebooks da sua empresa.</h2>
             <p className="business-desc">
               Manutenção preventiva, reparos de placa, trocas de tela e upgrades para apoiar a produtividade da sua equipe. Diagnóstico ágil e soluções personalizadas para manter sua operação sempre ativa.

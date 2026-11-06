@@ -19,15 +19,23 @@ const issueNames = [
 const heroImages = [
   {
     src: '/assets/repair.jpg',
-    alt: 'Mãos trabalhando nos componentes internos e placa de um notebook',
-  },
-  {
-    src: '/assets/repair-2.jpg',
-    alt: 'Técnico especialista em eletrônica reparando microchips e placa de notebook',
+    alt: 'Técnico especialista instalando componentes e SSD NVMe em notebook',
   },
   {
     src: '/assets/repair-3.jpg',
-    alt: 'Técnico realizando manutenção e montagem de tela em notebook moderno',
+    alt: 'Técnica trabalhando com chave de precisão em bancada ESD de notebook',
+  },
+  {
+    src: '/assets/repair-4.jpg',
+    alt: 'Técnico sênior testando circuitos da placa-mãe de notebook com multímetro digital',
+  },
+  {
+    src: '/assets/repair-5.jpg',
+    alt: 'Técnico instalando sistema de refrigeração e pasta térmica em notebook',
+  },
+  {
+    src: '/assets/repair-2.jpg',
+    alt: 'Técnico especialista em eletrônica reparando microchips de notebook',
   }
 ];
 
@@ -497,17 +505,24 @@ export default function Home({ onNavigate }) {
               title="Avançar próxima imagem"
             />
 
-            {/* Indicadores sobrepostos de forma discreta sobre as imagens */}
+            {/* Indicadores sutis de deslizar com o dedo sobrepostos às imagens */}
             <div className="carousel-stealth-indicators" aria-label="Navegação do carrossel">
-              {heroImages.map((img, idx) => (
-                <button
-                  key={img.src}
-                  type="button"
-                  className={`stealth-dot ${idx === currentSlide ? 'active' : ''}`}
-                  onClick={() => setCurrentSlide(idx)}
-                  aria-label={`Ir para foto ${idx + 1}`}
-                />
-              ))}
+              <span className="swipe-hint-badge" title="Deslize para navegar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+                <span>deslize</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6"/></svg>
+              </span>
+              <div className="stealth-dots-track">
+                {heroImages.map((img, idx) => (
+                  <button
+                    key={img.src}
+                    type="button"
+                    className={`stealth-dot ${idx === currentSlide ? 'active' : ''}`}
+                    onClick={() => setCurrentSlide(idx)}
+                    aria-label={`Ir para foto ${idx + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </figure>
         </section>

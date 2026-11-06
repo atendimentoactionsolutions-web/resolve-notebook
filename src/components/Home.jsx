@@ -436,7 +436,7 @@ export default function Home({ onNavigate }) {
         {/* Section: Hero */}
         <section className="hero wrap" id="inicio">
           <div className="hero-copy">
-            <p className="hero-context">Assistência especializada na Santa Ifigênia</p>
+            <p className="hero-context">Assistência especializada</p>
             <h1>Conserto de notebooks na Santa Ifigênia</h1>
             <p className="hero-intro">
               Reparos e upgrades com orçamento aprovado por você antes do serviço.
@@ -451,14 +451,6 @@ export default function Home({ onNavigate }) {
                 }}
               >
                 Solicitar avaliação <svg aria-hidden="true"><use href="#arrow"/></svg>
-              </button>
-              <button 
-                type="button" 
-                className="text-link" 
-                onClick={openServicesModal}
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer', font: 'inherit', padding: 0 }}
-              >
-                Explorar todos os serviços <svg aria-hidden="true"><use href="#right"/></svg>
               </button>
               <a className="text-link" href="/produtos" onClick={(e) => { e.preventDefault(); onNavigate('/produtos'); }}>
                 Ver notebooks disponíveis
@@ -837,17 +829,6 @@ export default function Home({ onNavigate }) {
           </a>
         </div>
       </footer>
-
-      {/* Floating WhatsApp Chat Button */}
-      <a 
-        className="floating-chat" 
-        href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20a%20RESOLVE%20Notebook."
-        aria-label="Conversar com a RESOLVE Notebook no WhatsApp" 
-        target="_blank" 
-        rel="noopener noreferrer"
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#whatsapp-icon"/></svg>
-      </a>
 
       {/* Quiz Modal Aberto Exclusivamente pelo Botão Amarelo */}
       <ServiceQuizModal 

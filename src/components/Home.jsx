@@ -303,7 +303,17 @@ export default function Home({ onNavigate }) {
           </a>
 
           <nav id="main-nav" className={menuOpen ? 'is-open' : ''} aria-label="Navegação principal">
-            <a href="#assistencia" onClick={() => setMenuOpen(false)}>Assistência</a>
+            <a 
+              href="#assistencia" 
+              onClick={(e) => { 
+                e.preventDefault(); 
+                setMenuOpen(false); 
+                setQuizInitialIssue(''); 
+                setIsQuizModalOpen(true); 
+              }}
+            >
+              Assistência
+            </a>
             <a href="/produtos" onClick={(e) => { e.preventDefault(); onNavigate('/produtos'); setMenuOpen(false); }}>Produtos</a>
             <a href="#empresas" onClick={() => setMenuOpen(false)}>Para empresas</a>
             <a href="#loja" onClick={() => setMenuOpen(false)}>A loja</a>
@@ -382,6 +392,14 @@ export default function Home({ onNavigate }) {
               >
                 Solicitar avaliação <svg aria-hidden="true"><use href="#arrow"/></svg>
               </button>
+              <button 
+                type="button" 
+                className="text-link" 
+                onClick={openServicesModal}
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', font: 'inherit', padding: 0 }}
+              >
+                Explorar todos os serviços <svg aria-hidden="true"><use href="#right"/></svg>
+              </button>
               <a className="text-link" href="/produtos" onClick={(e) => { e.preventDefault(); onNavigate('/produtos'); }}>
                 Ver notebooks disponíveis
               </a>
@@ -417,49 +435,6 @@ export default function Home({ onNavigate }) {
           </a>
         </div>
 
-        {/* Section: Assistência / Sintomas */}
-        <section className="services section wrap" id="assistencia">
-          <div className="section-heading">
-            <div>
-              <h2>O que aconteceu<br/>com seu notebook?</h2>
-            </div>
-            <div className="section-aside">
-              <button className="text-link" onClick={openServicesModal}>
-                Explorar todos os serviços <svg aria-hidden="true"><use href="#right"/></svg>
-              </button>
-            </div>
-          </div>
-
-          <div className="issue-options" style={{ marginTop: '20px' }}>
-            {issueNames.map((issue) => (
-              <button
-                key={issue}
-                type="button"
-                onClick={() => {
-                  setQuizInitialIssue(issue);
-                  setIsQuizModalOpen(true);
-                }}
-              >
-                <span>{issue}</span>
-                <svg aria-hidden="true"><use href="#arrow"/></svg>
-              </button>
-            ))}
-          </div>
-
-          <div style={{ marginTop: '32px', textAlign: 'center' }}>
-            <button 
-              type="button" 
-              className="button button-yellow"
-              onClick={() => {
-                setQuizInitialIssue('');
-                setIsQuizModalOpen(true);
-              }}
-              style={{ margin: '0 auto' }}
-            >
-              Solicitar avaliação <svg aria-hidden="true"><use href="#arrow"/></svg>
-            </button>
-          </div>
-        </section>
 
         {/* Section: Notebooks / Perfis de Uso */}
         <section className="notebooks section wrap" id="notebooks">
@@ -689,7 +664,16 @@ export default function Home({ onNavigate }) {
           </a>
 
           <div>
-            <a href="#assistencia">Assistência</a>
+            <a 
+              href="#assistencia"
+              onClick={(e) => {
+                e.preventDefault();
+                setQuizInitialIssue('');
+                setIsQuizModalOpen(true);
+              }}
+            >
+              Assistência
+            </a>
             <a href="/produtos" onClick={(e) => { e.preventDefault(); onNavigate('/produtos'); }}>Produtos</a>
             <a href="#empresas">Empresas</a>
             <a href="https://www.instagram.com/resolve.notebook/" target="_blank" rel="noopener noreferrer">

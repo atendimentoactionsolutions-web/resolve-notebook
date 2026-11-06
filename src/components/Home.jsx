@@ -514,23 +514,55 @@ export default function Home({ onNavigate }) {
 
         {/* Section: Empresas */}
         <section className="business wrap" id="empresas">
-          <div className="business-icon">
-            <svg aria-hidden="true"><use href="#case"/></svg>
-          </div>
-          <div>
-            <p className="eyebrow">Atendimento corporativo</p>
+          <div className="business-content">
+            <div className="business-header">
+              <div className="business-icon">
+                <svg aria-hidden="true"><use href="#case"/></svg>
+              </div>
+              <p className="eyebrow">Atendimento corporativo</p>
+            </div>
             <h2>Assistência técnica especializada<br/>para notebooks da sua empresa.</h2>
-            <p>
-              Manutenção preventiva, reparos e upgrades para apoiar a produtividade da sua equipe. Diagnóstico claro e soluções adequadas às necessidades da sua operação.
+            <p className="business-desc">
+              Manutenção preventiva, reparos de placa, trocas de tela e upgrades para apoiar a produtividade da sua equipe. Diagnóstico ágil e soluções personalizadas para manter sua operação sempre ativa.
             </p>
-            <a 
-              className="text-link" 
-              href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Represento%20uma%20empresa%20e%20gostaria%20de%20conversar%20sobre%20manuten%C3%A7%C3%A3o%20e%20reparos%20de%20notebooks%20corporativos%20na%20RESOLVE%20Notebook." 
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              Solicitar atendimento corporativo <svg aria-hidden="true"><use href="#arrow"/></svg>
-            </a>
+            <ul className="business-benefits" aria-label="Diferenciais para empresas">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Atendimento prioritário e contratos sob demanda</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Emissão de Nota Fiscal (NF-e) e laudos técnicos</span>
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Faturamento para empresas e garantia estendida</span>
+              </li>
+            </ul>
+            <div className="business-cta-row">
+              <a 
+                className="button button-yellow" 
+                href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Represento%20uma%20empresa%20e%20gostaria%20de%20conversar%20sobre%20manuten%C3%A7%C3%A3o%20e%20reparos%20de%20notebooks%20corporativos%20na%20RESOLVE%20Notebook." 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                Solicitar atendimento corporativo <svg aria-hidden="true"><use href="#arrow"/></svg>
+              </a>
+            </div>
+          </div>
+          <div className="business-visual">
+            <img 
+              src="/assets/corporate-team.jpg" 
+              alt="Profissionais utilizando notebooks em reunião corporativa moderna" 
+              className="business-photo"
+              loading="lazy"
+              width="1200"
+              height="800"
+            />
+            <div className="business-badge">
+              <strong>Soluções B2B para Empresas</strong>
+              <span>Manutenção preventiva e reparos para manter sua equipe produtiva</span>
+            </div>
           </div>
         </section>
 

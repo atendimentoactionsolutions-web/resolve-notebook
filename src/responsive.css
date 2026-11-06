@@ -631,3 +631,183 @@ body.modal-open .floating-chat {
     animation: none !important;
   }
 }
+
+/* === BUSINESS CORPORATE ENHANCED SECTION === */
+.business {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  gap: 48px;
+  align-items: center;
+  padding: 48px;
+  background: #eaf1ed;
+  border-radius: 24px;
+  margin-block: clamp(24px, 4vw, 48px);
+  position: relative;
+  overflow: hidden;
+}
+
+body.dark-mode .business {
+  background: #141c19;
+  border: 1px solid #23302a;
+}
+
+.business-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.business-header .business-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: var(--yellow);
+  color: #17201f;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.business-header .business-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.8;
+}
+
+.business-header .eyebrow {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #876c00;
+}
+
+body.dark-mode .business-header .eyebrow {
+  color: var(--yellow);
+}
+
+.business h2 {
+  font-size: clamp(28px, 2.6vw, 38px);
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+  margin: 12px 0 16px;
+  color: var(--ink);
+}
+
+body.dark-mode .business h2 {
+  color: #ffffff;
+}
+
+.business-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+body.dark-mode .business-desc {
+  color: #b5c7c0;
+}
+
+.business-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.business-benefits li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+body.dark-mode .business-benefits li {
+  color: #e2ece7;
+}
+
+.business-benefits li svg {
+  color: #15803d;
+  flex-shrink: 0;
+}
+
+body.dark-mode .business-benefits li svg {
+  color: var(--yellow);
+}
+
+.business-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.business-visual {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+  aspect-ratio: 4 / 3;
+}
+
+body.dark-mode .business-visual {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  border: 1px solid #283731;
+}
+
+.business-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.business-visual:hover .business-photo {
+  transform: scale(1.02);
+}
+
+.business-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  padding: 12px 18px;
+  background: rgba(16, 28, 24, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.business-badge strong {
+  font-size: 13px;
+  color: var(--yellow);
+  font-weight: 700;
+}
+
+.business-badge span {
+  font-size: 11px;
+  color: #d1ded8;
+}
+
+@media (max-width: 900px) {
+  .business {
+    grid-template-columns: 1fr;
+    padding: 32px 24px;
+    gap: 32px;
+  }
+  .business-visual {
+    aspect-ratio: 16 / 10;
+  }
+}

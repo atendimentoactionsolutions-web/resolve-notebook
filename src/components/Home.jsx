@@ -345,16 +345,6 @@ export default function Home({ onNavigate }) {
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
               )}
             </button>
-
-            <a 
-              className="button button-dark header-cta" 
-              href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20RESOLVE%20Notebook%20e%20gostaria%20de%20falar%20com%20um%20t%C3%A9cnico."
-              target="_blank" 
-              rel="noopener noreferrer"
-              onClick={() => setMenuOpen(false)}
-            >
-              Falar com um técnico <svg aria-hidden="true"><use href="#arrow"/></svg>
-            </a>
           </div>
           </nav>
 

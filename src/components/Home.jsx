@@ -16,6 +16,21 @@ const issueNames = [
   'Outro problema'
 ];
 
+const heroImages = [
+  {
+    src: '/assets/repair.jpg',
+    alt: 'Mãos trabalhando nos componentes internos e placa de um notebook',
+  },
+  {
+    src: '/assets/repair-2.jpg',
+    alt: 'Técnico especialista em eletrônica reparando microchips e placa de notebook',
+  },
+  {
+    src: '/assets/repair-3.jpg',
+    alt: 'Técnico realizando manutenção e montagem de tela em notebook moderno',
+  }
+];
+
 
 
 const useContent = {
@@ -53,6 +68,61 @@ export default function Home({ onNavigate }) {
     return Object.keys(useContent).find(key => key.toLowerCase() === profile?.toLowerCase()) || 'Trabalho';
   });
   const [isDark, setIsDark] = useState(() => localStorage.getItem('resolve_theme') !== 'light');
+
+  // Carrossel em Loop Automático com Suporte a Toque/Gesto com o Dedo
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+  const [isCarouselPaused, setIsCarouselPaused] = useState(false);
+
+  useEffect(() => {
+    if (isCarouselPaused) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [isCarouselPaused]);
+
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+    setIsCarouselPaused(true);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    setIsCarouselPaused(false);
+    if (touchStartX !== null && touchEndX !== null) {
+      const diff = touchStartX - touchEndX;
+      if (diff > 40) {
+        setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+      } else if (diff < -40) {
+        setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+      }
+    }
+    setTouchStartX(null);
+    setTouchEndX(null);
+  };
+
+  const handleMouseDown = (e) => {
+    setTouchStartX(e.clientX);
+    setIsCarouselPaused(true);
+  };
+
+  const handleMouseUp = (e) => {
+    setIsCarouselPaused(false);
+    if (touchStartX !== null) {
+      const diff = touchStartX - e.clientX;
+      if (diff > 40) {
+        setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+      } else if (diff < -40) {
+        setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+      }
+    }
+    setTouchStartX(null);
+  };
 
   // Modo Escuro discreto e persistente
   useEffect(() => {
@@ -396,16 +466,57 @@ export default function Home({ onNavigate }) {
             </div>
           </div>
 
-          <figure className="hero-visual">
-            <img 
-              className="hero-photo" 
-              fetchPriority="high"
-              decoding="async"
-              src="/assets/repair.jpg" 
-              alt="Mãos trabalhando nos componentes internos de um notebook, imagem ilustrativa" 
-              width="1400" 
-              height="1867"
+          <figure 
+            className="hero-visual hero-carousel"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseEnter={() => setIsCarouselPaused(true)}
+            onMouseLeave={() => { setIsCarouselPaused(false); setTouchStartX(null); }}
+            aria-roledescription="carrossel de imagens"
+            aria-label="Carrossel com fotos dos serviços técnicos"
+          >
+            {heroImages.map((img, idx) => (
+              <img 
+                key={img.src}
+                className={`hero-photo hero-slide ${idx === currentSlide ? 'is-active' : ''}`}
+                fetchPriority={idx === 0 ? "high" : "low"}
+                decoding="async"
+                src={img.src} 
+                alt={img.alt} 
+                width="1400" 
+                height="1867"
+              />
+            ))}
+
+            {/* Zonas de toque/arraste invisíveis sobrepostas para avançar e voltar com o dedo */}
+            <div 
+              className="carousel-touch-zone left" 
+              onClick={() => setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
+              aria-label="Voltar imagem anterior"
+              title="Voltar imagem anterior"
             />
+            <div 
+              className="carousel-touch-zone right" 
+              onClick={() => setCurrentSlide((prev) => (prev + 1) % heroImages.length)}
+              aria-label="Avançar próxima imagem"
+              title="Avançar próxima imagem"
+            />
+
+            {/* Indicadores sobrepostos de forma discreta sobre as imagens */}
+            <div className="carousel-stealth-indicators" aria-label="Navegação do carrossel">
+              {heroImages.map((img, idx) => (
+                <button
+                  key={img.src}
+                  type="button"
+                  className={`stealth-dot ${idx === currentSlide ? 'active' : ''}`}
+                  onClick={() => setCurrentSlide(idx)}
+                  aria-label={`Ir para foto ${idx + 1}`}
+                />
+              ))}
+            </div>
           </figure>
         </section>
 

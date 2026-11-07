@@ -397,7 +397,9 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
             <a href="/produtos" onClick={(e) => { e.preventDefault(); onNavigate('/produtos'); setMenuOpen(false); }}>Produtos</a>
             <a href="#empresas" onClick={() => setMenuOpen(false)}>Para empresas</a>
             <a href="#loja" onClick={() => setMenuOpen(false)}>A loja</a>
-          <div className="header-actions">
+          </nav>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <button
               type="button"
               onClick={toggleDark}
@@ -413,32 +415,31 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'inherit',
-                opacity: 0.5,
+                opacity: 0.7,
                 transition: 'opacity 0.2s',
               }}
               onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '0.5'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '0.7'}
             >
               {isDark ? (
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
               ) : (
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
               )}
             </button>
-          </div>
-          </nav>
 
-          <button 
-            className="menu-toggle" 
-            type="button"
-            aria-controls="main-nav" 
-            aria-expanded={menuOpen} 
-            aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            <span></span>
-            <span></span>
-          </button>
+            <button 
+              className="menu-toggle" 
+              type="button"
+              aria-controls="main-nav" 
+              aria-expanded={menuOpen} 
+              aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <span></span>
+              <span></span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -446,7 +447,11 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
         {/* Section: Hero */}
         <section className="hero wrap" id="inicio">
           <div className="hero-copy">
-            <h1 style={{ marginBottom: '32px' }}>Conserto de notebooks na Santa Ifigênia</h1>
+            <p className="hero-context">Assistência especializada</p>
+            <h1>Conserto de Notebooks na Santa Ifigênia</h1>
+            <p className="hero-intro">
+              Reparos e upgrades com orçamento aprovado por você antes do serviço.
+            </p>
             <div className="hero-actions">
               <button 
                 ref={quizOpenerRef}

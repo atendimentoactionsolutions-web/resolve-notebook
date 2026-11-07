@@ -56,7 +56,8 @@ body.dark-mode .header nav .header-cta:hover { background: #dce3e1; }
 .product-dialog-close { position: sticky; top: 0; display: flex; margin-left: auto; }
 .catalog-footer { margin-top: 60px; flex-wrap: wrap; }
 .catalog-footer .admin-access-link { color: inherit; }
-.footer-admin-access .admin-access-link { color: #a7b6aa; }
+.footer-admin-access .admin-access-link { color: #71717a; }
+.footer-admin-access .admin-access-link:hover { color: #ffd438; }
 .footer-top > div, .footer-bottom { row-gap: 12px; }
 .store-map { height: clamp(240px, 30vw, 350px); }
 .product-dialog { overflow-y: auto; max-height: calc(100dvh - 36px); }

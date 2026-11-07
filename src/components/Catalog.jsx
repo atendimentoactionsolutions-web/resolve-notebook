@@ -566,7 +566,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
       </main>
 
       {/* Catalog Footer */}
-      <footer className="catalog-footer">
+      <footer className="catalog-footer" style={{ background: '#000000', borderTop: '1px solid #1e1e24', color: '#a1a1aa' }}>
         <span>Resolve Notebook · Rua Santa Ifigênia, 361 — Loja 14</span>
         <a 
           href="/admin" 

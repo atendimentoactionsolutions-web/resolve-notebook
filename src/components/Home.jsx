@@ -757,7 +757,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
       </main>
 
       {/* Footer */}
-      <footer>
+      <footer style={{ background: '#000000', borderTop: '1px solid #1e1e24' }}>
         <div className="wrap footer-top">
           <a className="brand brand-footer" href="#inicio" aria-label="Resolve Notebook, voltar ao início">
             <img 

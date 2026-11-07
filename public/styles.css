@@ -561,6 +561,85 @@ body .button-yellow svg *,
   stroke: #17201f !important;
 }
 
+/* Admin Panel Dialogs & Row Controls in Dark Mode */
+body.dark-mode .admin-product-row {
+  border-bottom-color: #222228 !important;
+}
+body.dark-mode .admin-product-info > span {
+  color: #a1a1aa !important;
+}
+body.dark-mode .availability-button {
+  border-color: #272730 !important;
+  background: #18181c !important;
+  color: #f4f4f5 !important;
+}
+body.dark-mode .admin-row-actions .icon-button {
+  border-color: #272730 !important;
+  background: #18181c !important;
+  color: #f4f4f5 !important;
+}
+body.dark-mode .admin-row-actions .icon-button:hover {
+  background: #222228 !important;
+  color: #ffd438 !important;
+}
+body.dark-mode .admin-editor,
+body.dark-mode .delete-dialog {
+  background: #121215 !important;
+  color: #f4f4f5 !important;
+  border: 1px solid #222228 !important;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8) !important;
+}
+body.dark-mode .admin-editor-header,
+body.dark-mode .editor-footer,
+body.dark-mode .admin-editor footer {
+  background: #121215 !important;
+  color: #f4f4f5 !important;
+  border-color: #222228 !important;
+}
+body.dark-mode .admin-editor-header h2,
+body.dark-mode .delete-dialog h2 {
+  color: #ffffff !important;
+}
+body.dark-mode .admin-editor-header p,
+body.dark-mode .delete-dialog p,
+body.dark-mode .editor-photo-column > p {
+  color: #a1a1aa !important;
+}
+body.dark-mode .admin-product-form input,
+body.dark-mode .admin-product-form select,
+body.dark-mode .admin-product-form textarea {
+  background: #18181c !important;
+  color: #f4f4f5 !important;
+  border: 1px solid #272730 !important;
+}
+body.dark-mode .admin-product-form label {
+  color: #f4f4f5 !important;
+}
+body.dark-mode .publish-options strong {
+  color: #f4f4f5 !important;
+}
+body.dark-mode .publish-options small {
+  color: #a1a1aa !important;
+}
+body.dark-mode .admin-stats a {
+  border-top-color: #222228 !important;
+  color: #a1a1aa !important;
+}
+body.dark-mode .admin-stats a:hover {
+  color: #ffd438 !important;
+}
+body.dark-mode .admin-account {
+  color: #a1a1aa !important;
+}
+body.dark-mode .admin-account > a {
+  color: #ffd438 !important;
+}
+body.dark-mode .admin-alert {
+  background: #18181c !important;
+  color: #f4f4f5 !important;
+  border: 1px solid #272730 !important;
+}
+
 
 /* Full Services Catalog Dialog */
 #services-dialog {

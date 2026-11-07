@@ -379,7 +379,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
               style={{ cursor: 'pointer' }}
               title="Resolve Notebook"
             />
-            <span>RESOLVE<span className="brand-sub">NOTEBOOK</span></span>
+            <span>Resolve Notebook</span>
           </a>
 
           <nav id="main-nav" className={menuOpen ? 'is-open' : ''} aria-label="Navegação principal">
@@ -796,7 +796,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
               height="44" 
               style={{ cursor: 'pointer' }}
             />
-            <span>RESOLVE<span className="brand-sub">NOTEBOOK</span></span>
+            <span>Resolve Notebook</span>
           </a>
 
           <div>

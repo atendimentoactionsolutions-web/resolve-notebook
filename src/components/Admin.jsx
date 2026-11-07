@@ -471,7 +471,7 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
           aria-label="Resolve Notebook, página inicial"
         >
           <img src="/assets/logo-original.png" alt="" width="44" height="44" />
-          <span>RESOLVE<span className="brand-sub">NOTEBOOK</span></span>
+          <span>Resolve Notebook</span>
         </a>
 
         <nav aria-label="Navegação administrativa">

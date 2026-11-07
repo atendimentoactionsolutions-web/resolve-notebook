@@ -163,7 +163,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
             height="44" 
             style={{ cursor: 'pointer' }}
           />
-          <span>Resolve Notebook</span>
+          <span>RESOLVE<span className="brand-sub">NOTEBOOK</span></span>
         </a>
 
         <nav aria-label="Navegação secundária">

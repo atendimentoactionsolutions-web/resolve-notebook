@@ -69,7 +69,10 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
   });
   const [internalDark, setInternalDark] = useState(() => {
     try {
-      return localStorage.getItem('resolve_theme') !== 'light';
+      if (localStorage.getItem('resolve_theme') === 'light' && !localStorage.getItem('resolve_theme_v2')) {
+        localStorage.removeItem('resolve_theme');
+      }
+      return localStorage.getItem('resolve_theme_v2') !== 'light';
     } catch (e) {
       return true;
     }
@@ -137,10 +140,22 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
     if (propIsDark === undefined) {
       if (isDark) {
         document.body.classList.add('dark-mode');
-        localStorage.setItem('resolve_theme', 'dark');
+        document.body.classList.remove('light-mode');
+        document.documentElement.classList.add('dark-mode');
+        document.documentElement.classList.remove('light-mode');
+        try {
+          localStorage.setItem('resolve_theme_v2', 'dark');
+          localStorage.setItem('resolve_theme', 'dark');
+        } catch (e) {}
       } else {
         document.body.classList.remove('dark-mode');
-        localStorage.setItem('resolve_theme', 'light');
+        document.body.classList.add('light-mode');
+        document.documentElement.classList.remove('dark-mode');
+        document.documentElement.classList.add('light-mode');
+        try {
+          localStorage.setItem('resolve_theme_v2', 'light');
+          localStorage.setItem('resolve_theme', 'light');
+        } catch (e) {}
       }
     }
   }, [isDark, propIsDark]);

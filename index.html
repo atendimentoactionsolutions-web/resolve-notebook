@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark-mode">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/assets/logo-original.png" />
@@ -23,15 +23,20 @@
         }
       });
     </script>
-    <!-- Dark Mode Default Script (zero white flash) -->
+    <!-- Dark Mode Default Script (zero white flash, defaults strictly to dark) -->
     <script>
       (function() {
         try {
-          var theme = localStorage.getItem('resolve_theme');
+          if (localStorage.getItem('resolve_theme') === 'light' && !localStorage.getItem('resolve_theme_v2')) {
+            localStorage.removeItem('resolve_theme');
+          }
+          var theme = localStorage.getItem('resolve_theme_v2');
           if (theme === 'light') {
             document.documentElement.classList.remove('dark-mode');
+            document.documentElement.classList.add('light-mode');
           } else {
             document.documentElement.classList.add('dark-mode');
+            document.documentElement.classList.remove('light-mode');
           }
         } catch(e) {}
       })();
@@ -46,10 +51,16 @@
     <script>
       (function() {
         try {
-          if (localStorage.getItem('resolve_theme') === 'light') {
+          if (localStorage.getItem('resolve_theme_v2') === 'light') {
             document.body.classList.remove('dark-mode');
+            document.body.classList.add('light-mode');
             document.body.style.background = '#f6f8f8';
             document.body.style.color = '#17201f';
+          } else {
+            document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+            document.body.style.background = '#08080a';
+            document.body.style.color = '#f4f4f5';
           }
         } catch(e) {}
       })();

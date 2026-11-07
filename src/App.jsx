@@ -10,7 +10,10 @@ export default function App() {
 
   const [isDark, setIsDark] = useState(() => {
     try {
-      return localStorage.getItem('resolve_theme') !== 'light';
+      if (localStorage.getItem('resolve_theme') === 'light' && !localStorage.getItem('resolve_theme_v2')) {
+        localStorage.removeItem('resolve_theme');
+      }
+      return localStorage.getItem('resolve_theme_v2') !== 'light';
     } catch (e) {
       return true;
     }
@@ -19,20 +22,28 @@ export default function App() {
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
       document.body.classList.add('dark-mode');
       document.body.classList.remove('light-mode');
       document.body.style.background = '#08080a';
       document.body.style.color = '#f4f4f5';
-      try { localStorage.setItem('resolve_theme', 'dark'); } catch (e) {}
+      try {
+        localStorage.setItem('resolve_theme_v2', 'dark');
+        localStorage.setItem('resolve_theme', 'dark');
+      } catch (e) {}
       const metaTheme = document.querySelector('meta[name="theme-color"]');
       if (metaTheme) metaTheme.setAttribute('content', '#08080a');
     } else {
       document.documentElement.classList.remove('dark-mode');
+      document.documentElement.classList.add('light-mode');
       document.body.classList.remove('dark-mode');
       document.body.classList.add('light-mode');
       document.body.style.background = '#f6f8f8';
       document.body.style.color = '#17201f';
-      try { localStorage.setItem('resolve_theme', 'light'); } catch (e) {}
+      try {
+        localStorage.setItem('resolve_theme_v2', 'light');
+        localStorage.setItem('resolve_theme', 'light');
+      } catch (e) {}
       const metaTheme = document.querySelector('meta[name="theme-color"]');
       if (metaTheme) metaTheme.setAttribute('content', '#f6f8f8');
     }

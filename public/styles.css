@@ -476,6 +476,17 @@ body.dark-mode .catalog-categories button[aria-pressed="true"] {
   border-color: #ffd438;
 }
 
+body.dark-mode .button-dark {
+  background: #18181c !important;
+  color: #f4f4f5 !important;
+  border: 1px solid #2a2a32 !important;
+}
+body.dark-mode .button-dark:hover {
+  background: #27272e !important;
+  color: #ffffff !important;
+  border-color: #ffd438 !important;
+}
+
 body.dark-mode .button-yellow,
 body.dark-mode .button-yellow *,
 body .button-yellow,

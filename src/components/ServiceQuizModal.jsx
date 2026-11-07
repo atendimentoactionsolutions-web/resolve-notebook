@@ -26,6 +26,7 @@ const BRANDS = [
 ];
 
 export default function ServiceQuizModal({ isOpen, onClose, initialIssue = '', openerRef }) {
+  const isDark = typeof document !== 'undefined' && document.body.classList.contains('dark-mode');
   const [step, setStep] = useState(0);
   const [issue, setIssue] = useState('');
   const [customIssueText, setCustomIssueText] = useState('');
@@ -283,8 +284,8 @@ export default function ServiceQuizModal({ isOpen, onClose, initialIssue = '', o
                 style={{ 
                   width: '64px', 
                   height: '64px', 
-                  background: '#dcfce7', 
-                  color: '#16a34a', 
+                  background: isDark ? 'rgba(34, 197, 94, 0.2)' : '#dcfce7', 
+                  color: isDark ? '#4ade80' : '#16a34a', 
                   borderRadius: '50%', 
                   display: 'grid', 
                   placeItems: 'center', 
@@ -413,8 +414,9 @@ export default function ServiceQuizModal({ isOpen, onClose, initialIssue = '', o
                       width: '100%',
                       padding: '12px 14px',
                       borderRadius: '10px',
-                      border: '1px solid var(--line)',
-                      background: '#ffffff',
+                      border: isDark ? '1px solid #272730' : '1px solid var(--line)',
+                      background: isDark ? '#141418' : '#ffffff',
+                      color: 'var(--ink)',
                       fontSize: '14px',
                       fontFamily: 'inherit',
                       resize: 'vertical'
@@ -437,7 +439,7 @@ export default function ServiceQuizModal({ isOpen, onClose, initialIssue = '', o
                         placeholder="Ex.: Dell Inspiron 15, MacBook M1, Acer..."
                         value={model}
                         onChange={(e) => setModel(e.target.value)}
-                        style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--line)', background: '#fff', fontSize: '13px' }}
+                        style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: isDark ? '1px solid #272730' : '1px solid var(--line)', background: isDark ? '#141418' : '#fff', color: 'var(--ink)', fontSize: '13px' }}
                       />
                     </div>
                     <div>
@@ -449,7 +451,7 @@ export default function ServiceQuizModal({ isOpen, onClose, initialIssue = '', o
                         placeholder="Como podemos te chamar?"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--line)', background: '#fff', fontSize: '13px' }}
+                        style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: isDark ? '1px solid #272730' : '1px solid var(--line)', background: isDark ? '#141418' : '#fff', color: 'var(--ink)', fontSize: '13px' }}
                       />
                     </div>
                   </div>

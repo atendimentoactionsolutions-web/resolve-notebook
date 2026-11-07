@@ -68,6 +68,9 @@ function parsePriceInput(val) {
 }
 
 export default function Admin({ onNavigate, isDark, onToggleDark }) {
+  const dark = isDark !== undefined 
+    ? isDark 
+    : (typeof document !== 'undefined' && document.body.classList.contains('dark-mode'));
   const [token, setToken] = useState(localStorage.getItem('resolve_admin_token') || '');
   const [usernameInput, setUsernameInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
@@ -601,7 +604,15 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
               </div>
 
               {loginError && (
-                <div style={{ padding: '10px', borderRadius: '8px', background: '#ffeef0', color: '#d92d20', fontSize: '12px', fontWeight: 600 }}>
+                <div style={{ 
+                  padding: '10px 14px', 
+                  borderRadius: '8px', 
+                  background: dark ? 'rgba(239, 68, 68, 0.15)' : '#ffeef0', 
+                  color: dark ? '#f87171' : '#d92d20', 
+                  border: dark ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid #fecaca',
+                  fontSize: '12px', 
+                  fontWeight: 600 
+                }}>
                   {loginError}
                 </div>
               )}
@@ -621,10 +632,10 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
             {/* Dashboard Title & Tab Switcher */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
               <div>
-                <p style={{ margin: '0 0 4px 0', fontSize: '13px', fontWeight: 700, color: 'var(--dark)' }}>
+                <p style={{ margin: '0 0 4px 0', fontSize: '11px', fontWeight: 800, color: dark ? '#ffd438' : '#876c00', textTransform: 'uppercase', letterSpacing: '1.2px' }}>
                   PAINEL DE GESTÃO DA LOJA
                 </p>
-                <h1 style={{ margin: 0, fontSize: '32px', letterSpacing: '-0.02em' }}>
+                <h1 style={{ margin: 0, fontSize: '32px', letterSpacing: '-0.02em', color: 'var(--ink)' }}>
                   Gerenciador Administrativo
                 </h1>
               </div>
@@ -635,11 +646,11 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                   type="button"
                   onClick={() => setActiveTab('products')}
                   style={{
-                    padding: '8px 16px',
+                    padding: '9px 18px',
                     borderRadius: '8px',
                     border: 'none',
-                    background: activeTab === 'products' ? '#17201f' : 'transparent',
-                    color: activeTab === 'products' ? '#ffd438' : 'var(--ink)',
+                    background: activeTab === 'products' ? (dark ? '#ffd438' : '#17201f') : 'transparent',
+                    color: activeTab === 'products' ? (dark ? '#17201f' : '#ffd438') : 'var(--ink)',
                     fontWeight: 700,
                     fontSize: '13px',
                     cursor: 'pointer',
@@ -652,11 +663,11 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                   type="button"
                   onClick={() => setActiveTab('rates')}
                   style={{
-                    padding: '8px 16px',
+                    padding: '9px 18px',
                     borderRadius: '8px',
                     border: 'none',
-                    background: activeTab === 'rates' ? '#17201f' : 'transparent',
-                    color: activeTab === 'rates' ? '#ffd438' : 'var(--ink)',
+                    background: activeTab === 'rates' ? (dark ? '#ffd438' : '#17201f') : 'transparent',
+                    color: activeTab === 'rates' ? (dark ? '#17201f' : '#ffd438') : 'var(--ink)',
                     fontWeight: 700,
                     fontSize: '13px',
                     cursor: 'pointer',
@@ -672,21 +683,21 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
             {activeTab === 'products' && (
               <div>
                 {/* Metrics */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '16px', marginBottom: '32px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: '16px', marginBottom: '32px' }}>
                   <div style={{ background: 'var(--white)', padding: '20px', borderRadius: '16px', border: '1px solid var(--line)' }}>
-                    <span style={{ fontSize: '12px', color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>TOTAL NO ESTOQUE</span>
+                    <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 700, letterSpacing: '0.5px', display: 'block', marginBottom: '6px' }}>TOTAL NO ESTOQUE</span>
                     <strong style={{ fontSize: '28px', color: 'var(--ink)' }}>{totalStock}</strong>
                   </div>
                   <div style={{ background: 'var(--white)', padding: '20px', borderRadius: '16px', border: '1px solid var(--line)' }}>
-                    <span style={{ fontSize: '12px', color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>DISPONÍVEIS NA LOJA</span>
-                    <strong style={{ fontSize: '28px', color: '#059669' }}>{availableCount}</strong>
+                    <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 700, letterSpacing: '0.5px', display: 'block', marginBottom: '6px' }}>DISPONÍVEIS NA LOJA</span>
+                    <strong style={{ fontSize: '28px', color: dark ? '#34d399' : '#059669' }}>{availableCount}</strong>
                   </div>
                   <div style={{ background: 'var(--white)', padding: '20px', borderRadius: '16px', border: '1px solid var(--line)' }}>
-                    <span style={{ fontSize: '12px', color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>VENDIDOS</span>
-                    <strong style={{ fontSize: '28px', color: '#dc2626' }}>{soldCount}</strong>
+                    <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 700, letterSpacing: '0.5px', display: 'block', marginBottom: '6px' }}>VENDIDOS</span>
+                    <strong style={{ fontSize: '28px', color: dark ? '#f87171' : '#dc2626' }}>{soldCount}</strong>
                   </div>
                   <div style={{ background: 'var(--white)', padding: '20px', borderRadius: '16px', border: '1px solid var(--line)' }}>
-                    <span style={{ fontSize: '12px', color: 'var(--muted)', fontWeight: 600, display: 'block', marginBottom: '6px' }}>VALOR EM ESTOQUE</span>
+                    <span style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 700, letterSpacing: '0.5px', display: 'block', marginBottom: '6px' }}>VALOR EM ESTOQUE</span>
                     <strong style={{ fontSize: '22px', color: 'var(--ink)' }}>
                       {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalStockValue)}
                     </strong>
@@ -695,15 +706,26 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
 
                 {/* EDIT MODE BANNER */}
                 {editingId && (
-                  <div style={{ background: '#fffbeb', border: '1.5px solid #f59e0b', borderRadius: '14px', padding: '16px 20px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+                  <div style={{ 
+                    background: dark ? 'rgba(245, 158, 11, 0.15)' : '#fffbeb', 
+                    border: dark ? '1.5px solid rgba(245, 158, 11, 0.45)' : '1.5px solid #f59e0b', 
+                    borderRadius: '14px', 
+                    padding: '16px 20px', 
+                    marginBottom: '24px', 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center', 
+                    flexWrap: 'wrap', 
+                    gap: '12px' 
+                  }}>
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <span style={{ fontSize: '20px' }}>✏️</span>
-                        <strong style={{ fontSize: '16px', color: '#92400e' }}>
+                        <strong style={{ fontSize: '16px', color: dark ? '#fbbf24' : '#92400e' }}>
                           Editando Produto: {title || 'Sem título'}
                         </strong>
                       </div>
-                      <span style={{ fontSize: '12px', color: '#b45309', display: 'block', marginTop: '2px' }}>
+                      <span style={{ fontSize: '12px', color: dark ? '#fcd34d' : '#b45309', display: 'block', marginTop: '2px' }}>
                         ID: {editingId} · Ao salvar, as alterações aparecerão imediatamente no catálogo da loja.
                       </span>
                     </div>
@@ -712,7 +734,16 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                       <button 
                         type="button" 
                         onClick={resetForm}
-                        style={{ background: '#ffffff', border: '1px solid #d97706', color: '#92400e', fontWeight: 700, padding: '8px 16px', borderRadius: '8px', fontSize: '12px', cursor: 'pointer' }}
+                        style={{ 
+                          background: dark ? '#1e1e24' : '#ffffff', 
+                          border: dark ? '1px solid #f59e0b' : '1px solid #d97706', 
+                          color: dark ? '#fbbf24' : '#92400e', 
+                          fontWeight: 700, 
+                          padding: '8px 16px', 
+                          borderRadius: '8px', 
+                          fontSize: '12px', 
+                          cursor: 'pointer' 
+                        }}
                       >
                         ✕ Cancelar Edição (Voltar para Novo)
                       </button>
@@ -723,28 +754,54 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                 {/* PRODUCT FORM CARD */}
                 <div style={{ background: 'var(--white)', padding: '32px', borderRadius: '20px', border: '1px solid var(--line)', marginBottom: '40px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                    <h2 style={{ margin: 0, fontSize: '20px', letterSpacing: '-0.01em' }}>
+                    <h2 style={{ margin: 0, fontSize: '20px', letterSpacing: '-0.01em', color: 'var(--ink)' }}>
                       {editingId ? 'Salvar Edição do Produto' : 'Cadastrar Novo Notebook / Produto'}
                     </h2>
                     {editingId && (
-                      <span style={{ background: '#fef3c7', color: '#92400e', padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 700 }}>
+                      <span style={{ 
+                        background: dark ? 'rgba(245, 158, 11, 0.25)' : '#fef3c7', 
+                        color: dark ? '#fbbf24' : '#92400e', 
+                        border: dark ? '1px solid rgba(245, 158, 11, 0.35)' : 'none',
+                        padding: '4px 10px', 
+                        borderRadius: '6px', 
+                        fontSize: '11px', 
+                        fontWeight: 700 
+                      }}>
                         MODO DE EDIÇÃO
                       </span>
                     )}
                   </div>
 
                   {formSuccess && (
-                    <div style={{ padding: '12px', borderRadius: '10px', background: '#ecfdf5', color: '#047857', fontSize: '13px', fontWeight: 600, marginBottom: '20px' }}>
+                    <div style={{ 
+                      padding: '12px 16px', 
+                      borderRadius: '10px', 
+                      background: dark ? 'rgba(16, 185, 129, 0.15)' : '#ecfdf5', 
+                      color: dark ? '#34d399' : '#047857', 
+                      border: dark ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid #a7f3d0',
+                      fontSize: '13px', 
+                      fontWeight: 600, 
+                      marginBottom: '20px' 
+                    }}>
                       ✓ {formSuccess}
                     </div>
                   )}
                   {formError && (
-                    <div style={{ padding: '12px', borderRadius: '10px', background: '#ffeef0', color: '#d92d20', fontSize: '13px', fontWeight: 600, marginBottom: '20px' }}>
+                    <div style={{ 
+                      padding: '12px 16px', 
+                      borderRadius: '10px', 
+                      background: dark ? 'rgba(239, 68, 68, 0.15)' : '#ffeef0', 
+                      color: dark ? '#f87171' : '#d92d20', 
+                      border: dark ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid #fecaca',
+                      fontSize: '13px', 
+                      fontWeight: 600, 
+                      marginBottom: '20px' 
+                    }}>
                       ⚠ {formError}
                     </div>
                   )}
 
-                  <form onSubmit={handleSaveProduct} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                  <form onSubmit={handleSaveProduct} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: '20px' }}>
                     {/* Title */}
                     <div style={{ gridColumn: '1 / -1' }}>
                       <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px' }}>
@@ -787,7 +844,7 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                           style={{
                             background: 'none',
                             border: 'none',
-                            color: '#936a00',
+                            color: dark ? '#ffd438' : '#876c00',
                             fontSize: '11px',
                             fontWeight: 700,
                             cursor: 'pointer',
@@ -1036,7 +1093,7 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                               justifyContent: 'space-between', 
                               alignItems: 'center', 
                               padding: '16px 20px', 
-                              background: isCurrentlyEditing ? 'rgba(245, 158, 11, 0.12)' : (isSold ? 'rgba(0,0,0,0.04)' : 'var(--paper)'), 
+                              background: isCurrentlyEditing ? (dark ? 'rgba(245, 158, 11, 0.18)' : 'rgba(245, 158, 11, 0.12)') : (isSold ? (dark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.04)') : 'var(--paper)'), 
                               borderRadius: '14px', 
                               border: isCurrentlyEditing ? '2px solid #f59e0b' : '1px solid var(--line)',
                               opacity: isSold ? 0.65 : 1,
@@ -1048,7 +1105,7 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                               {img ? (
                                 <img src={img} alt="" style={{ width: '64px', height: '52px', objectFit: 'cover', borderRadius: '8px' }} />
                               ) : (
-                                <div style={{ width: '64px', height: '52px', background: '#e2e8f0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: '#64748b' }}>
+                                <div style={{ width: '64px', height: '52px', background: dark ? '#18181c' : '#e2e8f0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', color: dark ? '#a1a1aa' : '#64748b' }}>
                                   Sem foto
                                 </div>
                               )}
@@ -1066,16 +1123,16 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                                   <strong style={{ color: 'var(--ink)', marginLeft: '6px' }}>
                                     {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(p.price) || 0)}
                                   </strong>
-                                  {isSold && <b style={{ color: '#dc2626', marginLeft: '8px' }}>[VENDIDO]</b>}
+                                  {isSold && <b style={{ color: dark ? '#f87171' : '#dc2626', marginLeft: '8px' }}>[VENDIDO]</b>}
                                 </span>
                               </div>
                             </div>
 
-                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                               <button 
                                 type="button"
                                 className="quiet-button"
-                                style={{ fontSize: '12px', padding: '8px 14px', border: '1px solid var(--line)', borderRadius: '8px' }}
+                                style={{ fontSize: '12px', padding: '8px 14px', border: '1px solid var(--line)', borderRadius: '8px', background: dark ? '#18181c' : '#ffffff', color: 'var(--ink)' }}
                                 onClick={() => handleToggleSold(p)}
                               >
                                 {isSold ? 'Marcar Disponível' : 'Marcar Vendido'}
@@ -1086,9 +1143,9 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                                 style={{ 
                                   fontSize: '12px', 
                                   padding: '8px 16px', 
-                                  background: isCurrentlyEditing ? '#f59e0b' : '#17201f', 
+                                  background: isCurrentlyEditing ? '#f59e0b' : (dark ? '#22222a' : '#17201f'), 
                                   color: isCurrentlyEditing ? '#ffffff' : '#ffd438', 
-                                  border: 'none', 
+                                  border: dark ? '1px solid #33333e' : 'none', 
                                   borderRadius: '8px', 
                                   fontWeight: 700, 
                                   cursor: 'pointer',
@@ -1103,7 +1160,15 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
 
                               <button 
                                 type="button"
-                                style={{ fontSize: '12px', padding: '8px 14px', border: '1px solid #fee2e2', color: '#dc2626', background: '#fff', borderRadius: '8px', cursor: 'pointer' }}
+                                style={{ 
+                                  fontSize: '12px', 
+                                  padding: '8px 14px', 
+                                  border: dark ? '1px solid rgba(220, 38, 38, 0.35)' : '1px solid #fee2e2', 
+                                  color: dark ? '#f87171' : '#dc2626', 
+                                  background: dark ? 'rgba(220, 38, 38, 0.12)' : '#fff', 
+                                  borderRadius: '8px', 
+                                  cursor: 'pointer' 
+                                }}
                                 onClick={() => handleDelete(p.id)}
                               >
                                 Excluir
@@ -1124,10 +1189,10 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                 <div style={{ background: 'var(--white)', padding: '32px', borderRadius: '20px', border: '1px solid var(--line)', marginBottom: '32px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', marginBottom: '24px' }}>
                     <div>
-                      <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                      <span style={{ fontSize: '11px', fontWeight: 800, color: dark ? '#ffd438' : '#876c00', textTransform: 'uppercase', letterSpacing: '1.2px' }}>
                         CONFIGURAÇÃO DE PAGAMENTO
                       </span>
-                      <h2 style={{ margin: '4px 0 6px 0', fontSize: '24px', letterSpacing: '-0.02em' }}>
+                      <h2 style={{ margin: '4px 0 6px 0', fontSize: '24px', letterSpacing: '-0.02em', color: 'var(--ink)' }}>
                         Taxas da Maquininha da Empresa
                       </h2>
                       <p style={{ margin: 0, fontSize: '14px', color: 'var(--muted)', maxWidth: '680px' }}>
@@ -1147,19 +1212,37 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                   </div>
 
                   {ratesSuccess && (
-                    <div style={{ padding: '14px', borderRadius: '10px', background: '#ecfdf5', color: '#047857', fontSize: '13px', fontWeight: 700, marginBottom: '20px' }}>
+                    <div style={{ 
+                      padding: '14px 18px', 
+                      borderRadius: '10px', 
+                      background: dark ? 'rgba(16, 185, 129, 0.15)' : '#ecfdf5', 
+                      color: dark ? '#34d399' : '#047857', 
+                      border: dark ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid #a7f3d0',
+                      fontSize: '13px', 
+                      fontWeight: 700, 
+                      marginBottom: '20px' 
+                    }}>
                       ✓ {ratesSuccess}
                     </div>
                   )}
                   {ratesError && (
-                    <div style={{ padding: '14px', borderRadius: '10px', background: '#ffeef0', color: '#d92d20', fontSize: '13px', fontWeight: 700, marginBottom: '20px' }}>
+                    <div style={{ 
+                      padding: '14px 18px', 
+                      borderRadius: '10px', 
+                      background: dark ? 'rgba(239, 68, 68, 0.15)' : '#ffeef0', 
+                      color: dark ? '#f87171' : '#d92d20', 
+                      border: dark ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid #fecaca',
+                      fontSize: '13px', 
+                      fontWeight: 700, 
+                      marginBottom: '20px' 
+                    }}>
                       ⚠ {ratesError}
                     </div>
                   )}
 
                   {/* Presets Bar */}
-                  <div style={{ background: 'var(--paper)', padding: '16px 20px', borderRadius: '14px', border: '1px solid var(--line)', marginBottom: '28px' }}>
-                    <span style={{ fontSize: '12px', fontWeight: 700, display: 'block', marginBottom: '8px' }}>
+                  <div style={{ background: 'var(--paper)', padding: '18px 20px', borderRadius: '14px', border: '1px solid var(--line)', marginBottom: '28px' }}>
+                    <span style={{ fontSize: '12px', fontWeight: 700, display: 'block', marginBottom: '10px', color: 'var(--ink)' }}>
                       ⚡ Preenchimento Rápido por Modelo de Maquininha:
                     </span>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -1169,15 +1252,18 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                           type="button"
                           onClick={() => handleApplyPreset(key)}
                           style={{
-                            padding: '8px 14px',
+                            padding: '9px 15px',
                             borderRadius: '8px',
-                            border: '1px solid var(--line)',
-                            background: '#ffffff',
-                            color: 'var(--ink)',
+                            border: dark ? '1px solid #2a2a35' : '1px solid var(--line)',
+                            background: dark ? '#1a1a20' : '#ffffff',
+                            color: dark ? '#f4f4f5' : '#17201f',
                             fontSize: '12px',
                             fontWeight: 600,
-                            cursor: 'pointer'
+                            cursor: 'pointer',
+                            transition: 'all 0.15s ease'
                           }}
+                          onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#ffd438'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.borderColor = dark ? '#2a2a35' : 'var(--line)'; }}
                         >
                           {preset.name}
                         </button>
@@ -1186,9 +1272,9 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                   </div>
 
                   {/* Machine Details Form */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))', gap: '20px', marginBottom: '32px' }}>
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px' }}>
+                      <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px', color: 'var(--ink)' }}>
                         Nome da Maquininha:
                       </label>
                       <input
@@ -1196,18 +1282,18 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                         value={rates.machineName || ''}
                         onChange={(e) => setRates({ ...rates, machineName: e.target.value })}
                         placeholder="Ex.: Ton T3 Brother, Stone ou PagBank"
-                        style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--line)', background: 'var(--paper)', fontSize: '14px' }}
+                        style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: dark ? '1px solid #272730' : '1px solid var(--line)', background: dark ? '#141418' : 'var(--paper)', color: 'var(--ink)', fontSize: '14px' }}
                       />
                     </div>
 
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px' }}>
+                      <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px', color: 'var(--ink)' }}>
                         Parcelas Sem Juros para o Cliente:
                       </label>
                       <select
                         value={rates.interestFreeInstallments || 1}
                         onChange={(e) => setRates({ ...rates, interestFreeInstallments: parseInt(e.target.value, 10) || 1 })}
-                        style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--line)', background: 'var(--paper)', fontSize: '14px' }}
+                        style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: dark ? '1px solid #272730' : '1px solid var(--line)', background: dark ? '#141418' : 'var(--paper)', color: 'var(--ink)', fontSize: '14px' }}
                       >
                         <option value="1">1x (Apenas à vista sem juros)</option>
                         <option value="2">Até 2x sem juros</option>
@@ -1221,7 +1307,7 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                     </div>
 
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px' }}>
+                      <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px', color: 'var(--ink)' }}>
                         Taxa Débito (%):
                       </label>
                       <input
@@ -1229,12 +1315,12 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                         step="0.01"
                         value={rates.debit !== undefined ? rates.debit : 1.39}
                         onChange={(e) => setRates({ ...rates, debit: parseFloat(e.target.value) || 0 })}
-                        style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--line)', background: 'var(--paper)', fontSize: '14px' }}
+                        style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: dark ? '1px solid #272730' : '1px solid var(--line)', background: dark ? '#141418' : 'var(--paper)', color: 'var(--ink)', fontSize: '14px' }}
                       />
                     </div>
 
                     <div>
-                      <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px' }}>
+                      <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px', color: 'var(--ink)' }}>
                         Taxa Crédito 1x à Vista (%):
                       </label>
                       <input
@@ -1242,38 +1328,63 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                         step="0.01"
                         value={rates.credit1x !== undefined ? rates.credit1x : 3.15}
                         onChange={(e) => setRates({ ...rates, credit1x: parseFloat(e.target.value) || 0 })}
-                        style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--line)', background: 'var(--paper)', fontSize: '14px' }}
+                        style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: dark ? '1px solid #272730' : '1px solid var(--line)', background: dark ? '#141418' : 'var(--paper)', color: 'var(--ink)', fontSize: '14px' }}
                       />
                     </div>
                   </div>
 
                   {/* Table of Installment Rates */}
-                  <h3 style={{ margin: '0 0 12px 0', fontSize: '16px' }}>
+                  <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', color: 'var(--ink)' }}>
                     Tabela de Taxas por Parcela (1x até 12x / 18x)
                   </h3>
                   <p style={{ margin: '0 0 16px 0', fontSize: '13px', color: 'var(--muted)' }}>
                     Informe a taxa total percentual cobrada pela maquininha para cada número de parcelas:
                   </p>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '32px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 125px), 1fr))', gap: '12px', marginBottom: '32px' }}>
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 18].map((n) => {
                       const key = String(n);
                       const currentVal = rates.installments?.[key] !== undefined ? rates.installments[key] : (3.15 + (n - 1) * 0.9);
                       const isFree = n <= (rates.interestFreeInstallments || 1);
 
                       return (
-                        <div key={n} style={{ background: isFree ? '#f0fdf4' : 'var(--paper)', padding: '12px', borderRadius: '10px', border: isFree ? '1px solid #bbf7d0' : '1px solid var(--line)' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                        <div 
+                          key={n} 
+                          style={{ 
+                            background: isFree 
+                              ? (dark ? 'rgba(34, 197, 94, 0.12)' : '#f0fdf4') 
+                              : 'var(--paper)', 
+                            padding: '12px', 
+                            borderRadius: '10px', 
+                            border: isFree 
+                              ? (dark ? '1px solid rgba(34, 197, 94, 0.35)' : '1px solid #bbf7d0') 
+                              : (dark ? '1px solid #272730' : '1px solid var(--line)') 
+                          }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                             <strong style={{ fontSize: '13px', color: 'var(--ink)' }}>{n}x</strong>
-                            {isFree && <span style={{ fontSize: '9px', fontWeight: 800, color: '#16a34a' }}>SEM JUROS</span>}
+                            {isFree && (
+                              <span style={{ fontSize: '9px', fontWeight: 800, color: dark ? '#4ade80' : '#16a34a' }}>
+                                SEM JUROS
+                              </span>
+                            )}
                           </div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                             <input
                               type="number"
                               step="0.01"
                               value={currentVal}
                               onChange={(e) => handleRateChange(key, e.target.value)}
-                              style={{ width: '100%', padding: '8px 10px', borderRadius: '6px', border: '1px solid var(--line)', background: '#ffffff', fontSize: '13px', fontWeight: 700 }}
+                              style={{ 
+                                width: '100%', 
+                                padding: '8px 10px', 
+                                borderRadius: '6px', 
+                                border: dark ? '1px solid #272730' : '1px solid var(--line)', 
+                                background: dark ? '#141418' : '#ffffff', 
+                                color: 'var(--ink)',
+                                fontSize: '13px', 
+                                fontWeight: 700 
+                              }}
                             />
                             <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--muted)' }}>%</span>
                           </div>
@@ -1286,7 +1397,7 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                   <div style={{ background: 'var(--paper)', padding: '24px', borderRadius: '16px', border: '1px solid var(--line)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '12px' }}>
                       <div>
-                        <strong style={{ fontSize: '14px', display: 'block' }}>
+                        <strong style={{ fontSize: '14px', display: 'block', color: 'var(--ink)' }}>
                           🔬 Testador em Tempo Real da Maquininha:
                         </strong>
                         <span style={{ fontSize: '12px', color: 'var(--muted)' }}>
@@ -1295,13 +1406,22 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '13px', fontWeight: 600 }}>Valor de Teste: R$</span>
+                        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink)' }}>Valor de Teste: R$</span>
                         <input
                           type="text"
                           value={ratesTestPrice}
                           onChange={(e) => setRatesTestPrice(e.target.value)}
                           placeholder="2490"
-                          style={{ width: '120px', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--line)', background: '#ffffff', fontSize: '14px', fontWeight: 700 }}
+                          style={{ 
+                            width: '120px', 
+                            padding: '8px 12px', 
+                            borderRadius: '8px', 
+                            border: dark ? '1px solid #272730' : '1px solid var(--line)', 
+                            background: dark ? '#141418' : '#ffffff', 
+                            color: 'var(--ink)',
+                            fontSize: '14px', 
+                            fontWeight: 700 
+                          }}
                         />
                       </div>
                     </div>

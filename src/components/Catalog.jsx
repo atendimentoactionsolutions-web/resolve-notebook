@@ -245,7 +245,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
                 Única unidade disponível no estoque
               </span>
               <div style={{ display: 'grid', gridTemplateColumns: 'minmax(240px, 320px) 1fr', gap: '28px', alignItems: 'center' }}>
-                <div style={{ background: '#edf1ef', borderRadius: '12px', height: '220px', display: 'grid', placeItems: 'center', overflow: 'hidden' }}>
+                <div style={{ background: isDark ? '#000000' : '#edf1ef', border: isDark ? '1px solid #222228' : 'none', borderRadius: '12px', height: '220px', display: 'grid', placeItems: 'center', overflow: 'hidden' }}>
                   {((Array.isArray(products[0].images) && products[0].images[0]) || products[0].image) ? (
                     <img 
                       src={(Array.isArray(products[0].images) && products[0].images[0]) || products[0].image} 

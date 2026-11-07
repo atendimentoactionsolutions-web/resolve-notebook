@@ -1133,3 +1133,18 @@ body.dark-mode .card-simulator-container table td {
     font-size: 13px;
   }
 }
+
+/* === ADMIN PANEL MOBILE HARMONY & CONTRAST === */
+@media (max-width: 768px) {
+  .admin-page .wrap {
+    width: calc(100% - 28px) !important;
+    padding-top: 16px !important;
+    padding-bottom: 50px !important;
+  }
+  .admin-page h1 {
+    font-size: 24px !important;
+  }
+  .admin-page h2 {
+    font-size: 18px !important;
+  }
+}

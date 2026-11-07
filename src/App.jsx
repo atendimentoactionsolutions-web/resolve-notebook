@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Home from './components/Home';
 import Catalog from './components/Catalog';
 import Admin from './components/Admin';
-import QRCodeResolve from './components/QRCodeResolve';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState(() => {
@@ -80,10 +79,6 @@ export default function App() {
   }, []);
 
   // Roteamento
-  if (currentPath === '/qrcoderesolve' || currentPath.startsWith('/qrcoderesolve')) {
-    return <QRCodeResolve onNavigate={handleNavigate} isDark={isDark} onToggleDark={toggleDark} />;
-  }
-
   if (currentPath === '/admin' || currentPath.startsWith('/admin') || currentPath.startsWith('/painel')) {
     return <Admin onNavigate={handleNavigate} isDark={isDark} onToggleDark={toggleDark} />;
   }

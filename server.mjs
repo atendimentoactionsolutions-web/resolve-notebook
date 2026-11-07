@@ -15,7 +15,6 @@ const PORT = process.env.PORT || 3015;
 const ADMIN_USER = process.env.ADMIN_USER || 'resolve';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'resolve';
 const LEADS_SERVICE_URL = process.env.LEADS_SERVICE_URL || 'http://127.0.0.1:5001';
-const WHATSAPP_API_URL = process.env.WHATSAPP_API_URL || 'http://127.0.0.1:3010';
 const sessions = new Map();
 
 // Middleware
@@ -473,48 +472,6 @@ app.use(['/api/leads', '/api/avaliacoes'], async (req, res, next) => {
   } catch (err) {
     console.error('Erro no proxy para serviço Python de leads:', err.message, err.cause);
     res.status(502).json({ error: 'Serviço de atendimento temporariamente indisponível. Tente novamente em instantes.' });
-  }
-});
-
-// 8. WhatsApp status e pareamento para a tela /qrcoderesolve (protegido por admin)
-app.get('/api/whatsapp/status', authMiddleware, async (req, res) => {
-  try {
-    const response = await fetch(`${WHATSAPP_API_URL.replace(/\/$/, '')}/status`, {
-      signal: AbortSignal.timeout(4000)
-    });
-    const data = await response.json();
-    return res.json({
-      success: true,
-      status: data.status || 'UNKNOWN',
-      user: data.user || null,
-      name: data.name || null,
-      hasQr: !!data.hasQr,
-      qrCodeDataUrl: data.qrCodeDataUrl || null
-    });
-  } catch (err) {
-    return res.json({
-      success: true,
-      status: 'DISCONNECTED',
-      message: 'Instância do WhatsApp não iniciada ou desconectada na porta 3010.',
-      user: null,
-      name: null,
-      hasQr: false,
-      qrCodeDataUrl: null
-    });
-  }
-});
-
-app.post('/api/whatsapp/reset', authMiddleware, async (req, res) => {
-  try {
-    const response = await fetch(`${WHATSAPP_API_URL.replace(/\/$/, '')}/reset`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      signal: AbortSignal.timeout(6000)
-    });
-    const data = await response.json().catch(() => ({}));
-    return res.json({ success: true, ...data });
-  } catch (err) {
-    return res.status(502).json({ success: false, error: 'Não foi possível reiniciar a sessão do WhatsApp.' });
   }
 });
 

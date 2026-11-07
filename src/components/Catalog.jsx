@@ -124,7 +124,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
 
   const generateWhatsAppLink = (product) => {
     const modelOrTitle = product.model || product.title;
-    const msg = `Olá! Vi o *${modelOrTitle}* no catálogo da RESOLVE Notebook e tenho interesse nele. Ainda está disponível na loja?`;
+    const msg = `Olá! Vi o *${modelOrTitle}* no catálogo da Resolve Notebook e tenho interesse nele. Ainda está disponível na loja?`;
     return `https://wa.me/5511988095982?text=${encodeURIComponent(msg)}`;
   };
 
@@ -154,11 +154,11 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
           className="brand" 
           href="/" 
           onClick={(e) => { e.preventDefault(); onNavigate('/'); }} 
-          aria-label="RESOLVE Notebook, página inicial"
+          aria-label="Resolve Notebook, página inicial"
         >
           <img 
             src="/assets/logo-original.png" 
-            alt="Logo RESOLVE" 
+            alt="Logo Resolve Notebook" 
             width="44" 
             height="44" 
             style={{ cursor: 'pointer' }}
@@ -214,7 +214,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
 
           <a 
             className="button button-dark" 
-            href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Gostaria%20de%20consultar%20produtos%20dispon%C3%ADveis%20na%20RESOLVE%20Notebook." 
+            href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Gostaria%20de%20consultar%20produtos%20dispon%C3%ADveis%20na%20Resolve%20Notebook." 
             target="_blank" 
             rel="noopener noreferrer"
           >
@@ -227,7 +227,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
       <main className="wrap">
         <div style={{ paddingTop: '35px', paddingBottom: '10px' }}>
           <p className="hero-context" style={{ marginBottom: '8px' }}>
-            RESOLVE Notebook · Santa Ifigênia
+            Resolve Notebook · Santa Ifigênia
           </p>
           <h1 style={{ fontSize: 'clamp(32px, 4vw, 48px)', lineHeight: 1.15, margin: '0 0 12px 0', letterSpacing: '-0.02em', color: 'var(--ink)' }}>
             Encontre o seu<br/>próximo notebook.
@@ -445,7 +445,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
               ) : (
                 <a 
                   className="button button-yellow" 
-                  href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Quais%20notebooks%20est%C3%A3o%20dispon%C3%ADveis%20na%20RESOLVE%20Notebook%3F" 
+                  href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Quais%20notebooks%20est%C3%A3o%20dispon%C3%ADveis%20na%20Resolve%20Notebook%3F" 
                   target="_blank" 
                   rel="noopener noreferrer"
                 >
@@ -567,7 +567,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
 
       {/* Catalog Footer */}
       <footer className="catalog-footer">
-        <span>RESOLVE Notebook · Rua Santa Ifigênia, 361 — Loja 14</span>
+        <span>Resolve Notebook · Rua Santa Ifigênia, 361 — Loja 14</span>
         <a 
           href="/admin" 
           className="admin-access-link"

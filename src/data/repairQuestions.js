@@ -54,10 +54,10 @@ export function getRepairQuestions(issue = '') {
 export function buildRepairMessage({ issue = '', brand = '', model = '', notes = '', answers = {}, name = '', customDescription = '' }) {
   const mainIssue = customDescription?.trim() || issue || 'Avaliação geral';
   const lines = [
-    '🔧 *SOLICITAÇÃO DE AVALIAÇÃO TÉCNICA • RESOLVE NOTEBOOK*',
+    '🔧 *SOLICITAÇÃO DE AVALIAÇÃO TÉCNICA • Resolve Notebook*',
     '📍 *Santa Ifigênia, SP — Loja Física Especializada*',
     '',
-    'Olá! Vim pelo site da RESOLVE Notebook e gostaria de uma avaliação para o meu equipamento.',
+    'Olá! Vim pelo site da Resolve Notebook e gostaria de uma avaliação para o meu equipamento.',
     '',
     '📋 *DADOS DO ATENDIMENTO:*'
   ];

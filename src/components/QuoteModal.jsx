@@ -81,7 +81,7 @@ export default function QuoteModal({ isOpen, onClose, initialService }) {
   const handleSendWhatsApp = (e) => {
     e.preventDefault();
 
-    const formattedMessage = `*SOLICITAÇÃO DE ORÇAMENTO FORMAL • RESOLVE NOTEBOOK*\n` +
+    const formattedMessage = `*SOLICITAÇÃO DE ORÇAMENTO FORMAL • Resolve Notebook*\n` +
       `--------------------------------------------------\n` +
       `👤 *Cliente:* ${customerName || 'Cliente'}\n` +
       `💻 *Marca:* ${selectedBrand || 'Não informada'}\n` +

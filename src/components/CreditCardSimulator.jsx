@@ -131,8 +131,8 @@ export default function CreditCardSimulator({
 
           {/* Card Label */}
           <div style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: '11px', letterSpacing: '2px', color: '#ffd438', fontWeight: 800, textTransform: 'uppercase' }}>
-              RESOLVE CARD
+            <span style={{ fontSize: '11px', letterSpacing: '1px', color: '#ffd438', fontWeight: 800 }}>
+              Resolve Card
             </span>
             <span style={{ display: 'block', fontSize: '9px', color: 'rgba(255,255,255,0.5)', letterSpacing: '1px' }}>
               SIMULADOR DE PARCELAMENTO

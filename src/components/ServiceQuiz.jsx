@@ -44,7 +44,7 @@ export default function ServiceQuiz() {
 
   return (
     <div className="service-quiz">
-      <p className="eyebrow" aria-live="polite">Solicitar avaliação · RESOLVE Notebook</p>
+      <p className="eyebrow" aria-live="polite">Solicitar avaliação · Resolve Notebook</p>
       <h3 ref={heading} tabIndex={-1}>
         {step === 0 
           ? 'Qual problema você percebeu?' 

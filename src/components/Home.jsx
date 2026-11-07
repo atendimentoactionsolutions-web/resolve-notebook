@@ -370,14 +370,14 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
       {/* Main Header */}
       <header className="header" ref={headerRef}>
         <div className="wrap header-inner">
-          <a className="brand" href="#inicio" aria-label="RESOLVE Notebook, início" onClick={() => setMenuOpen(false)}>
+          <a className="brand" href="#inicio" aria-label="Resolve Notebook, início" onClick={() => setMenuOpen(false)}>
             <img 
               src="/assets/logo-original.png" 
-              alt="Logo RESOLVE" 
+              alt="Logo Resolve Notebook" 
               width="44" 
               height="44" 
               style={{ cursor: 'pointer' }}
-              title="RESOLVE Notebook"
+              title="Resolve Notebook"
             />
             <span>RESOLVE<span className="brand-sub">NOTEBOOK</span></span>
           </a>
@@ -613,7 +613,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
             <span>Seu notebook atual também pode ter um próximo capítulo.</span>
             <a 
               className="text-link" 
-              href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Gostaria%20de%20vender%20meu%20notebook%20para%20a%20RESOLVE%20Notebook.%20Como%20funciona%20a%20avalia%C3%A7%C3%A3o%3F" 
+              href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Gostaria%20de%20vender%20meu%20notebook%20para%20a%20Resolve%20Notebook.%20Como%20funciona%20a%20avalia%C3%A7%C3%A3o%3F" 
               target="_blank" 
               rel="noopener noreferrer"
             >
@@ -646,7 +646,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
             <div className="business-cta-row">
               <a 
                 className="button button-yellow" 
-                href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Represento%20uma%20empresa%20e%20gostaria%20de%20conversar%20sobre%20manuten%C3%A7%C3%A3o%20e%20reparos%20de%20notebooks%20corporativos%20na%20RESOLVE%20Notebook." 
+                href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Represento%20uma%20empresa%20e%20gostaria%20de%20conversar%20sobre%20manuten%C3%A7%C3%A3o%20e%20reparos%20de%20notebooks%20corporativos%20na%20Resolve%20Notebook." 
                 target="_blank" 
                 rel="noopener noreferrer"
               >
@@ -679,7 +679,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
             <p>Ainda tem alguma dúvida?<br/>Fale direto com a nossa equipe.</p>
             <a 
               className="text-link" 
-              href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Tenho%20uma%20d%C3%BAvida%20sobre%20a%20assist%C3%AAncia%20da%20RESOLVE%20Notebook." 
+              href="https://wa.me/5511988095982?text=Ol%C3%A1!%20Tenho%20uma%20d%C3%BAvida%20sobre%20a%20assist%C3%AAncia%20da%20Resolve%20Notebook." 
               target="_blank" 
               rel="noopener noreferrer"
             >
@@ -731,7 +731,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
         <section className="store" id="loja">
           <div className="wrap">
             <div className="store-heading">
-              <h2>Pode chegar.<br/>A RESOLVE é aqui.</h2>
+              <h2>Pode chegar.<br/>A Resolve Notebook é aqui.</h2>
               <p>Loja física na Santa Ifigênia.<br/>Gente de verdade para cuidar do seu notebook.</p>
             </div>
             <div className="store-info">
@@ -771,7 +771,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
               background: '#fff'
             }}>
               <iframe 
-                title="Localização RESOLVE Notebook - Rua Santa Ifigênia, 361"
+                title="Localização Resolve Notebook - Rua Santa Ifigênia, 361"
                 src="https://maps.google.com/maps?q=Resolve%20Notebook%20Rua%20Santa%20Ifig%C3%AAnia%20361%20S%C3%A3o%20Paulo&t=&z=16&ie=UTF8&iwloc=&output=embed"
                 width="100%" 
                 height="100%" 
@@ -788,10 +788,10 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
       {/* Footer */}
       <footer>
         <div className="wrap footer-top">
-          <a className="brand brand-footer" href="#inicio" aria-label="RESOLVE Notebook, voltar ao início">
+          <a className="brand brand-footer" href="#inicio" aria-label="Resolve Notebook, voltar ao início">
             <img 
               src="/assets/logo-original.png" 
-              alt="RESOLVE Notebook" 
+              alt="Resolve Notebook" 
               width="44" 
               height="44" 
               style={{ cursor: 'pointer' }}
@@ -823,7 +823,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
         </div>
 
         <div className="wrap footer-bottom">
-          <span>© 2026 RESOLVE Notebook.</span>
+          <span>© 2026 Resolve Notebook.</span>
           <span>Reparar é dar uma nova chance.</span>
           <button 
             type="button" 
@@ -865,7 +865,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
             aria-describedby="repair-description"
           >
           <div className="dialog-top">
-            <span className="eyebrow">RESOLVE Notebook / Atendimento</span>
+            <span className="eyebrow">Resolve Notebook / Atendimento</span>
             <button className="dialog-close" onClick={closeRepairModal} aria-label="Fechar atendimento">×</button>
           </div>
 
@@ -1002,7 +1002,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
             aria-labelledby="services-title"
           >
           <div className="dialog-top">
-            <span className="eyebrow">RESOLVE Notebook / Banco Técnico de Serviços</span>
+            <span className="eyebrow">Resolve Notebook / Banco Técnico de Serviços</span>
             <button className="dialog-close" onClick={closeServicesModal} aria-label="Fechar serviços">×</button>
           </div>
 
@@ -1120,7 +1120,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
                     className="button button-yellow" 
                     style={{ margin: '0 auto', display: 'inline-flex', padding: '12px 24px' }}
                     onClick={() => {
-                      window.open(`https://wa.me/5511988095982?text=${encodeURIComponent(`Olá! Vim pelo site da RESOLVE Notebook e gostaria de consultar sobre o seguinte serviço: ${serviceSearch}`)}`, '_blank');
+                      window.open(`https://wa.me/5511988095982?text=${encodeURIComponent(`Olá! Vim pelo site da Resolve Notebook e gostaria de consultar sobre o seguinte serviço: ${serviceSearch}`)}`, '_blank');
                     }}
                   >
                     Falar com um técnico no WhatsApp <svg aria-hidden="true"><use href="#arrow"/></svg>

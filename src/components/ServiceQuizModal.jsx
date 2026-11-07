@@ -232,7 +232,7 @@ export default function ServiceQuizModal({ isOpen, onClose, initialIssue = '', o
           <div>
             {!confirmedProtocol && !sentToWhatsApp && step === 0 && (
               <p className="eyebrow" aria-live="polite">
-                RESOLVE Notebook · Santa Ifigênia
+                Resolve Notebook · Santa Ifigênia
               </p>
             )}
             {!confirmedProtocol && !sentToWhatsApp && step > 0 && (
@@ -300,7 +300,7 @@ export default function ServiceQuizModal({ isOpen, onClose, initialIssue = '', o
                 Conversa Iniciada no WhatsApp!
               </h3>
               <p style={{ fontSize: '14px', color: 'var(--muted)', maxWidth: '420px', margin: '0 auto 20px auto', lineHeight: 1.6 }}>
-                Sua mensagem com todos os detalhes foi formatada e enviada para o canal de atendimento da <strong>RESOLVE Notebook</strong>. Nossa equipe técnica na Santa Ifigênia responderá em instantes.
+                Sua mensagem com todos os detalhes foi formatada e enviada para o canal de atendimento da <strong>Resolve Notebook</strong>. Nossa equipe técnica na Santa Ifigênia responderá em instantes.
               </p>
 
               <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>

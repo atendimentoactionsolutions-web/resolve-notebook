@@ -117,7 +117,7 @@ export default function QRCodeResolve({ onNavigate, isDark, onToggleDark }) {
           className="brand" 
           href="/" 
           onClick={(e) => { e.preventDefault(); onNavigate('/'); }} 
-          aria-label="RESOLVE Notebook, página inicial"
+          aria-label="Resolve Notebook, página inicial"
         >
           <img src="/assets/logo-original.png" alt="" width="44" height="44" />
           <span>RESOLVE<span className="brand-sub">NOTEBOOK</span></span>
@@ -192,7 +192,7 @@ export default function QRCodeResolve({ onNavigate, isDark, onToggleDark }) {
           <div className="auth-main" style={{ maxWidth: '440px', margin: '40px auto', background: 'var(--white)', padding: '36px 32px', borderRadius: '20px', border: '1px solid var(--line)', textAlign: 'center', boxShadow: '0 8px 30px rgba(0,0,0,0.04)' }}>
             <img 
               src="/assets/logo-original.png" 
-              alt="RESOLVE Notebook" 
+              alt="Resolve Notebook" 
               width="54" 
               height="54" 
               style={{ borderRadius: '50%', margin: '0 auto 16px auto', display: 'block' }} 

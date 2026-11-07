@@ -58,7 +58,7 @@ const useContent = {
 
 const normalize = (text) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
-export default function Home({ onNavigate }) {
+export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const headerRef = useRef(null);
   const contentRef = useRef(null);
@@ -67,7 +67,15 @@ export default function Home({ onNavigate }) {
     const profile = new URLSearchParams(window.location.search).get('perfil');
     return Object.keys(useContent).find(key => key.toLowerCase() === profile?.toLowerCase()) || 'Trabalho';
   });
-  const [isDark, setIsDark] = useState(() => localStorage.getItem('resolve_theme') !== 'light');
+  const [internalDark, setInternalDark] = useState(() => {
+    try {
+      return localStorage.getItem('resolve_theme') !== 'light';
+    } catch (e) {
+      return true;
+    }
+  });
+  const isDark = propIsDark !== undefined ? propIsDark : internalDark;
+  const toggleDark = onToggleDark || (() => setInternalDark(prev => !prev));
 
   // Carrossel em Loop Automático com Suporte a Toque/Gesto com o Dedo
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -124,28 +132,30 @@ export default function Home({ onNavigate }) {
     setTouchStartX(null);
   };
 
-  // Modo Escuro discreto e persistente
+  // Modo Escuro discreto e persistente (sincronizado se executado isoladamente)
   useEffect(() => {
-    if (isDark) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('resolve_theme', 'dark');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('resolve_theme', 'light');
+    if (propIsDark === undefined) {
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('resolve_theme', 'dark');
+      } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('resolve_theme', 'light');
+      }
     }
-  }, [isDark]);
+  }, [isDark, propIsDark]);
 
   // Atalho imperceptível de teclado: Alt + D
   useEffect(() => {
     const handleKey = (e) => {
       if ((e.altKey && e.key.toLowerCase() === 'd') || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'd')) {
         e.preventDefault();
-        setIsDark(prev => !prev);
+        toggleDark();
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, []);
+  }, [toggleDark]);
 
   useEffect(() => () => document.body.classList.remove('modal-open'), []);
 
@@ -390,7 +400,7 @@ export default function Home({ onNavigate }) {
           <div className="header-actions">
             <button
               type="button"
-              onClick={() => setIsDark(!isDark)}
+              onClick={toggleDark}
               aria-label={isDark ? "Modo claro" : "Modo escuro"}
               title={isDark ? "Mudar para modo claro (Alt+D)" : "Mudar para modo escuro (Alt+D)"}
               style={{
@@ -817,7 +827,7 @@ export default function Home({ onNavigate }) {
           <span>Reparar é dar uma nova chance.</span>
           <button 
             type="button" 
-            onClick={() => setIsDark(!isDark)}
+            onClick={toggleDark}
             style={{ background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}
           >
             {isDark ? 'Modo claro' : 'Modo escuro'}

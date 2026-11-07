@@ -6,7 +6,7 @@
     <link rel="shortcut icon" type="image/png" href="/assets/logo-original.png" />
     <link rel="apple-touch-icon" href="/assets/logo-original.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f6f8f8" />
+    <meta name="theme-color" content="#08080a" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -23,13 +23,37 @@
         }
       });
     </script>
+    <!-- Dark Mode Default Script (zero white flash) -->
+    <script>
+      (function() {
+        try {
+          var theme = localStorage.getItem('resolve_theme');
+          if (theme === 'light') {
+            document.documentElement.classList.remove('dark-mode');
+          } else {
+            document.documentElement.classList.add('dark-mode');
+          }
+        } catch(e) {}
+      })();
+    </script>
     <!-- Google Fonts: Manrope -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/styles.css">
   </head>
-  <body>
+  <body class="dark-mode" style="background: #08080a; color: #f4f4f5;">
+    <script>
+      (function() {
+        try {
+          if (localStorage.getItem('resolve_theme') === 'light') {
+            document.body.classList.remove('dark-mode');
+            document.body.style.background = '#f6f8f8';
+            document.body.style.color = '#17201f';
+          }
+        } catch(e) {}
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

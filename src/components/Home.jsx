@@ -446,11 +446,7 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
         {/* Section: Hero */}
         <section className="hero wrap" id="inicio">
           <div className="hero-copy">
-            <p className="hero-context">Assistência especializada</p>
-            <h1>Conserto de notebooks na Santa Ifigênia</h1>
-            <p className="hero-intro">
-              Reparos e upgrades com orçamento aprovado por você antes do serviço.
-            </p>
+            <h1 style={{ marginBottom: '32px' }}>Conserto de notebooks na Santa Ifigênia</h1>
             <div className="hero-actions">
               <button 
                 ref={quizOpenerRef}
@@ -529,23 +525,6 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
           </figure>
         </section>
 
-        {/* Trust Line */}
-        <div className="trust-line wrap">
-          <p>
-            <strong>Diagnóstico claro</strong>
-            <span>Orçamento antes do reparo</span>
-          </p>
-          <p>
-            <strong>De perto, de verdade</strong>
-            <span>Loja física na Santa Ifigênia</span>
-          </p>
-          <a href="https://share.google/LUfygV4B9Dst4atvz" target="_blank" rel="noopener noreferrer">
-            <strong>Quem conhece, conta.</strong>
-            <span>Veja as avaliações no Google <svg aria-hidden="true"><use href="#arrow"/></svg></span>
-          </a>
-        </div>
-
-
         {/* Section: Notebooks / Perfis de Uso */}
         <section className="notebooks section wrap" id="notebooks">
           <div className="section-heading">
@@ -558,15 +537,11 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
             <figure>
               <img 
                 src="/assets/laptop-workspace.jpg" 
-                alt="Notebook Dell sobre uma superfície clara, imagem ilustrativa" 
+                alt="Notebook Dell sobre uma superfície clara" 
                 width="1024"
                 height="576"
                 loading="lazy" 
               />
-              <figcaption>
-                <span>Equipamentos revisados, escolha orientada.</span>
-                <span>Imagem ilustrativa</span>
-              </figcaption>
             </figure>
 
             <div className="notebook-picker">
@@ -601,10 +576,6 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
                 >
                   Ver produtos disponíveis <svg aria-hidden="true"><use href="#arrow"/></svg>
                 </a>
-                <small>
-                  Modelos e disponibilidade confirmados no atendimento.<br/>
-                  As imagens desta seção são ilustrativas.
-                </small>
               </div>
             </div>
           </div>

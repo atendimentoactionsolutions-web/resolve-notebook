@@ -589,10 +589,11 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
 
       {/* Catalog Footer */}
       <footer className="catalog-footer" style={{ background: '#000000', borderTop: '1px solid #1e1e24', color: '#a1a1aa' }}>
-        <span>Resolve Notebook · Rua Santa Ifigênia, 361 — Loja 14</span>
+        <span style={{ color: '#d4d4d8' }}>Resolve Notebook · Rua Santa Ifigênia, 361 — Loja 14</span>
         <a 
           href="/admin" 
           className="admin-access-link"
+          style={{ color: '#a1a1aa', opacity: 0.9 }}
           onClick={(e) => { e.preventDefault(); onNavigate('/admin'); }}
         >
           Acessar painel ADM

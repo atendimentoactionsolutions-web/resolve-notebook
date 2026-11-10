@@ -59,8 +59,10 @@ body.light-mode .store-app-header {
   background: rgba(246, 248, 248, 0.97) !important;
   border-bottom-color: #e5eae7 !important;
 }
-body.light-mode .brand > span,
-body.light-mode .brand-sub,
+body.light-mode .header .brand > span,
+body.light-mode .store-app-header .brand > span,
+body.light-mode .header .brand-sub,
+body.light-mode .store-app-header .brand-sub,
 body.light-mode .header nav a,
 body.light-mode .store-app-header nav a {
   color: #17201f !important;
@@ -332,54 +334,124 @@ body.dark-mode .store-info .button:hover {
   background: #18181c !important;
 }
 
-/* Footer */
+/* Footer (Always Obsidian Anchor) */
 footer,
-body.dark-mode footer {
+body.dark-mode footer,
+body.light-mode footer {
   background: #000000 !important;
   border-top: 1px solid #1e1e24 !important;
+  color: #f4f4f5 !important;
 }
+
+footer .brand > span,
+body.dark-mode footer .brand > span,
+body.light-mode footer .brand > span,
+.brand-footer > span,
+body.dark-mode .brand-footer > span,
+body.light-mode .brand-footer > span {
+  color: #ffffff !important;
+}
+
+footer .brand-sub,
+body.dark-mode footer .brand-sub,
+body.light-mode footer .brand-sub,
+.brand-footer .brand-sub,
+body.dark-mode .brand-footer .brand-sub,
+body.light-mode .brand-footer .brand-sub {
+  color: #ffd438 !important;
+}
+
+footer .footer-top > div a,
+body.dark-mode footer .footer-top > div a,
+body.light-mode footer .footer-top > div a,
 .footer-top > div a,
 body.dark-mode .footer-top > div a {
-  color: #a1a1aa !important;
+  color: #d4d4d8 !important;
 }
+
+footer .footer-top > div a:hover,
+body.dark-mode footer .footer-top > div a:hover,
+body.light-mode footer .footer-top > div a:hover,
 .footer-top > div a:hover,
 body.dark-mode .footer-top > div a:hover {
   color: #ffd438 !important;
 }
+
+footer .footer-phone,
+body.dark-mode footer .footer-phone,
+body.light-mode footer .footer-phone,
 .footer-phone,
 body.dark-mode .footer-phone {
   color: #ffffff !important;
 }
+
+footer .footer-phone:hover,
+body.dark-mode footer .footer-phone:hover,
+body.light-mode footer .footer-phone:hover,
 .footer-phone:hover,
 body.dark-mode .footer-phone:hover {
   color: #ffd438 !important;
 }
+
+footer .footer-bottom,
+body.dark-mode footer .footer-bottom,
+body.light-mode footer .footer-bottom,
 .footer-bottom,
 body.dark-mode .footer-bottom {
   border-top: 1px solid #1e1e24 !important;
-  color: #71717a !important;
-}
-.footer-bottom a,
-body.dark-mode .footer-bottom a {
   color: #a1a1aa !important;
 }
+
+footer .footer-bottom span,
+body.dark-mode footer .footer-bottom span,
+body.light-mode footer .footer-bottom span {
+  color: #a1a1aa !important;
+}
+
+footer .footer-bottom a,
+footer .footer-bottom button,
+body.dark-mode footer .footer-bottom a,
+body.dark-mode footer .footer-bottom button,
+body.light-mode footer .footer-bottom a,
+body.light-mode footer .footer-bottom button,
+.footer-bottom a,
+body.dark-mode .footer-bottom a {
+  color: #d4d4d8 !important;
+}
+
+footer .footer-bottom a:hover,
+footer .footer-bottom button:hover,
+body.dark-mode footer .footer-bottom a:hover,
+body.dark-mode footer .footer-bottom button:hover,
+body.light-mode footer .footer-bottom a:hover,
+body.light-mode footer .footer-bottom button:hover,
 .footer-bottom a:hover,
 body.dark-mode .footer-bottom a:hover {
   color: #ffd438 !important;
 }
+
 .catalog-footer,
-body.dark-mode .catalog-footer {
+body.dark-mode .catalog-footer,
+body.light-mode .catalog-footer {
   background: #000000 !important;
   border-top: 1px solid #1e1e24 !important;
   color: #a1a1aa !important;
 }
+
 .footer-admin-access .admin-access-link,
-body.dark-mode .footer-admin-access .admin-access-link {
-  color: #71717a !important;
+body.dark-mode .footer-admin-access .admin-access-link,
+body.light-mode .footer-admin-access .admin-access-link,
+.admin-access-link {
+  color: #a1a1aa !important;
+  opacity: 0.85 !important;
 }
+
 .footer-admin-access .admin-access-link:hover,
-body.dark-mode .footer-admin-access .admin-access-link:hover {
+body.dark-mode .footer-admin-access .admin-access-link:hover,
+body.light-mode .footer-admin-access .admin-access-link:hover,
+.admin-access-link:hover {
   color: #ffd438 !important;
+  opacity: 1 !important;
 }
 
 /* Floating Chat */

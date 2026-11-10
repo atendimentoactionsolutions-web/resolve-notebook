@@ -783,12 +783,15 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
               height="44" 
               style={{ cursor: 'pointer' }}
             />
-            <span>RESOLVE<span className="brand-sub">NOTEBOOK</span></span>
+            <span style={{ color: '#ffffff' }}>
+              RESOLVE<span className="brand-sub" style={{ color: '#ffd438' }}>NOTEBOOK</span>
+            </span>
           </a>
 
           <div>
             <a 
               href="#assistencia"
+              style={{ color: '#d4d4d8' }}
               onClick={(e) => {
                 e.preventDefault();
                 setQuizInitialIssue('');
@@ -797,32 +800,32 @@ export default function Home({ onNavigate, isDark: propIsDark, onToggleDark }) {
             >
               Assistência
             </a>
-            <a href="/produtos" onClick={(e) => { e.preventDefault(); onNavigate('/produtos'); }}>Produtos</a>
-            <a href="#empresas">Empresas</a>
-            <a href="https://www.instagram.com/resolve.notebook/" target="_blank" rel="noopener noreferrer">
+            <a href="/produtos" style={{ color: '#d4d4d8' }} onClick={(e) => { e.preventDefault(); onNavigate('/produtos'); }}>Produtos</a>
+            <a href="#empresas" style={{ color: '#d4d4d8' }}>Empresas</a>
+            <a href="https://www.instagram.com/resolve.notebook/" target="_blank" rel="noopener noreferrer" style={{ color: '#d4d4d8' }}>
               Instagram <svg aria-hidden="true"><use href="#arrow"/></svg>
             </a>
           </div>
 
-          <a className="footer-phone" href="https://wa.me/5511988095982" target="_blank" rel="noopener noreferrer">
+          <a className="footer-phone" href="https://wa.me/5511988095982" target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff' }}>
             (11) 98809-5982 <svg aria-hidden="true"><use href="#arrow"/></svg>
           </a>
         </div>
 
-        <div className="wrap footer-bottom">
+        <div className="wrap footer-bottom" style={{ color: '#a1a1aa' }}>
           <span>© 2026 Resolve Notebook.</span>
           <span>Reparar é dar uma nova chance.</span>
           <button 
             type="button" 
             onClick={toggleDark}
-            style={{ background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}
+            style={{ background: 'none', border: 'none', color: '#d4d4d8', font: 'inherit', cursor: 'pointer', padding: 0, textDecoration: 'underline' }}
           >
             {isDark ? 'Modo claro' : 'Modo escuro'}
           </button>
-          <a href="#inicio">Voltar ao topo ↑</a>
+          <a href="#inicio" style={{ color: '#d4d4d8' }}>Voltar ao topo ↑</a>
         </div>
         <div className="wrap footer-admin-access">
-          <a className="admin-access-link" href="/admin" onClick={(e) => { e.preventDefault(); onNavigate('/admin'); }}>
+          <a className="admin-access-link" href="/admin" onClick={(e) => { e.preventDefault(); onNavigate('/admin'); }} style={{ color: '#a1a1aa', opacity: 0.9 }}>
             Acessar painel ADM
           </a>
         </div>

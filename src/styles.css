@@ -74,10 +74,10 @@ body.light-mode .store-app-header nav a:hover {
 body.light-mode .menu-toggle span {
   background: #17201f !important;
 }
-body.light-mode h1,
-body.light-mode h2,
-body.light-mode h3,
-body.light-mode strong {
+body.light-mode h1:not(.process h1):not(footer h1):not(.credit-card-widget h1),
+body.light-mode h2:not(.process h2):not(footer h2):not(.credit-card-widget h2),
+body.light-mode h3:not(.process h3):not(footer h3):not(.credit-card-widget h3),
+body.light-mode strong:not(.process strong):not(footer strong):not(.credit-card-widget strong) {
   color: #17201f !important;
 }
 body.light-mode .text-link {
@@ -197,28 +197,44 @@ body.dark-mode .service-arrow {
 }
 
 /* Process Section */
-body.dark-mode .process {
-  background: #000000;
-  border-block: 1px solid #1e1e24;
+/* Process Section (Consistent High-Contrast Dark Anchor) */
+.process,
+body.dark-mode .process,
+body.light-mode .process {
+  background: #000000 !important;
+  border-block: 1px solid #1e1e24 !important;
+  color: #ffffff !important;
 }
-body.dark-mode .process h2 {
-  color: #ffffff;
+.process h2,
+body.dark-mode .process h2,
+body.light-mode .process h2 {
+  color: #ffffff !important;
 }
-body.dark-mode .process-intro > p {
-  color: #d4d4d8;
+.process-intro > p,
+body.dark-mode .process-intro > p,
+body.light-mode .process-intro > p {
+  color: #d4d4d8 !important;
 }
-body.dark-mode .steps li {
-  border-bottom-color: #222228;
+.steps li,
+body.dark-mode .steps li,
+body.light-mode .steps li {
+  border-bottom-color: #222228 !important;
 }
-body.dark-mode .steps li > span {
-  color: #ffd438;
-  border-color: #ffd438;
+.steps li > span,
+body.dark-mode .steps li > span,
+body.light-mode .steps li > span {
+  color: #ffd438 !important;
+  border-color: #ffd438 !important;
 }
-body.dark-mode .steps h3 {
-  color: #ffffff;
+.steps h3,
+body.dark-mode .steps h3,
+body.light-mode .steps h3 {
+  color: #ffffff !important;
 }
-body.dark-mode .steps p {
-  color: #d4d4d8;
+.steps p,
+body.dark-mode .steps p,
+body.light-mode .steps p {
+  color: #d4d4d8 !important;
 }
 
 /* Notebooks / Perfis Section */
@@ -252,15 +268,27 @@ body.dark-mode #usage-panel > p {
 body.dark-mode #usage-panel small {
   color: #a1a1aa;
 }
+
+/* Trade-In Banner */
 body.dark-mode .trade-in {
-  background: #121215;
-  border: 1px solid #222228;
+  background: #121215 !important;
+  border: 1px solid #222228 !important;
 }
 body.dark-mode .trade-in > span {
-  color: #d4d4d8;
+  color: #d4d4d8 !important;
 }
 body.dark-mode .trade-in .text-link {
-  color: #ffffff;
+  color: #ffd438 !important;
+}
+body.light-mode .trade-in {
+  background: #edf1ef !important;
+  border: 1px solid #dce3e1 !important;
+}
+body.light-mode .trade-in > span {
+  color: #17201f !important;
+}
+body.light-mode .trade-in .text-link {
+  color: #17201f !important;
 }
 
 /* Business / Corporativo Section */
@@ -275,7 +303,13 @@ body.dark-mode .business p:not(.eyebrow) {
   color: #d4d4d8;
 }
 body.dark-mode .business .text-link {
-  color: #ffffff;
+  color: #ffd438;
+}
+.business-icon svg,
+body.dark-mode .business-icon svg,
+body.light-mode .business-icon svg {
+  stroke: #17201f !important;
+  color: #17201f !important;
 }
 
 /* FAQ Section */
@@ -298,40 +332,75 @@ body.dark-mode .faq details p {
   color: #d4d4d8;
 }
 
-/* Store Section (Fundo Amarelo: Texto 100% Escuro e Nítido) */
-body.dark-mode .store {
+/* Store Section (Fundo Amarelo: Texto 100% Escuro e Nítido em Todos os Modos) */
+.store,
+body.dark-mode .store,
+body.light-mode .store {
   background: var(--yellow) !important;
   color: #17201f !important;
 }
-body.dark-mode .store h2 {
+.store h2,
+body.dark-mode .store h2,
+body.light-mode .store h2 {
   color: #17201f !important;
 }
-body.dark-mode .store-heading > p {
-  color: #1e1e24 !important;
+.store-heading > p,
+body.dark-mode .store-heading > p,
+body.light-mode .store-heading > p {
+  color: #17201f !important;
   font-weight: 500 !important;
 }
-body.dark-mode .store-info {
-  border-top-color: #baa129 !important;
+.store-info,
+body.dark-mode .store-info,
+body.light-mode .store-info {
+  border-top-color: rgba(23, 32, 31, 0.25) !important;
 }
-body.dark-mode .store-info strong {
+.store-info strong,
+body.dark-mode .store-info strong,
+body.light-mode .store-info strong {
   color: #17201f !important;
 }
-body.dark-mode .store-info p {
+.store-info p,
+body.dark-mode .store-info p,
+body.light-mode .store-info p {
   color: #17201f !important;
 }
-body.dark-mode .store-info span {
-  color: #3b4d44 !important;
-}
-body.dark-mode .store-info svg {
+.store-info span,
+body.dark-mode .store-info span,
+body.light-mode .store-info span {
   color: #17201f !important;
+  opacity: 0.88 !important;
 }
-body.dark-mode .store-info .button {
-  background: #08080a !important;
+.store-info svg,
+body.dark-mode .store-info svg,
+body.light-mode .store-info svg {
+  color: #17201f !important;
+  stroke: #17201f !important;
+}
+.store-info .button,
+body.dark-mode .store-info .button,
+body.light-mode .store-info .button {
+  background: #000000 !important;
   color: #ffffff !important;
-  border: 0 !important;
+  border: 1px solid #000000 !important;
 }
-body.dark-mode .store-info .button:hover {
+.store-info .button svg,
+body.dark-mode .store-info .button svg,
+body.light-mode .store-info .button svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+.store-info .button:hover,
+body.dark-mode .store-info .button:hover,
+body.light-mode .store-info .button:hover {
   background: #18181c !important;
+  color: #ffd438 !important;
+}
+.store-info .button:hover svg,
+body.dark-mode .store-info .button:hover svg,
+body.light-mode .store-info .button:hover svg {
+  color: #ffd438 !important;
+  stroke: #ffd438 !important;
 }
 
 /* Footer (Always Obsidian Anchor) */
@@ -1034,9 +1103,9 @@ body.dark-mode .service-cat-direct-btn:hover {
   inset: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  background: rgba(10, 18, 15, 0.78) !important;
-  backdrop-filter: blur(6px) !important;
-  -webkit-backdrop-filter: blur(6px) !important;
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
   z-index: 99990 !important;
   display: flex !important;
   align-items: center !important;
@@ -1241,4 +1310,96 @@ body.dark-mode #repair-dialog .dialog-top {
     margin: 14px 0 !important;
   }
 }
+
+/* === UNIVERSAL THEMED SPEC BOX & BADGES === */
+.spec-box {
+  margin: 16px 0;
+  padding: 16px;
+  background: var(--paper);
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.8;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--line);
+}
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+}
+.spec-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.spec-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+.spec-label strong {
+  color: var(--ink) !important;
+  font-weight: 600;
+}
+.spec-value {
+  font-weight: 700;
+  color: var(--ink);
+}
+.spec-value.is-highlight {
+  color: #ffd438 !important;
+}
+body.light-mode .spec-value.is-highlight {
+  color: #b45309 !important;
+}
+
+body.dark-mode .spec-box {
+  background: #18181c !important;
+  border-color: #272730 !important;
+}
+body.dark-mode .spec-label {
+  color: #a1a1aa !important;
+}
+body.dark-mode .spec-label strong {
+  color: #ffffff !important;
+}
+body.dark-mode .spec-value {
+  color: #f4f4f5 !important;
+}
+body.dark-mode .spec-row {
+  border-bottom-color: #272730 !important;
+}
+
+body.light-mode .spec-box {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+body.light-mode .spec-label {
+  color: #64748b !important;
+}
+body.light-mode .spec-label strong {
+  color: #17201f !important;
+}
+body.light-mode .spec-value {
+  color: #17201f !important;
+}
+body.light-mode .spec-row {
+  border-bottom-color: #e2e8f0 !important;
+}
+
+/* Pix & Cash Badge (Theme-Adaptive) */
+.pix-cash-badge {
+  font-weight: 700;
+  color: #16a34a;
+}
+body.dark-mode .pix-cash-badge {
+  color: #34d399 !important;
+}
+body.light-mode .pix-cash-badge {
+  color: #16a34a !important;
+}
+
 

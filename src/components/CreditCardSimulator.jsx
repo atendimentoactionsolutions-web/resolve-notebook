@@ -267,10 +267,10 @@ export default function CreditCardSimulator({
             <table style={{ width: '100%', minWidth: '280px', borderCollapse: 'collapse', fontSize: '12px' }}>
               <thead>
                 <tr style={{ background: 'var(--paper, #f1f5f9)', textAlign: 'left', borderBottom: '1px solid var(--line, #e2e8f0)' }}>
-                  <th style={{ padding: '8px 10px', fontWeight: 700 }}>Parcelas</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 700 }}>Valor Parcela</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 700 }}>Total a Pagar</th>
-                  <th style={{ padding: '8px 10px', fontWeight: 700, textAlign: 'right' }}>Taxa</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 700, color: 'var(--ink)' }}>Parcelas</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 700, color: 'var(--ink)' }}>Valor Parcela</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 700, color: 'var(--ink)' }}>Total a Pagar</th>
+                  <th style={{ padding: '8px 10px', fontWeight: 700, textAlign: 'right', color: 'var(--ink)' }}>Taxa</th>
                 </tr>
               </thead>
               <tbody>
@@ -287,12 +287,12 @@ export default function CreditCardSimulator({
                         fontWeight: isSelected ? 700 : 400
                       }}
                     >
-                      <td style={{ padding: '8px 10px', color: isSelected ? (isDark ? '#ffd438' : '#854d0e') : 'inherit', fontWeight: isSelected ? 800 : 500 }}>{s.installment}x</td>
-                      <td style={{ padding: '8px 10px', color: isSelected ? (isDark ? '#ffd438' : '#854d0e') : 'inherit', fontWeight: isSelected ? 800 : 500 }}>
+                      <td style={{ padding: '8px 10px', color: isSelected ? (isDark ? '#ffd438' : '#854d0e') : (isDark ? '#f4f4f5' : '#17201f'), fontWeight: isSelected ? 800 : 500 }}>{s.installment}x</td>
+                      <td style={{ padding: '8px 10px', color: isSelected ? (isDark ? '#ffd438' : '#854d0e') : (isDark ? '#f4f4f5' : '#17201f'), fontWeight: isSelected ? 800 : 500 }}>
                         {formatMoney(s.installmentValue)}
                       </td>
-                      <td style={{ padding: '8px 10px', color: isSelected ? (isDark ? '#ffffff' : '#17201f') : 'inherit', fontWeight: isSelected ? 800 : 500 }}>{formatMoney(s.total)}</td>
-                      <td style={{ padding: '8px 10px', textAlign: 'right', color: s.isFree ? (isDark ? '#34d399' : '#16a34a') : (isSelected ? (isDark ? '#ffd438' : '#854d0e') : 'var(--muted, #64748b)') }}>
+                      <td style={{ padding: '8px 10px', color: isSelected ? (isDark ? '#ffffff' : '#17201f') : (isDark ? '#d4d4d8' : '#4b5563'), fontWeight: isSelected ? 800 : 500 }}>{formatMoney(s.total)}</td>
+                      <td style={{ padding: '8px 10px', textAlign: 'right', color: s.isFree ? (isDark ? '#34d399' : '#16a34a') : (isSelected ? (isDark ? '#ffd438' : '#854d0e') : (isDark ? '#a1a1aa' : '#64748b')) }}>
                         {s.isFree ? 'Sem juros' : formatPercent(s.ratePercent)}
                       </td>
                     </tr>

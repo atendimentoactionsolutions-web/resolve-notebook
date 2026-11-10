@@ -999,7 +999,7 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                         {imageUrl && (
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                             <img src={imageUrl} alt="Preview" style={{ width: '60px', height: '48px', objectFit: 'cover', borderRadius: '8px', border: '1px solid var(--line)' }} />
-                            <span style={{ fontSize: '11px', color: '#059669', fontWeight: 600 }}>Foto carregada</span>
+                            <span style={{ fontSize: '11px', color: dark ? '#34d399' : '#059669', fontWeight: 600 }}>Foto carregada</span>
                           </div>
                         )}
                       </div>

@@ -395,7 +395,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
                     <div className="product-price" style={{ margin: '14px 0 12px 0' }}>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
                         <strong style={{ fontSize: '24px' }}>{priceFormatted}</strong>
-                        <span className="pix-cash-badge" style={{ fontSize: '11px', fontWeight: 700, color: '#34d399' }}>à vista no Pix</span>
+                        <span className="pix-cash-badge" style={{ fontSize: '11px' }}>à vista no Pix</span>
                       </div>
                       {sim12 && (
                         <div style={{ fontSize: '12px', color: 'var(--ink)', fontWeight: 600, marginTop: '4px', display: 'flex', alignItems: 'center', gap: '5px' }}>
@@ -524,7 +524,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
                   <div className="product-price" style={{ margin: '14px 0 10px 0' }}>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
                       <strong style={{ fontSize: '28px' }}>{formatMoney(activeProduct.price || (activeProduct.priceCents ? activeProduct.priceCents / 100 : 0))}</strong>
-                      <span className="pix-cash-badge" style={{ fontSize: '13px', fontWeight: 700, color: '#34d399' }}>à vista no Pix / Dinheiro</span>
+                      <span className="pix-cash-badge" style={{ fontSize: '13px' }}>à vista no Pix / Dinheiro</span>
                     </div>
                   </div>
 
@@ -535,35 +535,35 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
                     productTitle={activeProduct.title} 
                   />
 
-                  <div style={{ margin: '16px 0', padding: '16px', background: 'var(--paper)', borderRadius: '14px', fontSize: '13px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '8px', border: '1px solid var(--line)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}>
-                      <span style={{ color: '#a1a1aa', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <div className="spec-box">
+                    <div className="spec-row">
+                      <span className="spec-label">
                         <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '14px', height: '14px', stroke: '#ffd438', fill: 'none', strokeWidth: 2 }}>
                           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                         </svg>
-                        <strong style={{ color: '#ffffff' }}>Garantia Loja Física:</strong>
+                        <strong>Garantia Loja Física:</strong>
                       </span>
-                      <span style={{ fontWeight: 700, color: '#ffd438' }}>{activeProduct.warranty || activeProduct.specs?.warranty || '3 Meses'}</span>
+                      <span className="spec-value is-highlight">{activeProduct.warranty || activeProduct.specs?.warranty || '3 Meses'}</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}>
-                      <span style={{ color: '#a1a1aa', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    <div className="spec-row">
+                      <span className="spec-label">
                         <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '14px', height: '14px', stroke: '#ffd438', fill: 'none', strokeWidth: 2 }}>
                           <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
                           <line x1="7" y1="7" x2="7.01" y2="7" />
                         </svg>
-                        <strong style={{ color: '#ffffff' }}>Condição:</strong>
+                        <strong>Condição:</strong>
                       </span>
-                      <span style={{ fontWeight: 700, color: '#f4f4f5' }}>{activeProduct.condition || 'Seminovo Impecável'}</span>
+                      <span className="spec-value">{activeProduct.condition || 'Seminovo Impecável'}</span>
                     </div>
-                    {activeProduct.model && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Modelo:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.model}</span></div>}
-                    {(activeProduct.specs?.cpu || activeProduct.specs?.processor) && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Processador:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.specs?.cpu || activeProduct.specs?.processor}</span></div>}
-                    {activeProduct.specs?.ram && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Memória RAM:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.specs?.ram}</span></div>}
-                    {(activeProduct.specs?.ssd || activeProduct.specs?.storage) && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>SSD / Armazenamento:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.specs?.ssd || activeProduct.specs?.storage}</span></div>}
-                    {activeProduct.specs?.screen && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Tela:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.specs?.screen}</span></div>}
-                    {(activeProduct.battery || activeProduct.specs?.battery) && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Bateria:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.battery || activeProduct.specs?.battery}</span></div>}
+                    {activeProduct.model && <div className="spec-row"><span className="spec-label"><strong>Modelo:</strong></span><span className="spec-value">{activeProduct.model}</span></div>}
+                    {(activeProduct.specs?.cpu || activeProduct.specs?.processor) && <div className="spec-row"><span className="spec-label"><strong>Processador:</strong></span><span className="spec-value">{activeProduct.specs?.cpu || activeProduct.specs?.processor}</span></div>}
+                    {activeProduct.specs?.ram && <div className="spec-row"><span className="spec-label"><strong>Memória RAM:</strong></span><span className="spec-value">{activeProduct.specs?.ram}</span></div>}
+                    {(activeProduct.specs?.ssd || activeProduct.specs?.storage) && <div className="spec-row"><span className="spec-label"><strong>SSD / Armazenamento:</strong></span><span className="spec-value">{activeProduct.specs?.ssd || activeProduct.specs?.storage}</span></div>}
+                    {activeProduct.specs?.screen && <div className="spec-row"><span className="spec-label"><strong>Tela:</strong></span><span className="spec-value">{activeProduct.specs?.screen}</span></div>}
+                    {(activeProduct.battery || activeProduct.specs?.battery) && <div className="spec-row"><span className="spec-label"><strong>Bateria:</strong></span><span className="spec-value">{activeProduct.battery || activeProduct.specs?.battery}</span></div>}
                   </div>
 
-                  <p className="product-full-description" style={{ color: '#d4d4d8', margin: '14px 0 20px', fontSize: '13px', lineHeight: 1.7 }}>
+                  <p className="product-full-description" style={{ margin: '14px 0 20px', fontSize: '13px', lineHeight: 1.7 }}>
                     {activeProduct.description || 'Fale com nossa equipe para conhecer as características deste produto.'}
                   </p>
 
@@ -577,7 +577,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
                     Consultar pelo WhatsApp <svg aria-hidden="true" style={{ width: '18px', height: '18px' }}><use href="#arrow-up-right"/></svg>
                   </a>
 
-                  <small className="availability-note" style={{ display: 'block', textAlign: 'center', marginTop: '12px', color: '#a1a1aa', fontSize: '11px' }}>
+                  <small className="availability-note" style={{ display: 'block', textAlign: 'center', marginTop: '12px', fontSize: '11px' }}>
                     Confirme a disponibilidade e passe seu cartão em nossa loja na Santa Ifigênia, 361.
                   </small>
                 </div>

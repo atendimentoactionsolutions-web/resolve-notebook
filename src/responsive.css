@@ -76,10 +76,24 @@ body.dark-mode .header nav .header-cta:hover { background: #dce3e1; }
 .customer-review-card figcaption { display: flex; flex-direction: column; gap: 8px; margin-top: auto; font-size: 12px; }
 .customer-review-card figcaption a { color: var(--muted); text-decoration: underline; }
 body.dark-mode .customer-review-card { 
-  background: #121215; 
-  border: 1px solid #222228;
+  background: #121215 !important; 
+  border: 1px solid #222228 !important;
 }
-body.dark-mode .customer-review-stars { color: var(--yellow); }
+body.dark-mode .customer-review-stars { color: var(--yellow) !important; }
+body.dark-mode .customer-review-card blockquote p { color: #d4d4d8 !important; }
+body.dark-mode .customer-review-card figcaption strong { color: #ffffff !important; }
+body.dark-mode .customer-review-card figcaption a { color: #a1a1aa !important; }
+body.dark-mode .customer-review-card figcaption a:hover { color: #ffd438 !important; }
+
+body.light-mode .customer-review-card {
+  background: #ffffff !important;
+  border: 1px solid #dce3e1 !important;
+}
+body.light-mode .customer-review-stars { color: #b45309 !important; }
+body.light-mode .customer-review-card blockquote p { color: #17201f !important; }
+body.light-mode .customer-review-card figcaption strong { color: #17201f !important; }
+body.light-mode .customer-review-card figcaption a { color: #4b5563 !important; }
+body.light-mode .customer-review-card figcaption a:hover { color: #876c00 !important; }
 
 /* Account for the browser address bar and on-screen keyboard. */
 .modal-overlay { width: 100% !important; height: 100dvh !important; }
@@ -886,8 +900,35 @@ body.dark-mode .quiz-option-btn:hover {
   background: #22222a;
   border-color: #ffd438;
 }
+body.dark-mode .quiz-option-btn.active,
+body.dark-mode .quiz-option-btn.is-selected {
+  background: #18181c !important;
+  border-color: #ffd438 !important;
+  color: #ffd438 !important;
+  box-shadow: 0 0 12px rgba(255, 212, 56, 0.25) !important;
+}
 body.dark-mode .quiz-option-btn svg {
   color: #ffd438;
+}
+
+body.light-mode .quiz-option-btn {
+  background: #ffffff;
+  color: #17201f;
+  border-color: #dce3e1;
+}
+body.light-mode .quiz-option-btn:hover {
+  background: #f8fafc;
+  border-color: #876c00;
+}
+body.light-mode .quiz-option-btn.active,
+body.light-mode .quiz-option-btn.is-selected {
+  background: #fffdf0 !important;
+  border-color: #ffd438 !important;
+  color: #17201f !important;
+  box-shadow: 0 0 10px rgba(255, 212, 56, 0.2) !important;
+}
+body.light-mode .quiz-option-btn svg {
+  color: #17201f;
 }
 body.dark-mode .quiz-input,
 body.dark-mode .quiz-input-field {
@@ -1088,6 +1129,24 @@ body.dark-mode .card-simulator-container .card-table-toggle-btn {
 /* Installment Pills styling */
 .sim-pill-btn {
   transition: all 0.15s ease;
+  background: #f8fafc !important;
+  color: #17201f !important;
+  border: 1px solid #dce3e1 !important;
+}
+.sim-pill-btn:hover {
+  background: #f1f5f9 !important;
+  color: #17201f !important;
+  border-color: #ffd438 !important;
+}
+body.light-mode .sim-pill-btn {
+  background: #f8fafc !important;
+  color: #17201f !important;
+  border: 1px solid #dce3e1 !important;
+}
+body.light-mode .sim-pill-btn:hover {
+  background: #f1f5f9 !important;
+  color: #17201f !important;
+  border-color: #ffd438 !important;
 }
 body.dark-mode .sim-pill-btn {
   background: #18181c !important;
@@ -1100,7 +1159,8 @@ body.dark-mode .sim-pill-btn:hover {
   border-color: #ffd438 !important;
 }
 .sim-pill-btn.is-active,
-body.dark-mode .sim-pill-btn.is-active {
+body.dark-mode .sim-pill-btn.is-active,
+body.light-mode .sim-pill-btn.is-active {
   background: #ffd438 !important;
   color: #000000 !important;
   font-weight: 800 !important;

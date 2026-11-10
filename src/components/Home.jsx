@@ -22,10 +22,6 @@ const heroImages = [
     alt: 'Técnico especialista instalando componentes e SSD NVMe em notebook',
   },
   {
-    src: '/assets/repair-5.jpg',
-    alt: 'Técnico instalando sistema de refrigeração e pasta térmica em notebook',
-  },
-  {
     src: '/assets/repair-2.jpg',
     alt: 'Técnico especialista em eletrônica reparando microchips de notebook',
   }

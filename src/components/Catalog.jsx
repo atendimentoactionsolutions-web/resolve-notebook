@@ -513,7 +513,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
                   <div className="product-price" style={{ margin: '14px 0 10px 0' }}>
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
                       <strong style={{ fontSize: '28px' }}>{formatMoney(activeProduct.price || (activeProduct.priceCents ? activeProduct.priceCents / 100 : 0))}</strong>
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#16a34a' }}>à vista no Pix / Dinheiro</span>
+                      <span className="pix-cash-badge" style={{ fontSize: '13px', fontWeight: 700, color: '#34d399' }}>à vista no Pix / Dinheiro</span>
                     </div>
                   </div>
 
@@ -524,24 +524,24 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
                     productTitle={activeProduct.title} 
                   />
 
-                  <div style={{ margin: '16px 0', padding: '16px', background: 'var(--paper)', borderRadius: '14px', fontSize: '13px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ margin: '16px 0', padding: '16px', background: 'var(--paper)', borderRadius: '14px', fontSize: '13px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '8px', border: '1px solid var(--line)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}>
-                      <span>🛡️ <strong>Garantia Loja Física:</strong></span>
-                      <span style={{ fontWeight: 700, color: '#936a00' }}>{activeProduct.warranty || activeProduct.specs?.warranty || '3 Meses'}</span>
+                      <span style={{ color: '#a1a1aa' }}>🛡️ <strong style={{ color: '#ffffff' }}>Garantia Loja Física:</strong></span>
+                      <span style={{ fontWeight: 700, color: '#ffd438' }}>{activeProduct.warranty || activeProduct.specs?.warranty || '3 Meses'}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}>
-                      <span>🏷️ <strong>Condição:</strong></span>
-                      <span style={{ fontWeight: 700 }}>{activeProduct.condition || 'Seminovo Impecável'}</span>
+                      <span style={{ color: '#a1a1aa' }}>🏷️ <strong style={{ color: '#ffffff' }}>Condição:</strong></span>
+                      <span style={{ fontWeight: 700, color: '#f4f4f5' }}>{activeProduct.condition || 'Seminovo Impecável'}</span>
                     </div>
-                    {activeProduct.model && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span><strong>Modelo:</strong></span><span>{activeProduct.model}</span></div>}
-                    {(activeProduct.specs?.cpu || activeProduct.specs?.processor) && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span><strong>Processador:</strong></span><span>{activeProduct.specs?.cpu || activeProduct.specs?.processor}</span></div>}
-                    {activeProduct.specs?.ram && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span><strong>Memória RAM:</strong></span><span>{activeProduct.specs?.ram}</span></div>}
-                    {(activeProduct.specs?.ssd || activeProduct.specs?.storage) && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span><strong>SSD / Armazenamento:</strong></span><span>{activeProduct.specs?.ssd || activeProduct.specs?.storage}</span></div>}
-                    {activeProduct.specs?.screen && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span><strong>Tela:</strong></span><span>{activeProduct.specs?.screen}</span></div>}
-                    {(activeProduct.battery || activeProduct.specs?.battery) && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span><strong>Bateria:</strong></span><span>{activeProduct.battery || activeProduct.specs?.battery}</span></div>}
+                    {activeProduct.model && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Modelo:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.model}</span></div>}
+                    {(activeProduct.specs?.cpu || activeProduct.specs?.processor) && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Processador:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.specs?.cpu || activeProduct.specs?.processor}</span></div>}
+                    {activeProduct.specs?.ram && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Memória RAM:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.specs?.ram}</span></div>}
+                    {(activeProduct.specs?.ssd || activeProduct.specs?.storage) && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>SSD / Armazenamento:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.specs?.ssd || activeProduct.specs?.storage}</span></div>}
+                    {activeProduct.specs?.screen && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Tela:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.specs?.screen}</span></div>}
+                    {(activeProduct.battery || activeProduct.specs?.battery) && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Bateria:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.battery || activeProduct.specs?.battery}</span></div>}
                   </div>
 
-                  <p className="product-full-description">
+                  <p className="product-full-description" style={{ color: '#d4d4d8', margin: '14px 0 20px', fontSize: '13px', lineHeight: 1.7 }}>
                     {activeProduct.description || 'Fale com nossa equipe para conhecer as características deste produto.'}
                   </p>
 
@@ -555,7 +555,7 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
                     Consultar pelo WhatsApp <svg aria-hidden="true" style={{ width: '18px', height: '18px' }}><use href="#arrow-up-right"/></svg>
                   </a>
 
-                  <small className="availability-note" style={{ display: 'block', textAlign: 'center', marginTop: '10px' }}>
+                  <small className="availability-note" style={{ display: 'block', textAlign: 'center', marginTop: '12px', color: '#a1a1aa', fontSize: '11px' }}>
                     Confirme a disponibilidade e passe seu cartão em nossa loja na Santa Ifigênia, 361.
                   </small>
                 </div>

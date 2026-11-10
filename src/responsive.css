@@ -1081,8 +1081,87 @@ body.dark-mode .card-simulator-container label {
   color: #ffffff !important;
 }
 
-body.dark-mode .card-simulator-container button[type="button"] {
+body.dark-mode .card-simulator-container .card-table-toggle-btn {
   color: #ffd438 !important;
+}
+
+/* Installment Pills styling */
+.sim-pill-btn {
+  transition: all 0.15s ease;
+}
+body.dark-mode .sim-pill-btn {
+  background: #18181c !important;
+  color: #f4f4f5 !important;
+  border: 1px solid #2e2e38 !important;
+}
+body.dark-mode .sim-pill-btn:hover {
+  background: #25252d !important;
+  color: #ffffff !important;
+  border-color: #ffd438 !important;
+}
+.sim-pill-btn.is-active,
+body.dark-mode .sim-pill-btn.is-active {
+  background: #ffd438 !important;
+  color: #000000 !important;
+  font-weight: 800 !important;
+  border: 1.5px solid #ffd438 !important;
+  box-shadow: 0 0 10px rgba(255, 212, 56, 0.35) !important;
+}
+
+.sim-pass-btn {
+  background: #25d366 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+.sim-pass-btn:hover {
+  background: #20ba59 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+/* Dialog Backdrop & Modal Dark Harmony */
+dialog::backdrop,
+body.dark-mode dialog::backdrop {
+  background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+body.dark-mode .product-dialog {
+  background: #121215 !important;
+  color: #f4f4f5 !important;
+  border: 1px solid #222228 !important;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85) !important;
+}
+
+body.dark-mode .product-dialog-close {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #f4f4f5 !important;
+  border: 1px solid #2e2e38 !important;
+  border-radius: 50% !important;
+  transition: all 0.15s ease;
+}
+body.dark-mode .product-dialog-close:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffd438 !important;
+  border-color: #ffd438 !important;
+}
+
+body.dark-mode .product-detail-copy > p:first-child {
+  color: #a1a1aa !important;
+}
+
+body.dark-mode .product-full-description {
+  color: #d4d4d8 !important;
+}
+
+body.dark-mode .availability-note {
+  color: #a1a1aa !important;
+}
+
+body.dark-mode .pix-cash-badge {
+  color: #34d399 !important;
 }
 
 body.dark-mode .card-simulator-container table thead tr {

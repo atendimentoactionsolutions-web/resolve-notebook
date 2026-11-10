@@ -200,6 +200,7 @@ export default function CreditCardSimulator({
           </label>
           <button
             type="button"
+            className="card-table-toggle-btn"
             onClick={() => setExpandedTable(!expandedTable)}
             style={{
               background: 'none',
@@ -231,13 +232,14 @@ export default function CreditCardSimulator({
               <button
                 key={s.installment}
                 type="button"
+                className={`sim-pill-btn ${isSelected ? 'is-active' : ''}`}
                 onClick={() => handleSelect(s.installment)}
                 style={{
                   padding: '7px 4px',
                   borderRadius: '8px',
-                  border: isSelected ? '1.5px solid #ffd438' : '1px solid var(--line, #e2e8f0)',
-                  background: isSelected ? (isDark ? '#ffd438' : '#17201f') : 'var(--paper, #f8fafc)',
-                  color: isSelected ? (isDark ? '#17201f' : '#ffd438') : 'var(--ink, #17201f)',
+                  border: isSelected ? '1.5px solid #ffd438' : (isDark ? '1px solid #2e2e38' : '1px solid var(--line, #e2e8f0)'),
+                  background: isSelected ? '#ffd438' : (isDark ? '#18181c' : 'var(--paper, #f8fafc)'),
+                  color: isSelected ? '#000000' : (isDark ? '#f4f4f5' : 'var(--ink, #17201f)'),
                   fontWeight: isSelected ? 800 : 600,
                   fontSize: '12px',
                   cursor: 'pointer',
@@ -304,6 +306,7 @@ export default function CreditCardSimulator({
             href={`https://wa.me/5511988095982?text=${whatsappMessage}`}
             target="_blank"
             rel="noopener noreferrer"
+            className="sim-pass-btn"
             style={{
               display: 'inline-flex',
               alignItems: 'center',

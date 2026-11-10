@@ -22,7 +22,8 @@ import {
   Zap,
   SlidersHorizontal,
   Flame,
-  Check
+  Check,
+  MapPin
 } from 'lucide-react';
 
 const iconMap = {
@@ -164,8 +165,8 @@ export default function Services({ onSelectService }) {
           <span>
             Exibindo <strong className="text-amber-400">{filteredServices.length}</strong> {filteredServices.length === 1 ? 'serviço encontrado' : 'serviços especializados'}
           </span>
-          <span className="text-zinc-500 hidden sm:inline">
-            📍 Laboratório próprio no Shopping 355 • Santa Ifigênia
+          <span className="text-zinc-500 hidden sm:inline-flex items-center gap-1.5">
+            <MapPin className="w-3.5 h-3.5 text-amber-400" /> Laboratório próprio no Shopping 355 • Santa Ifigênia
           </span>
         </div>
 
@@ -336,15 +337,21 @@ export default function Services({ onSelectService }) {
           {/* Trust Guarantees Bar */}
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
             <div className="p-4 rounded-xl bg-[#11131a] border border-zinc-800/60">
-              <span className="text-amber-400 font-bold text-sm block">🛡️ Garantia Formal de 90 Dias</span>
+              <span className="text-amber-400 font-bold text-sm flex items-center justify-center gap-1.5 mb-1">
+                <ShieldCheck className="w-4 h-4 text-amber-400" /> Garantia Formal de 90 Dias
+              </span>
               <span className="text-xs text-gray-400">Em todos os reparos com nota e laudo técnico</span>
             </div>
             <div className="p-4 rounded-xl bg-[#11131a] border border-zinc-800/60">
-              <span className="text-amber-400 font-bold text-sm block">⚡ Diagnóstico Transparente</span>
+              <span className="text-amber-400 font-bold text-sm flex items-center justify-center gap-1.5 mb-1">
+                <Zap className="w-4 h-4 text-amber-400" /> Diagnóstico Transparente
+              </span>
               <span className="text-xs text-gray-400">Sem surpresas: orçamento informado antes da execução</span>
             </div>
             <div className="p-4 rounded-xl bg-[#11131a] border border-zinc-800/60">
-              <span className="text-amber-400 font-bold text-sm block">📍 Santa Ifigênia, 361 • Loja 14</span>
+              <span className="text-amber-400 font-bold text-sm flex items-center justify-center gap-1.5 mb-1">
+                <MapPin className="w-4 h-4 text-amber-400" /> Santa Ifigênia, 361 • Loja 14
+              </span>
               <span className="text-xs text-gray-400">Shopping 355 com fácil acesso para atendimento presencial</span>
             </div>
           </div>

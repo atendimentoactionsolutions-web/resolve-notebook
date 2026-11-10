@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from './Logo';
 import { SITE_CONFIG } from '../data/siteConfig';
-import { MapPin, Clock, MessageCircle } from 'lucide-react';
+import { MapPin, Clock, MessageCircle, Lock } from 'lucide-react';
 
 const InstagramIcon = ({ className = "w-4 h-4" }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -121,10 +121,10 @@ export default function Footer({ onOpenAdmin }) {
             <span>© {currentYear} Resolve Notebook. Todos os direitos reservados.</span>
             <button 
               onClick={onOpenAdmin}
-              className="text-zinc-600 hover:text-amber-400 p-0.5 rounded cursor-pointer transition text-[11px]"
+              className="text-zinc-600 hover:text-amber-400 p-0.5 rounded cursor-pointer transition text-[11px] inline-flex items-center"
               title="Acesso Lojista (Painel Administrativo)"
             >
-              🔒
+              <Lock className="w-3 h-3" />
             </button>
           </p>
 

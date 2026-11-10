@@ -83,13 +83,13 @@ export default function QuoteModal({ isOpen, onClose, initialService }) {
 
     const formattedMessage = `*SOLICITAÇÃO DE ORÇAMENTO FORMAL • Resolve Notebook*\n` +
       `--------------------------------------------------\n` +
-      `👤 *Cliente:* ${customerName || 'Cliente'}\n` +
-      `💻 *Marca:* ${selectedBrand || 'Não informada'}\n` +
-      `⚙️ *Modelo:* ${modelInput || 'Não especificado'}\n` +
-      `🔧 *Defeito / Serviço:* ${selectedDefect || 'Diagnóstico Geral'}\n` +
-      (notes ? `📝 *Detalhes:* ${notes}\n` : '') +
+      `• *Cliente:* ${customerName || 'Cliente'}\n` +
+      `• *Marca:* ${selectedBrand || 'Não informada'}\n` +
+      `• *Modelo:* ${modelInput || 'Não especificado'}\n` +
+      `• *Defeito / Serviço:* ${selectedDefect || 'Diagnóstico Geral'}\n` +
+      (notes ? `• *Detalhes:* ${notes}\n` : '') +
       `--------------------------------------------------\n` +
-      `📍 *Origem:* Site Oficial • Santa Ifigênia\n\n` +
+      `• *Origem:* Site Oficial • Santa Ifigênia\n\n` +
       `Olá! Gostaria de uma estimativa de valor, prazo e disponibilidade de peças para o meu notebook.`;
 
     const url = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(formattedMessage)}`;

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Sparkles, ArrowLeftRight, Wrench, CheckCircle2 } from 'lucide-react';
+import { Sparkles, ArrowLeftRight, Wrench, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 const CASES = [
   {
@@ -115,8 +115,8 @@ export default function BeforeAfterSlider() {
                 className="absolute inset-0 w-full h-full object-cover"
                 draggable={false}
               />
-              <span className="absolute top-4 right-4 bg-emerald-500/90 backdrop-blur-md text-white font-extrabold text-[11px] px-3 py-1 rounded-full uppercase tracking-wider shadow z-10">
-                ✨ Após a Bancada
+              <span className="absolute top-4 right-4 bg-emerald-500/90 backdrop-blur-md text-white font-extrabold text-[11px] px-3 py-1 rounded-full uppercase tracking-wider shadow z-10 flex items-center gap-1">
+                <Sparkles className="w-3.5 h-3.5" /> Após a Bancada
               </span>
 
               {/* Before Image (Clipped by sliderPos) */}
@@ -131,8 +131,8 @@ export default function BeforeAfterSlider() {
                   style={{ width: containerRef.current ? containerRef.current.offsetWidth : '100%' }}
                   draggable={false}
                 />
-                <span className="absolute top-4 left-4 bg-black/80 backdrop-blur-md border border-red-500/40 text-red-400 font-extrabold text-[11px] px-3 py-1 rounded-full uppercase tracking-wider shadow z-10">
-                  ⚠️ Como Chegou
+                <span className="absolute top-4 left-4 bg-black/80 backdrop-blur-md border border-red-500/40 text-red-400 font-extrabold text-[11px] px-3 py-1 rounded-full uppercase tracking-wider shadow z-10 flex items-center gap-1">
+                  <AlertTriangle className="w-3.5 h-3.5" /> Como Chegou
                 </span>
               </div>
 
@@ -147,8 +147,8 @@ export default function BeforeAfterSlider() {
               </div>
             </div>
 
-            <p className="text-center text-[11px] text-zinc-500 mt-3">
-              ↔️ Arraste a linha central para a esquerda ou direita para comparar
+            <p className="text-center text-[11px] text-zinc-500 mt-3 flex items-center justify-center gap-1.5">
+              <ArrowLeftRight className="w-3 h-3 text-zinc-400" /> Arraste a linha central para a esquerda ou direita para comparar
             </p>
           </div>
 
@@ -186,7 +186,7 @@ export default function BeforeAfterSlider() {
             </div>
 
             <div className="p-3.5 rounded-xl bg-zinc-900/70 border border-zinc-800 text-xs text-zinc-400 flex items-center justify-between">
-              <span>🔧 Recuperação sem troca desnecessária</span>
+              <span className="flex items-center gap-1.5"><Wrench className="w-3.5 h-3.5 text-amber-400" /> Recuperação sem troca desnecessária</span>
               <span className="text-amber-400 font-bold">Garantia Formal</span>
             </div>
           </div>

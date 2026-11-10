@@ -395,16 +395,23 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
                     <div className="product-price" style={{ margin: '14px 0 12px 0' }}>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
                         <strong style={{ fontSize: '24px' }}>{priceFormatted}</strong>
-                        <span style={{ fontSize: '11px', fontWeight: 700, color: '#16a34a' }}>à vista no Pix</span>
+                        <span className="pix-cash-badge" style={{ fontSize: '11px', fontWeight: 700, color: '#34d399' }}>à vista no Pix</span>
                       </div>
                       {sim12 && (
-                        <div style={{ fontSize: '12px', color: 'var(--ink)', fontWeight: 600, marginTop: '4px' }}>
-                          💳 ou <strong>{sim12.installment}x de {formatMoney(sim12.installmentValue)}</strong> no cartão
+                        <div style={{ fontSize: '12px', color: 'var(--ink)', fontWeight: 600, marginTop: '4px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '14px', height: '14px', stroke: '#ffd438', fill: 'none', strokeWidth: 2, flexShrink: 0 }}>
+                            <rect x="2" y="5" width="20" height="14" rx="2" />
+                            <line x1="2" y1="10" x2="22" y2="10" />
+                          </svg>
+                          <span>ou <strong>{sim12.installment}x de {formatMoney(sim12.installmentValue)}</strong> no cartão</span>
                         </div>
                       )}
                       {p.warranty && (
-                        <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '4px' }}>
-                          🛡️ Garantia de <b>{p.warranty}</b>
+                        <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '13px', height: '13px', stroke: '#ffd438', fill: 'none', strokeWidth: 2, flexShrink: 0 }}>
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                          </svg>
+                          <span>Garantia de <b>{p.warranty}</b></span>
                         </div>
                       )}
                     </div>
@@ -413,9 +420,13 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
                       <button 
                         className="quiet-button" 
                         onClick={() => handleOpenDetail(p)}
-                        style={{ fontSize: '12px', padding: '8px 12px' }}
+                        style={{ fontSize: '12px', padding: '8px 12px', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
                       >
-                        💳 Simular cartão
+                        <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '14px', height: '14px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                          <rect x="2" y="5" width="20" height="14" rx="2" />
+                          <line x1="2" y1="10" x2="22" y2="10" />
+                        </svg>
+                        <span>Simular cartão</span>
                       </button>
                       <a 
                         className="button button-yellow" 
@@ -526,11 +537,22 @@ export default function Catalog({ onNavigate, isDark, onToggleDark }) {
 
                   <div style={{ margin: '16px 0', padding: '16px', background: 'var(--paper)', borderRadius: '14px', fontSize: '13px', lineHeight: 1.8, display: 'flex', flexDirection: 'column', gap: '8px', border: '1px solid var(--line)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}>
-                      <span style={{ color: '#a1a1aa' }}>🛡️ <strong style={{ color: '#ffffff' }}>Garantia Loja Física:</strong></span>
+                      <span style={{ color: '#a1a1aa', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '14px', height: '14px', stroke: '#ffd438', fill: 'none', strokeWidth: 2 }}>
+                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg>
+                        <strong style={{ color: '#ffffff' }}>Garantia Loja Física:</strong>
+                      </span>
                       <span style={{ fontWeight: 700, color: '#ffd438' }}>{activeProduct.warranty || activeProduct.specs?.warranty || '3 Meses'}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}>
-                      <span style={{ color: '#a1a1aa' }}>🏷️ <strong style={{ color: '#ffffff' }}>Condição:</strong></span>
+                      <span style={{ color: '#a1a1aa', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '14px', height: '14px', stroke: '#ffd438', fill: 'none', strokeWidth: 2 }}>
+                          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                          <line x1="7" y1="7" x2="7.01" y2="7" />
+                        </svg>
+                        <strong style={{ color: '#ffffff' }}>Condição:</strong>
+                      </span>
                       <span style={{ fontWeight: 700, color: '#f4f4f5' }}>{activeProduct.condition || 'Seminovo Impecável'}</span>
                     </div>
                     {activeProduct.model && <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--line)', paddingBottom: '6px' }}><span style={{ color: '#a1a1aa' }}><strong style={{ color: '#ffffff' }}>Modelo:</strong></span><span style={{ color: '#f4f4f5' }}>{activeProduct.model}</span></div>}

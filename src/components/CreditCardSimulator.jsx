@@ -157,10 +157,17 @@ export default function CreditCardSimulator({
             <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>
               Total no cartão: <strong style={{ color: '#fff' }}>{formatMoney(currentOption.total)}</strong>
             </div>
-            <div style={{ fontSize: '11px', color: currentOption.isFree ? '#34d399' : 'rgba(255,255,255,0.55)', marginTop: '2px' }}>
-              {currentOption.isFree 
-                ? '✓ Sem juros' 
-                : `Taxa da maquininha: ${formatPercent(currentOption.ratePercent)}`}
+            <div style={{ fontSize: '11px', color: currentOption.isFree ? '#34d399' : 'rgba(255,255,255,0.55)', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              {currentOption.isFree ? (
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '12px', height: '12px', stroke: 'currentColor', fill: 'none', strokeWidth: 3 }}>
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Sem juros
+                </span>
+              ) : (
+                `Taxa da maquininha: ${formatPercent(currentOption.ratePercent)}`
+              )}
               {' · '}À vista no Pix: <span style={{ color: '#ffd438' }}>{formatMoney(numericPrice)}</span>
             </div>
           </div>
@@ -298,8 +305,11 @@ export default function CreditCardSimulator({
 
         {/* Info & WhatsApp CTA */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '11px', color: 'var(--muted, #64748b)' }}>
-            ✓ Taxas reais da maquininha da loja física. Passe seu cartão em até {simulation.length}x.
+          <span style={{ fontSize: '11px', color: 'var(--muted, #64748b)', display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '13px', height: '13px', stroke: '#34d399', fill: 'none', strokeWidth: 2.5, flexShrink: 0 }}>
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span>Taxas reais da maquininha da loja física. Passe seu cartão em até {simulation.length}x.</span>
           </span>
 
           <a 
@@ -320,7 +330,10 @@ export default function CreditCardSimulator({
               textDecoration: 'none'
             }}
           >
-            Passar nesta condição ➔
+            <span>Passar nesta condição</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '14px', height: '14px', stroke: 'currentColor', fill: 'none', strokeWidth: 2.2 }}>
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
           </a>
         </div>
       </div>

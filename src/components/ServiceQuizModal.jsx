@@ -389,7 +389,17 @@ export default function ServiceQuizModal({ isOpen, onClose, initialIssue = '', o
                         color: isSelected ? '#ffd438' : 'var(--ink)'
                       }}
                     >
-                      <span>{opt === 'Outro problema' ? '✏️ Outro problema (digitar o que aconteceu)' : opt}</span>
+                      {opt === 'Outro problema' ? (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                          <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '15px', height: '15px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                            <path d="M12 20h9" />
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                          </svg>
+                          <span>Outro problema (digitar o que aconteceu)</span>
+                        </span>
+                      ) : (
+                        <span>{opt}</span>
+                      )}
                       <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         {isSelected ? <path d="M20 6L9 17l-5-5"/> : <path d="M5 12h14M12 5l7 7-7 7"/>}
                       </svg>
@@ -401,8 +411,12 @@ export default function ServiceQuizModal({ isOpen, onClose, initialIssue = '', o
               {/* CAMPO DIGITÁVEL QUANDO ESCOLHE "OUTRO PROBLEMA" */}
               {isCustomSelected && (
                 <div style={{ background: 'var(--paper)', padding: '18px', borderRadius: '14px', border: '1.5px solid #d4af37', marginBottom: '20px' }}>
-                  <label htmlFor="custom-issue-input" style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: 'var(--ink)' }}>
-                    ✍️ Descreva o problema do seu notebook:
+                  <label htmlFor="custom-issue-input" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: 700, marginBottom: '6px', color: 'var(--ink)' }}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '15px', height: '15px', stroke: '#ffd438', fill: 'none', strokeWidth: 2 }}>
+                      <path d="M12 20h9" />
+                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                    </svg>
+                    <span>Descreva o problema do seu notebook:</span>
                   </label>
                   <textarea
                     id="custom-issue-input"

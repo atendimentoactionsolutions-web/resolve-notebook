@@ -77,7 +77,15 @@ export default function ServiceQuiz() {
                     color: isSelected ? '#ffd438' : undefined
                   }}
                 >
-                  {option === 'Outro problema' ? '✏️ Outro problema (digitar)' : option}
+                  {option === 'Outro problema' ? (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                      <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '15px', height: '15px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                        <path d="M12 20h9" />
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                      </svg>
+                      <span>Outro problema (digitar)</span>
+                    </span>
+                  ) : option}
                   <svg aria-hidden="true"><use href="#right" /></svg>
                 </button>
               );
@@ -86,8 +94,12 @@ export default function ServiceQuiz() {
 
           {isCustom && (
             <div style={{ marginTop: '16px' }}>
-              <label style={{ display: 'block', fontSize: '12px', fontWeight: 700, marginBottom: '6px' }}>
-                Descreva com suas palavras o que aconteceu:
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: 700, marginBottom: '6px' }}>
+                <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '14px', height: '14px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
+                <span>Descreva com suas palavras o que aconteceu:</span>
               </label>
               <textarea
                 rows={3}
@@ -106,9 +118,12 @@ export default function ServiceQuiz() {
                 type="button" 
                 className="button button-yellow" 
                 onClick={handleSendWhatsApp}
-                style={{ width: '100%', justifyContent: 'center', background: '#25d366', color: '#fff' }}
+                style={{ width: '100%', justifyContent: 'center', background: '#25d366', color: '#fff', display: 'flex', alignItems: 'center', gap: '8px' }}
               >
-                Mandar direto no WhatsApp com um Técnico ➔
+                <span>Mandar direto no WhatsApp com um Técnico</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
               </button>
             </div>
           )}

@@ -654,10 +654,18 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                     fontWeight: 700,
                     fontSize: '13px',
                     cursor: 'pointer',
-                    transition: 'all 0.15s ease'
+                    transition: 'all 0.15s ease',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '7px'
                   }}
                 >
-                  📦 Produtos & Estoque ({totalStock})
+                  <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                  </svg>
+                  <span>Produtos & Estoque ({totalStock})</span>
                 </button>
                 <button
                   type="button"
@@ -671,10 +679,17 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                     fontWeight: 700,
                     fontSize: '13px',
                     cursor: 'pointer',
-                    transition: 'all 0.15s ease'
+                    transition: 'all 0.15s ease',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '7px'
                   }}
                 >
-                  💳 Taxas da Maquininha
+                  <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                    <rect x="2" y="5" width="20" height="14" rx="2" />
+                    <line x1="2" y1="10" x2="22" y2="10" />
+                  </svg>
+                  <span>Taxas da Maquininha</span>
                 </button>
               </div>
             </div>
@@ -720,7 +735,10 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                   }}>
                     <div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '20px' }}>✏️</span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '18px', height: '18px', stroke: dark ? '#fbbf24' : '#92400e', fill: 'none', strokeWidth: 2 }}>
+                          <path d="M12 20h9" />
+                          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                        </svg>
                         <strong style={{ fontSize: '16px', color: dark ? '#fbbf24' : '#92400e' }}>
                           Editando Produto: {title || 'Sem título'}
                         </strong>
@@ -742,10 +760,17 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                           padding: '8px 16px', 
                           borderRadius: '8px', 
                           fontSize: '12px', 
-                          cursor: 'pointer' 
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px'
                         }}
                       >
-                        ✕ Cancelar Edição (Voltar para Novo)
+                        <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '14px', height: '14px', stroke: 'currentColor', fill: 'none', strokeWidth: 2.2 }}>
+                          <line x1="18" y1="6" x2="6" y2="18" />
+                          <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                        <span>Cancelar Edição (Voltar para Novo)</span>
                       </button>
                     </div>
                   </div>
@@ -781,9 +806,16 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                       border: dark ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid #a7f3d0',
                       fontSize: '13px', 
                       fontWeight: 600, 
-                      marginBottom: '20px' 
+                      marginBottom: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
                     }}>
-                      ✓ {formSuccess}
+                      <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                      </svg>
+                      <span>{formSuccess}</span>
                     </div>
                   )}
                   {formError && (
@@ -795,9 +827,17 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                       border: dark ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid #fecaca',
                       fontSize: '13px', 
                       fontWeight: 600, 
-                      marginBottom: '20px' 
+                      marginBottom: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
                     }}>
-                      ⚠ {formError}
+                      <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                      </svg>
+                      <span>{formError}</span>
                     </div>
                   )}
 
@@ -849,10 +889,16 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                             fontWeight: 700,
                             cursor: 'pointer',
                             textDecoration: 'underline',
-                            padding: 0
+                            padding: 0,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px'
                           }}
                         >
-                          ⚡ Gerar com taxas da maquininha
+                          <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '12px', height: '12px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                          </svg>
+                          <span>Gerar com taxas da maquininha</span>
                         </button>
                       </div>
                       <input
@@ -1048,7 +1094,18 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                         className="button button-yellow" 
                         style={{ padding: '14px 28px', fontSize: '14px' }}
                       >
-                        {editingId ? '💾 Salvar Alterações no Produto' : '+ Cadastrar no Estoque'}
+                        {editingId ? (
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                              <polyline points="17 21 17 13 7 13 7 21" />
+                              <polyline points="7 3 7 8 15 8" />
+                            </svg>
+                            <span>Salvar Alterações no Produto</span>
+                          </span>
+                        ) : (
+                          <span>+ Cadastrar no Estoque</span>
+                        )}
                       </button>
 
                       {editingId && (
@@ -1151,11 +1208,15 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                                   cursor: 'pointer',
                                   display: 'inline-flex',
                                   alignItems: 'center',
-                                  gap: '4px'
+                                  gap: '6px'
                                 }}
                                 onClick={() => handleEdit(p)}
                               >
-                                ✏️ Editar
+                                <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '13px', height: '13px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                                  <path d="M12 20h9" />
+                                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                                </svg>
+                                <span>Editar</span>
                               </button>
 
                               <button 
@@ -1207,7 +1268,16 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                       className="button button-yellow"
                       style={{ padding: '14px 28px', fontSize: '14px' }}
                     >
-                      {ratesSaving ? 'Salvando…' : '💾 Salvar Taxas da Maquininha'}
+                      {ratesSaving ? 'Salvando…' : (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                          <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                            <polyline points="17 21 17 13 7 13 7 21" />
+                            <polyline points="7 3 7 8 15 8" />
+                          </svg>
+                          <span>Salvar Taxas da Maquininha</span>
+                        </span>
+                      )}
                     </button>
                   </div>
 
@@ -1220,9 +1290,16 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                       border: dark ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid #a7f3d0',
                       fontSize: '13px', 
                       fontWeight: 700, 
-                      marginBottom: '20px' 
+                      marginBottom: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
                     }}>
-                      ✓ {ratesSuccess}
+                      <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                      </svg>
+                      <span>{ratesSuccess}</span>
                     </div>
                   )}
                   {ratesError && (
@@ -1234,16 +1311,27 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                       border: dark ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid #fecaca',
                       fontSize: '13px', 
                       fontWeight: 700, 
-                      marginBottom: '20px' 
+                      marginBottom: '20px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
                     }}>
-                      ⚠ {ratesError}
+                      <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12.01" y2="16" />
+                      </svg>
+                      <span>{ratesError}</span>
                     </div>
                   )}
 
                   {/* Presets Bar */}
                   <div style={{ background: 'var(--paper)', padding: '18px 20px', borderRadius: '14px', border: '1px solid var(--line)', marginBottom: '28px' }}>
-                    <span style={{ fontSize: '12px', fontWeight: 700, display: 'block', marginBottom: '10px', color: 'var(--ink)' }}>
-                      ⚡ Preenchimento Rápido por Modelo de Maquininha:
+                    <span style={{ fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px', color: 'var(--ink)' }}>
+                      <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '14px', height: '14px', stroke: '#ffd438', fill: 'none', strokeWidth: 2 }}>
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                      </svg>
+                      <span>Preenchimento Rápido por Modelo de Maquininha:</span>
                     </span>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                       {Object.entries(RATE_PRESETS).map(([key, preset]) => (
@@ -1397,8 +1485,11 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                   <div style={{ background: 'var(--paper)', padding: '24px', borderRadius: '16px', border: '1px solid var(--line)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '12px' }}>
                       <div>
-                        <strong style={{ fontSize: '14px', display: 'block', color: 'var(--ink)' }}>
-                          🔬 Testador em Tempo Real da Maquininha:
+                        <strong style={{ fontSize: '14px', display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--ink)' }}>
+                          <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: '#ffd438', fill: 'none', strokeWidth: 2 }}>
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                          </svg>
+                          <span>Testador em Tempo Real da Maquininha:</span>
                         </strong>
                         <span style={{ fontSize: '12px', color: 'var(--muted)' }}>
                           Simule um valor qualquer para ver como o cliente verá o cartão e o parcelamento com as taxas acima.
@@ -1442,7 +1533,16 @@ export default function Admin({ onNavigate, isDark, onToggleDark }) {
                       className="button button-yellow"
                       style={{ padding: '14px 32px', fontSize: '14px' }}
                     >
-                      {ratesSaving ? 'Salvando…' : '💾 Salvar e Aplicar Taxas no Catálogo'}
+                      {ratesSaving ? 'Salvando…' : (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                          <svg viewBox="0 0 24 24" aria-hidden="true" style={{ width: '16px', height: '16px', stroke: 'currentColor', fill: 'none', strokeWidth: 2 }}>
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                            <polyline points="17 21 17 13 7 13 7 21" />
+                            <polyline points="7 3 7 8 15 8" />
+                          </svg>
+                          <span>Salvar e Aplicar Taxas no Catálogo</span>
+                        </span>
+                      )}
                     </button>
                   </div>
                 </div>

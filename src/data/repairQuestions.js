@@ -54,12 +54,12 @@ export function getRepairQuestions(issue = '') {
 export function buildRepairMessage({ issue = '', brand = '', model = '', notes = '', answers = {}, name = '', customDescription = '' }) {
   const mainIssue = customDescription?.trim() || issue || 'Avaliação geral';
   const lines = [
-    '🔧 *SOLICITAÇÃO DE AVALIAÇÃO TÉCNICA • Resolve Notebook*',
-    '📍 *Santa Ifigênia, SP — Loja Física Especializada*',
+    '*SOLICITAÇÃO DE AVALIAÇÃO TÉCNICA • Resolve Notebook*',
+    '*Santa Ifigênia, SP — Loja Física Especializada*',
     '',
     'Olá! Vim pelo site da Resolve Notebook e gostaria de uma avaliação para o meu equipamento.',
     '',
-    '📋 *DADOS DO ATENDIMENTO:*'
+    '*DADOS DO ATENDIMENTO:*'
   ];
 
   if (name && name.trim()) {
@@ -92,7 +92,7 @@ export function buildRepairMessage({ issue = '', brand = '', model = '', notes =
   }
 
   if (details.length > 0) {
-    lines.push('', '🔍 *DETALHES:*');
+    lines.push('', '*DETALHES:*');
     details.forEach(d => lines.push(`• ${d}`));
   }
 

@@ -50,9 +50,9 @@ export default function NotebookShowcase({ onOpenAdmin }) {
     });
 
     const msg = `Olá! Vi no site da Resolve Notebook o modelo:\n\n` +
-      `💻 *${product.title}*\n` +
-      `💰 *Valor:* ${formattedPrice} (${product.installments || 'consulte parcelamento'})\n` +
-      `🛡️ *Condição:* ${product.badge || 'Revisado com Garantia'}\n\n` +
+      `*${product.title}*\n` +
+      `• *Valor:* ${formattedPrice} (${product.installments || 'consulte parcelamento'})\n` +
+      `• *Condição:* ${product.badge || 'Revisado com Garantia'}\n\n` +
       `Ele ainda está disponível para retirada na loja física do Shopping 355?`;
 
     const url = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`;
@@ -82,7 +82,8 @@ export default function NotebookShowcase({ onOpenAdmin }) {
               className="text-xs text-zinc-500 hover:text-amber-400 flex items-center gap-1.5 transition cursor-pointer font-medium p-1 rounded"
               title="Acesso do Lojista (Cadastrar e Gerenciar Notebooks)"
             >
-              <span>🔒 Acesso Lojista</span>
+              <Lock className="w-3.5 h-3.5 text-zinc-500" />
+              <span>Acesso Lojista</span>
             </button>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
